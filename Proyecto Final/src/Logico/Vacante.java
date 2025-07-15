@@ -2,11 +2,11 @@ package Logico;
 
 import java.util.ArrayList;
 
-public class FormularioEmpresa {
+public class Vacante {
 	private String identificador;
-	private String tipoEmpleado;
-	private String[] infoEmpleado;
-	private int tipoContrato;
+	private String nivelEstudio;
+	private String[] infoEstudio;
+	private String tipoContrato;
 	private String paisResidencia;
 	private String ciudadResidencia;
 	private boolean mudanza;
@@ -15,13 +15,13 @@ public class FormularioEmpresa {
 	private float pretensionSalarial;
 	private ArrayList<Empresa> miEmpresa;
 	
-	public FormularioEmpresa(String identificador, String tipoEmpleado, String[] infoEmpleado, int tipoContrato,
+	public Vacante(String identificador, String tipoEmpleado, String[] infoEmpleado, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
 		this.identificador = identificador;
-		this.tipoEmpleado = tipoEmpleado;
-		this.infoEmpleado = infoEmpleado;
+		this.nivelEstudio = tipoEmpleado;
+		this.infoEstudio = infoEmpleado;
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
 		this.ciudadResidencia = ciudadResidencia;
@@ -41,26 +41,26 @@ public class FormularioEmpresa {
 	}
 
 	public String getTipoEmpleado() {
-		return tipoEmpleado;
+		return nivelEstudio;
 	}
 
 	public void setTipoEmpleado(String tipoEmpleado) {
-		this.tipoEmpleado = tipoEmpleado;
+		this.nivelEstudio = tipoEmpleado;
 	}
 
 	public String[] getInfoEmpleado() {
-		return infoEmpleado;
+		return infoEstudio;
 	}
 
 	public void setInfoEmpleado(String[] infoEmpleado) {
-		this.infoEmpleado = infoEmpleado;
+		this.infoEstudio = infoEmpleado;
 	}
 
-	public int getTipoContrato() {
+	public String getTipoContrato() {
 		return tipoContrato;
 	}
 
-	public void setTipoContrato(int tipoContrato) {
+	public void setTipoContrato(String tipoContrato) {
 		this.tipoContrato = tipoContrato;
 	}
 

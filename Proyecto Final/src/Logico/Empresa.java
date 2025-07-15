@@ -6,7 +6,7 @@ public class Empresa {
 	private String nombre;
 	private String pais;
 	private String sector;
-	private ArrayList <FormularioEmpresa> misFormulariosEmpresa;
+	private ArrayList <Vacante> misFormulariosEmpresa;
 	
 	public Empresa(String identificador, String nombre, String pais, String sector) {
 		super();
@@ -49,11 +49,11 @@ public class Empresa {
 		this.sector = sector;
 	}
 
-	public ArrayList<FormularioEmpresa> getMisFormulariosEmpresa() {
+	public ArrayList<Vacante> getMisFormulariosEmpresa() {
 		return misFormulariosEmpresa;
 	}
 
-	public void setMisFormulariosEmpresa(ArrayList<FormularioEmpresa> misFormulariosEmpresa) {
+	public void setMisFormulariosEmpresa(ArrayList<Vacante> misFormulariosEmpresa) {
 		this.misFormulariosEmpresa = misFormulariosEmpresa;
 	}
 	

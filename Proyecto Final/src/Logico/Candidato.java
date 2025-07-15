@@ -1,7 +1,7 @@
 package Logico;
 import java.util.ArrayList;
 
-public abstract class Persona {
+public abstract class Candidato {
 	protected String identificador;
 	protected String nombre;
 	protected String apellido;
@@ -9,9 +9,9 @@ public abstract class Persona {
 	protected String telefono;
 	protected String correo;
 	protected String nacionalidad;
-	private ArrayList<FormularioPersona> misFormulariosPersona;
+	private ArrayList<Postulacion> misFormulariosPersona;
 
-	public Persona(String identificador, String nombre, String apellido, char sexo, String telefono, String correo,
+	public Candidato(String identificador, String nombre, String apellido, char sexo, String telefono, String correo,
 			String nacionalidad) {
 		super();
 		this.identificador = identificador;
@@ -80,11 +80,11 @@ public abstract class Persona {
 		this.nacionalidad = nacionalidad;
 	}
 
-	public ArrayList<FormularioPersona> getMisFormulariosPersona() {
+	public ArrayList<Postulacion> getMisFormulariosPersona() {
 		return misFormulariosPersona;
 	}
 
-	public void setMisFormulariosPersona(ArrayList<FormularioPersona> misFormulariosPersona) {
+	public void setMisFormulariosPersona(ArrayList<Postulacion> misFormulariosPersona) {
 		this.misFormulariosPersona = misFormulariosPersona;
 	}
 	

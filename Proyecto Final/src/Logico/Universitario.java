@@ -1,5 +1,5 @@
 package Logico;
-public class Universitario extends Persona {
+public class Universitario extends Candidato {
 	private String carreraGraduada;
 
 	

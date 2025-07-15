@@ -1,7 +1,7 @@
 package Logico;
 import java.util.ArrayList;
 
-public class Obrero extends Persona {
+public class Obrero extends Candidato {
 	private ArrayList<String> misHabilidades;
 
 	public Obrero(String identificador, String nombre, String apellido, char sexo, String telefono, String correo,

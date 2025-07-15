@@ -2,25 +2,25 @@ package Logico;
 
 import java.util.ArrayList;
 
-public class FormularioPersona {
+public class Postulacion {
 	private String identificador;
-	private String tipoEstudio;
+	private String nivelEstudio;
 	private String[] infoEstudio;
-	private int tipoContrato;
+	private String tipoContrato;
 	private String paisResidencia;
 	private String ciudadResidencia;
 	private boolean mudanza;
 	private boolean disponibilidadVehiculo;
 	private boolean licencia;
 	private float pretensionSalarial;
-	private ArrayList<Persona> misPersonas;
+	private ArrayList<Candidato> misPersonas;
 	
-	public FormularioPersona(String identificador, String tipoEstudio, String[] infoEstudio, int tipoContrato,
+	public Postulacion(String identificador, String tipoEstudio, String[] infoEstudio, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
 		this.identificador = identificador;
-		this.tipoEstudio = tipoEstudio;
+		this.nivelEstudio = tipoEstudio;
 		this.infoEstudio = infoEstudio;
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
@@ -41,11 +41,11 @@ public class FormularioPersona {
 	}
 
 	public String getTipoEstudio() {
-		return tipoEstudio;
+		return nivelEstudio;
 	}
 
 	public void setTipoEstudio(String tipoEstudio) {
-		this.tipoEstudio = tipoEstudio;
+		this.nivelEstudio = tipoEstudio;
 	}
 
 	public String[] getInfoEstudio() {
@@ -56,11 +56,11 @@ public class FormularioPersona {
 		this.infoEstudio = infoEstudio;
 	}
 
-	public int getTipoContrato() {
+	public String getTipoContrato() {
 		return tipoContrato;
 	}
 
-	public void setTipoContrato(int tipoContrato) {
+	public void setTipoContrato(String tipoContrato) {
 		this.tipoContrato = tipoContrato;
 	}
 
@@ -112,11 +112,11 @@ public class FormularioPersona {
 		this.pretensionSalarial = pretensionSalarial;
 	}
 
-	public ArrayList<Persona> getMisPersonas() {
+	public ArrayList<Candidato> getMisPersonas() {
 		return misPersonas;
 	}
 
-	public void setMisPersonas(ArrayList<Persona> misPersonas) {
+	public void setMisPersonas(ArrayList<Candidato> misPersonas) {
 		this.misPersonas = misPersonas;
 	}
 	

@@ -1,6 +1,6 @@
 package Logico;
 
-public class TecnicoSuperior extends Persona {
+public class TecnicoSuperior extends Candidato {
 	private String areaEspecialidad;
 	private int anyoExperiencia;
 	
