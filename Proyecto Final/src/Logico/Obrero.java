@@ -7,7 +7,7 @@ public class Obrero extends Candidato {
 	public Obrero(String identificador, String nombre, String apellido, char sexo, String telefono, String correo,
 			String nacionalidad, ArrayList<String> misHabilidades) {
 		super(identificador, nombre, apellido, sexo, telefono, correo, nacionalidad);
-		this.misHabilidades = misHabilidades;
+		this.misHabilidades = new ArrayList<String>();
 	}
 
 	public ArrayList<String> getMisHabilidades() {
