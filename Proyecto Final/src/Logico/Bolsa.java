@@ -16,6 +16,34 @@ public class Bolsa {
         misVacantes = new ArrayList<>();
     }
     
+	public Empresa buscarEmpresaByCod(String rnc) {
+		Empresa aux = null;
+		int i = 0;
+		boolean encontrado = false;
+		while(!encontrado && i < misEmpresas.size()) {
+			if(misEmpresas.get(i).getIdentificador().equals(rnc)) {
+				aux = misEmpresas.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+	
+	public Candidato buscarCandidatoByCod(String cedula) {
+		Candidato aux = null;
+		int i = 0;
+		boolean encontrado = false;
+		while(!encontrado && i < misCandidatos.size()) {
+			if(misCandidatos.get(i).getIdentificador().equals(cedula)) {
+				aux = misCandidatos.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+    
     public static Bolsa getInstance() {
         if (instance == null) {
             instance = new Bolsa();
