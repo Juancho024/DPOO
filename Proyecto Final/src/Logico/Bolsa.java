@@ -15,7 +15,6 @@ public class Bolsa {
         misPostulaciones = new ArrayList<>();
         misVacantes = new ArrayList<>();
     }
-    
 	public Empresa buscarEmpresaByCod(String rnc) {
 		Empresa aux = null;
 		int i = 0;
@@ -43,6 +42,7 @@ public class Bolsa {
 		}
 		return aux;
 	}
+    
     
     public static Bolsa getInstance() {
         if (instance == null) {
