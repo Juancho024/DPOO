@@ -5,8 +5,12 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import Logico.Bolsa;
+
 import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Label;
@@ -18,6 +22,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class RegistrarUsuario extends JDialog {
 
@@ -79,6 +87,25 @@ public class RegistrarUsuario extends JDialog {
 		txtNombre.setColumns(10);
 		
 		txtTelefono = new JTextField();
+		txtTelefono.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char letras = e.getKeyChar();
+				String text = txtTelefono.getText();
+				if(text.length() >= 12) {
+					e.consume();
+				}
+				if(letras == '\b') {
+					return;
+				}
+				if(text.length() == 3 || text.length() == 7) {
+					txtTelefono.setText(text + "-");
+				}
+				if(!Character.isDigit(letras)) {
+					e.consume();
+				}
+			}
+		});
 		txtTelefono.setColumns(10);
 		txtTelefono.setBounds(86, 109, 170, 22);
 		contentPanel.add(txtTelefono);
@@ -100,6 +127,16 @@ public class RegistrarUsuario extends JDialog {
 		label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		txtCorreo = new JTextField();
+		txtCorreo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String correo = txtCorreo.getText().trim();
+				if (!Bolsa.getInstance().validarCorreo(correo)) {
+					JOptionPane.showMessageDialog(null, "Correo inválido");
+					txtCorreo.requestFocus(); 
+				}
+			}
+		});
 		txtCorreo.setBounds(324, 98, 228, 20);
 		panel.add(txtCorreo);
 		txtCorreo.setColumns(10);
@@ -115,6 +152,25 @@ public class RegistrarUsuario extends JDialog {
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		txtCedula = new JTextField();
+		txtCedula.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char letras = e.getKeyChar();
+				String text = txtCedula.getText();
+				if(text.length() >= 13) {
+					e.consume();
+				}
+				if(letras == '\b') {
+					return;
+				}
+				if(text.length() == 3 || text.length() == 11) {
+					txtCedula.setText(text + "-");
+				}
+				if(!Character.isDigit(letras)) {
+					e.consume();
+				}
+			}
+		});
 		txtCedula.setBounds(76, 20, 170, 22);
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);

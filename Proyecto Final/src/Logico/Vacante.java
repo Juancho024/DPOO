@@ -14,12 +14,12 @@ public class Vacante {
 	private boolean licencia;
 	private float pretensionSalarial;
 	
-	public Vacante(String identificador, String tipoEmpleado, String tipoContrato,String nombreVacante,
+	public Vacante(String identificador, String nivelEstudio, String tipoContrato,String nombreVacante,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
 		this.rnc = identificador;
-		this.nivelEstudio = tipoEmpleado;
+		this.nivelEstudio = nivelEstudio;
 		this.tipoContrato = tipoContrato;
 		this.nombreVacante = nombreVacante;
 		this.paisResidencia = paisResidencia;

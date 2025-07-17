@@ -15,6 +15,42 @@ public class Bolsa {
         misPostulaciones = new ArrayList<>();
         misVacantes = new ArrayList<>();
     }
+	public boolean validarCorreo(String correo) {
+	    int contArroba = 0, contPunto = 0;
+	    int posArroba = -1;
+	    int posPunto = -1;
+
+	    for (int i = 0; i < correo.length(); i++) {
+	        char c = correo.charAt(i);
+	        if (c == '@') {
+	            posArroba = i;
+	            contArroba++;
+	        } else if (c == '.') {
+	            posPunto = i;
+	            contPunto++;
+	        }
+	    }
+
+	    // No encontrÃ³ @ o .
+	    if (posArroba == -1 || posPunto == -1)
+	        return false;
+
+	    // Solo debe haber un @ y un .
+	    if (contArroba != 1 || contPunto != 1)
+	        return false;
+
+	    // El @ debe estar antes que el .
+	    if (posArroba > posPunto)
+	        return false;
+
+	    int longitudDominio = posPunto - posArroba - 1;
+	    int longitudSufijo = correo.length() - posPunto - 1;
+
+	    if (longitudDominio < 3 || longitudSufijo < 2 || longitudSufijo > 3)
+	        return false;
+
+	    return true;
+	}
     
     public static Bolsa getInstance() {
         if (instance == null) {
@@ -23,7 +59,7 @@ public class Bolsa {
         return instance;
     }
     
-    // Métodos para registrar
+    // Mï¿½todos para registrar
     public void registrarEmpresa(Empresa empresa) {
         misEmpresas.add(empresa);
     }

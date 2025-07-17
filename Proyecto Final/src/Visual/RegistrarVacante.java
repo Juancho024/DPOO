@@ -375,8 +375,8 @@ public class RegistrarVacante extends JDialog {
             Vacante vacante = new Vacante(
                 identificador,
                 nivelEstudio,
-                infoEstudio,
                 tipoContrato,
+                "Nombre de la vacante",
                 pais,
                 ciudad,
                 chkMudanza.isSelected(),

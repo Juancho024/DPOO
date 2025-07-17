@@ -13,12 +13,12 @@ public class Postulacion {
 	private boolean licencia; // 1punt
 	private float pretensionSalarial; //3pnt
 	
-	public Postulacion(String identificador, String tipoEstudio, String tipoContrato,
+	public Postulacion(String identificador, String nivelEstudio, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
 		this.cedula = identificador;
-		this.nivelEstudio = tipoEstudio;
+		this.nivelEstudio = nivelEstudio;
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
 		this.ciudadResidencia = ciudadResidencia;

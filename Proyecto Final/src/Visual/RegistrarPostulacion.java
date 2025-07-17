@@ -222,7 +222,7 @@ public class RegistrarPostulacion extends JDialog {
             boolean licencia = chkLicencia.isSelected();
             
             // Crear postulación
-            String[] infoEstudio = {vacante.getTipoEmpleado()};
+            String[] infoEstudio = vacante.getTipoEmpleado()};
             Postulacion postulacion = new Postulacion(
                 "PST-" + System.currentTimeMillis(),
                 vacante.getTipoEmpleado(),
