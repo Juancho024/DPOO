@@ -3,25 +3,22 @@ package Logico;
 import java.util.ArrayList;
 
 public class Postulacion {
-	private String identificador;
-	private String nivelEstudio;
-	private String[] infoEstudio;
-	private String tipoContrato;
-	private String paisResidencia;
-	private String ciudadResidencia;
-	private boolean mudanza;
-	private boolean disponibilidadVehiculo;
-	private boolean licencia;
-	private float pretensionSalarial;
-	private ArrayList<Candidato> misPersonas;
+	private String cedula;
+	private String nivelEstudio; // 2pnt 1pnt
+	private String tipoContrato;	// 2punt  1pnt
+	private String paisResidencia;	// 1punt
+	private String ciudadResidencia; // 1punt
+	private boolean mudanza; // 2punt 1punt
+	private boolean disponibilidadVehiculo; // 3punt 1punt
+	private boolean licencia; // 1punt
+	private float pretensionSalarial; //3pnt
 	
-	public Postulacion(String identificador, String tipoEstudio, String[] infoEstudio, String tipoContrato,
+	public Postulacion(String identificador, String tipoEstudio, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
-		this.identificador = identificador;
+		this.cedula = identificador;
 		this.nivelEstudio = tipoEstudio;
-		this.infoEstudio = infoEstudio;
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
 		this.ciudadResidencia = ciudadResidencia;
@@ -29,31 +26,22 @@ public class Postulacion {
 		this.disponibilidadVehiculo = disponibilidadVehiculo;
 		this.licencia = licencia;
 		this.pretensionSalarial = pretensionSalarial;
-		this.misPersonas = new ArrayList<>();
 	}
 
 	public String getIdentificador() {
-		return identificador;
+		return cedula;
 	}
 
 	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+		this.cedula = identificador;
 	}
 
-	public String getTipoEstudio() {
+	public String getNivelEstudio() {
 		return nivelEstudio;
 	}
 
-	public void setTipoEstudio(String tipoEstudio) {
-		this.nivelEstudio = tipoEstudio;
-	}
-
-	public String[] getInfoEstudio() {
-		return infoEstudio;
-	}
-
-	public void setInfoEstudio(String[] infoEstudio) {
-		this.infoEstudio = infoEstudio;
+	public void setNivelEstudio(String nivelEstudio) {
+		this.nivelEstudio = nivelEstudio;
 	}
 
 	public String getTipoContrato() {
@@ -112,14 +100,4 @@ public class Postulacion {
 		this.pretensionSalarial = pretensionSalarial;
 	}
 
-	public ArrayList<Candidato> getMisPersonas() {
-		return misPersonas;
-	}
-
-	public void setMisPersonas(ArrayList<Candidato> misPersonas) {
-		this.misPersonas = misPersonas;
-	}
-	
-	
-	
 }

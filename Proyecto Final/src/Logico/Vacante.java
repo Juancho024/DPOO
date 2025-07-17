@@ -3,57 +3,47 @@ package Logico;
 import java.util.ArrayList;
 
 public class Vacante {
-	private String identificador;
+	private String rnc;
 	private String nivelEstudio;
-	private String[] infoEstudio;
 	private String tipoContrato;
+	private String nombreVacante;
 	private String paisResidencia;
 	private String ciudadResidencia;
 	private boolean mudanza;
 	private boolean disponibilidadVehiculo;
 	private boolean licencia;
 	private float pretensionSalarial;
-	private ArrayList<Empresa> miEmpresa;
 	
-	public Vacante(String identificador, String tipoEmpleado, String[] infoEmpleado, String tipoContrato,
+	public Vacante(String identificador, String tipoEmpleado, String tipoContrato,String nombreVacante,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
-		this.identificador = identificador;
+		this.rnc = identificador;
 		this.nivelEstudio = tipoEmpleado;
-		this.infoEstudio = infoEmpleado;
 		this.tipoContrato = tipoContrato;
+		this.nombreVacante = nombreVacante;
 		this.paisResidencia = paisResidencia;
 		this.ciudadResidencia = ciudadResidencia;
 		this.mudanza = mudanza;
 		this.disponibilidadVehiculo = disponibilidadVehiculo;
 		this.licencia = licencia;
 		this.pretensionSalarial = pretensionSalarial;
-		this.miEmpresa = new ArrayList<>();
 	}
 
 	public String getIdentificador() {
-		return identificador;
+		return rnc;
 	}
 
 	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+		this.rnc = identificador;
 	}
 
-	public String getTipoEmpleado() {
+	public String getNivelEstudio() {
 		return nivelEstudio;
 	}
 
-	public void setTipoEmpleado(String tipoEmpleado) {
-		this.nivelEstudio = tipoEmpleado;
-	}
-
-	public String[] getInfoEmpleado() {
-		return infoEstudio;
-	}
-
-	public void setInfoEmpleado(String[] infoEmpleado) {
-		this.infoEstudio = infoEmpleado;
+	public void setNivelEstudio(String nivelEstudio) {
+		this.nivelEstudio = nivelEstudio;
 	}
 
 	public String getTipoContrato() {
@@ -112,12 +102,12 @@ public class Vacante {
 		this.pretensionSalarial = pretensionSalarial;
 	}
 
-	public ArrayList<Empresa> getMiEmpresa() {
-		return miEmpresa;
+	public String getNombreVacante() {
+		return nombreVacante;
 	}
 
-	public void setMiEmpresa(ArrayList<Empresa> miEmpresa) {
-		this.miEmpresa = miEmpresa;
+	public void setNombreVacante(String nombreVacante) {
+		this.nombreVacante = nombreVacante;
 	}
-	
+
 }
