@@ -101,7 +101,7 @@ public class Principal extends JFrame {
     }
     
     private void abrirRegistroCandidato() {
-        RegistrarUsuario dialog = new RegistrarUsuario();
+        RegistrarCandidato dialog = new RegistrarCandidato();
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }

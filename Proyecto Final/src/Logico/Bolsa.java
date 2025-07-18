@@ -120,7 +120,7 @@ public class Bolsa {
         int i = 0;
         boolean encontrado = false;
         while(!encontrado && i < misCandidatos.size()) {
-            if(misCandidatos.get(i).getIdentificador().equals(cedula)) {
+            if(misCandidatos.get(i).getCedula().equals(cedula)) {
                 aux = misCandidatos.get(i);
                 encontrado = true;
             }

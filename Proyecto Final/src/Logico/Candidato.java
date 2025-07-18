@@ -1,35 +1,38 @@
 package Logico;
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class Candidato {
-	protected String identificador;
+	protected String cedula;
 	protected String nombre;
 	protected String apellido;
 	protected char sexo;
+	protected Date fechaNacimiento;
 	protected String telefono;
 	protected String correo;
 	protected String nacionalidad;
-	private ArrayList<Postulacion> misFormulariosPersona;
-
-	public Candidato(String identificador, String nombre, String apellido, char sexo, String telefono, String correo,
-			String nacionalidad) {
+	private ArrayList<Postulacion> misPostulaciones;
+	
+	public Candidato(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
+			String telefono, String correo, String nacionalidad) {
 		super();
-		this.identificador = identificador;
+		this.cedula = cedula;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.sexo = sexo;
+		this.fechaNacimiento = fechaNacimiento;
 		this.telefono = telefono;
 		this.correo = correo;
 		this.nacionalidad = nacionalidad;
-		this.misFormulariosPersona = new ArrayList<>();
+		this.misPostulaciones = new ArrayList<>();
 	}
 
-	public String getIdentificador() {
-		return identificador;
+	public String getCedula() {
+		return cedula;
 	}
 
-	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public String getNombre() {
@@ -56,6 +59,14 @@ public abstract class Candidato {
 		this.sexo = sexo;
 	}
 
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
 	public String getTelefono() {
 		return telefono;
 	}
@@ -80,13 +91,12 @@ public abstract class Candidato {
 		this.nacionalidad = nacionalidad;
 	}
 
-	public ArrayList<Postulacion> getMisFormulariosPersona() {
-		return misFormulariosPersona;
+	public ArrayList<Postulacion> getMisPostulaciones() {
+		return misPostulaciones;
 	}
 
-	public void setMisFormulariosPersona(ArrayList<Postulacion> misFormulariosPersona) {
-		this.misFormulariosPersona = misFormulariosPersona;
+	public void setMisPostulaciones(ArrayList<Postulacion> misPostulaciones) {
+		this.misPostulaciones = misPostulaciones;
 	}
-	
 	
 }

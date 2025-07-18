@@ -1,11 +1,13 @@
 package Logico;
+
+import java.util.Date;
+
 public class Universitario extends Candidato {
 	private String carreraGraduada;
 
-	
-	public Universitario(String identificador, String nombre, String apellido, char sexo, String telefono,
-			String correo, String nacionalidad, String carreraGraduada) {
-		super(identificador, nombre, apellido, sexo, telefono, correo, nacionalidad);
+	public Universitario(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
+			String telefono, String correo, String nacionalidad, String carreraGraduada) {
+		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad);
 		this.carreraGraduada = carreraGraduada;
 	}
 
