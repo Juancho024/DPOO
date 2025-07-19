@@ -129,25 +129,25 @@ public class Bolsa {
         return aux;
     }
     
-    public void ordenarMacht(ArrayList<PorcentajeMacht>porcentajeMacht) {
-    	PorcentajeMacht temp;
+    public void ordenarMatch(ArrayList<PorcentajeMatch>porcentajeMatch) {
+    	PorcentajeMatch temp;
     	
-    	for (int i = 1; i < porcentajeMacht.size(); i++) {
-    		for (int j = 0; j < porcentajeMacht.size() - i; j++) {
-    			if(porcentajeMacht.get(j).getPunts() < porcentajeMacht.get(j + 1).getPunts()) {
-    				temp = porcentajeMacht.get(j);
-    				porcentajeMacht.set(j, porcentajeMacht.get(j + 1));
-    				porcentajeMacht.set(j + 1, temp);   			}
+    	for (int i = 1; i < porcentajeMatch.size(); i++) {
+    		for (int j = 0; j < porcentajeMatch.size() - i; j++) {
+    			if(porcentajeMatch.get(j).getPunts() < porcentajeMatch.get(j + 1).getPunts()) {
+    				temp = porcentajeMatch.get(j);
+    				porcentajeMatch.set(j, porcentajeMatch.get(j + 1));
+    				porcentajeMatch.set(j + 1, temp);   			}
     		}
 		}
     	
     	
     }
     
-    public ArrayList<PorcentajeMacht>macht(Vacante auxVac) {
+    public ArrayList<PorcentajeMatch>match(Vacante auxVac) {
     	int cont = 0;
-    	PorcentajeMacht auxMacht;
-    	ArrayList<PorcentajeMacht>porcentajeMacht = new ArrayList<>();
+    	PorcentajeMatch auxMatch;
+    	ArrayList<PorcentajeMatch>porcentajeMatch = new ArrayList<>();
     	
     	for (Postulacion auxPostulacion : misPostulaciones) {
     		
@@ -183,14 +183,14 @@ public class Bolsa {
 				cont += 3;
 			}else cont += 1;
     		
-			auxMacht = new PorcentajeMacht(auxPostulacion.getIdentificador(), cont);
-			porcentajeMacht.add(auxMacht);
+			auxMatch = new PorcentajeMatch(auxPostulacion.getIdentificador(), cont);
+			porcentajeMatch.add(auxMatch);
 			
 			cont = 0;
 		}
     	
-    	ordenarMacht(porcentajeMacht);
-    	return porcentajeMacht;
+    	ordenarMatch(porcentajeMatch);
+    	return porcentajeMatch;
     }
     
 }

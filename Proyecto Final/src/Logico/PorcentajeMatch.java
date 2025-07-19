@@ -1,11 +1,11 @@
 package Logico;
 
-public class PorcentajeMacht {
+public class PorcentajeMatch {
 	
 	private String cedula;
 	private int punts;
 	
-	public PorcentajeMacht(String cedula, int punts) {
+	public PorcentajeMatch(String cedula, int punts) {
 		this.cedula = cedula;
 		this.punts = punts;
 	}

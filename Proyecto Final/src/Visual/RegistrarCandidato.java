@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 
 import Logico.Bolsa;
 import Logico.Candidato;
+import Logico.Obrero;
 import Logico.TecnicoSuperior;
 import Logico.Universitario;
 
@@ -57,6 +58,7 @@ public class RegistrarCandidato extends JDialog {
 	private JPanel panel_TecnicoSuperior;
 	private JPanel panel_Obrero;
 	private char genero;
+	private String [] misHabilidades;
 	private JRadioButton rdbtnMasculino;
 	private JRadioButton rdbtnFemenino;
 	private Label label_6;
@@ -412,6 +414,7 @@ public class RegistrarCandidato extends JDialog {
 			{
 				btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
+
 					public void actionPerformed(ActionEvent e) {
 						Candidato aux = null;
 						String cedula = txtCedula.getText();
@@ -427,7 +430,8 @@ public class RegistrarCandidato extends JDialog {
 									txtApellido.getText().trim().isEmpty() || 
 									txtTelefono.getText().trim().isEmpty() || 
 									txtCorreo.getText().trim().isEmpty() || 
-									cbxUniversitario.getSelectedItem().toString().isEmpty()) {
+									cbxUniversitario.getSelectedIndex() == 0 || 
+									cbxNacionalidad.getSelectedIndex() == 0) {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
 								return;
 							}
@@ -439,7 +443,8 @@ public class RegistrarCandidato extends JDialog {
 									txtApellido.getText().trim().isEmpty() || 
 									txtTelefono.getText().trim().isEmpty() || 
 									txtCorreo.getText().trim().isEmpty() || 
-									cbxTecnicoSuperior.getSelectedItem().toString().isEmpty() ||
+									cbxNacionalidad.getSelectedIndex() == 0 ||
+									cbxTecnicoSuperior.getSelectedIndex() == 0 ||
 									spnExperiencia.getValue().toString().isEmpty()) {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
 								return;
@@ -448,8 +453,44 @@ public class RegistrarCandidato extends JDialog {
 							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
 						}
 						if(rdbtnObrero.isSelected()) {
-
+							if(txtCedula.getText().trim().isEmpty() || 
+									txtNombre.getText().trim().isEmpty() || 
+									txtApellido.getText().trim().isEmpty() || 
+									txtTelefono.getText().trim().isEmpty() || 
+									txtCorreo.getText().trim().isEmpty() || 
+									cbxNacionalidad.getSelectedIndex() == 0||
+									(!chkElectricidad.isSelected() &&
+										    !chkSoldadura.isSelected() &&
+										    !chkTecnicaPintura.isSelected() &&
+										    !chkTuberias.isSelected() &&
+										    !chkMantenimiento.isSelected() &&
+										    !chkMaquinaria.isSelected())) {
+								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
+								return;
+							}
+							if(chkElectricidad.isSelected()) {
+								misHabilidades [0] = "Electricidad Básica"; 
+							}
+							if(chkSoldadura.isSelected()) {
+								misHabilidades [1] = "Soldadura";
+							}
+							if(chkTecnicaPintura.isSelected()) {
+								misHabilidades [2] = "Técnica de pintura o Albañilería";
+							}
+							if(chkMantenimiento.isSelected()) {
+								misHabilidades [3] = "Mantenimiento Básico de Equipos";
+							}
+							if(chkTuberias.isSelected()) {
+								misHabilidades [4] = "Instalación de Tuberías";
+							}
+							if(chkMaquinaria.isSelected()) {
+								misHabilidades [5] = "Lectura de Planos";
+							}
+							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, misHabilidades);
 						}
+						Bolsa.getInstance().registrarCandidato(aux);
+						JOptionPane.showMessageDialog(null, "Registro Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
+						clean();
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
