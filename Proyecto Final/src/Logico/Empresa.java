@@ -2,7 +2,7 @@ package Logico;
 import java.util.ArrayList;
 
 public class Empresa {
-	private String identificador;
+	private String identificador; //RNC
 	private String nombre;
 	private String pais;
 	private String sector;

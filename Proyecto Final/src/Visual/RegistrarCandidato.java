@@ -123,8 +123,8 @@ public class RegistrarCandidato extends JDialog {
 			@Override
 			public void focusLost(FocusEvent e) {
 				String correo = txtCorreo.getText().trim();
-				if (!Bolsa.getInstance().validarCorreo(correo)) {
-					JOptionPane.showMessageDialog(null, "Correo inválido" );
+				if (!Bolsa.getInstance().validarCorreo(correo) && !txtCorreo.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Correo inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
 					txtCorreo.requestFocus(); 
 				}
 			}
@@ -160,6 +160,9 @@ public class RegistrarCandidato extends JDialog {
 				}
 				if(!Character.isDigit(letras)) {
 					e.consume();
+				}
+				if(Bolsa.getInstance().validarExistenciaCedula(text) == true) {
+					JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -425,47 +428,47 @@ public class RegistrarCandidato extends JDialog {
 						Date fechaNacimiento = (Date) spnFecha.getValue();
 						String nacionalidad = cbxNacionalidad.getSelectedItem().toString();
 						if(rdbtnUniversitario.isSelected()) {
-							if(txtCedula.getText().trim().isEmpty() || 
-									txtNombre.getText().trim().isEmpty() || 
-									txtApellido.getText().trim().isEmpty() || 
-									txtTelefono.getText().trim().isEmpty() || 
-									txtCorreo.getText().trim().isEmpty() || 
+							if(cedula.isEmpty() || 
+									nombre.isEmpty() || 
+									apellido.isEmpty() || 
+									telefono.isEmpty() || 
+									correo.isEmpty() || 
 									cbxUniversitario.getSelectedIndex() == 0 || 
-									cbxNacionalidad.getSelectedIndex() == 0) {
-								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
+									nacionalidad.isEmpty()) {
+								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxUniversitario.getSelectedItem().toString());
 						}
 						if(rdbtnTecnicoSuperior.isSelected()) {
-							if(txtCedula.getText().trim().isEmpty() || 
-									txtNombre.getText().trim().isEmpty() || 
-									txtApellido.getText().trim().isEmpty() || 
-									txtTelefono.getText().trim().isEmpty() || 
-									txtCorreo.getText().trim().isEmpty() || 
-									cbxNacionalidad.getSelectedIndex() == 0 ||
+							if(cedula.isEmpty() || 
+									nombre.isEmpty() || 
+									apellido.isEmpty() || 
+									telefono.isEmpty() || 
+									correo.isEmpty() || 
+									nacionalidad.isEmpty() ||
 									cbxTecnicoSuperior.getSelectedIndex() == 0 ||
 									spnExperiencia.getValue().toString().isEmpty()) {
-								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
+								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 							int anyoExperiencia = (int) spnExperiencia.getValue();
 							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
 						}
 						if(rdbtnObrero.isSelected()) {
-							if(txtCedula.getText().trim().isEmpty() || 
-									txtNombre.getText().trim().isEmpty() || 
-									txtApellido.getText().trim().isEmpty() || 
-									txtTelefono.getText().trim().isEmpty() || 
-									txtCorreo.getText().trim().isEmpty() || 
-									cbxNacionalidad.getSelectedIndex() == 0||
+							if(cedula.isEmpty() || 
+									nombre.isEmpty() || 
+									apellido.isEmpty() || 
+									telefono.isEmpty() || 
+									correo.isEmpty() || 
+									nacionalidad.isEmpty() ||
 									(!chkElectricidad.isSelected() &&
 										    !chkSoldadura.isSelected() &&
 										    !chkTecnicaPintura.isSelected() &&
 										    !chkTuberias.isSelected() &&
 										    !chkMantenimiento.isSelected() &&
 										    !chkMaquinaria.isSelected())) {
-								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);;
+								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 							if(chkElectricidad.isSelected()) {

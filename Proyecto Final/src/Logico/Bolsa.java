@@ -192,5 +192,27 @@ public class Bolsa {
     	ordenarMatch(porcentajeMatch);
     	return porcentajeMatch;
     }
+	public boolean validarExistenciaRNC(String text) {
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misEmpresas.size()) {
+			if(misEmpresas.get(i).getIdentificador().equals(text)) {
+				encontrado = true;
+			}
+			i++;
+		}
+		return encontrado;
+	}
+	public boolean validarExistenciaCedula(String text) {
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misCandidatos.size()) {
+			if(misCandidatos.get(i).getCedula().equals(text)) {
+				encontrado = true;
+			}
+			i++;
+		}
+		return encontrado;
+	}
     
 }

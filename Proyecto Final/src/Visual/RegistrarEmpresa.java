@@ -18,14 +18,20 @@ import javax.swing.border.TitledBorder;
 
 import Logico.Bolsa;
 import Logico.Empresa;
+import javax.swing.JComboBox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegistrarEmpresa extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
     private JTextField txtIdentificador;
     private JTextField txtNombre;
-    private JTextField txtPais;
-    private JTextField txtSector;
+    private JComboBox cbxPais;
+    private JComboBox cbxSector;
+    private JButton btnCancelar;
+    private JButton btnRegistrar;
 
     public static void main(String[] args) {
         try {
@@ -51,13 +57,29 @@ public class RegistrarEmpresa extends JDialog {
         contentPanel.add(panel);
         panel.setLayout(null);
 
-        Label label = new Label("Identificador:");
+        Label label = new Label("RNC de la Empresa:");
         label.setFont(new Font("Tahoma", Font.BOLD, 12));
-        label.setBounds(10, 30, 100, 22);
+        label.setBounds(10, 30, 138, 22);
         panel.add(label);
 
         txtIdentificador = new JTextField();
-        txtIdentificador.setBounds(120, 30, 280, 22);
+        txtIdentificador.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		char letras = e.getKeyChar();
+        		String text = txtIdentificador.getText();
+        		if(text.length() >= 9) {
+        			e.consume();
+        		}
+        		if(!Character.isDigit(letras)) {
+					e.consume();
+				}
+        		if(Bolsa.getInstance().validarExistenciaRNC(text) == true) {
+        			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+        		}
+        	}
+        });
+        txtIdentificador.setBounds(167, 30, 233, 22);
         panel.add(txtIdentificador);
         txtIdentificador.setColumns(10);
 
@@ -76,26 +98,27 @@ public class RegistrarEmpresa extends JDialog {
         label_2.setBounds(10, 110, 100, 22);
         panel.add(label_2);
 
-        txtPais = new JTextField();
-        txtPais.setColumns(10);
-        txtPais.setBounds(120, 110, 280, 22);
-        panel.add(txtPais);
-
         Label label_3 = new Label("Sector:");
         label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
         label_3.setBounds(10, 150, 100, 22);
         panel.add(label_3);
-
-        txtSector = new JTextField();
-        txtSector.setColumns(10);
-        txtSector.setBounds(120, 150, 280, 22);
-        panel.add(txtSector);
+        
+        cbxPais = new JComboBox();
+        cbxPais.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Per\u00FA", "M\u00E9xico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panam\u00E1", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "Rep\u00FAblica Dominicana", "Puerto Rico", "Espa\u00F1a", "Estados Unidos", "Canad\u00E1", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Jap\u00F3n", "Corea del Sur", "China", "India", "Australia", "Sud\u00E1frica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turqu\u00EDa", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "B\u00E9lgica", "Pa\u00EDses Bajos", "Nueva Zelanda"}));
+        cbxPais.setBounds(120, 112, 280, 20);
+        panel.add(cbxPais);
+        
+        cbxSector = new JComboBox();
+        cbxSector.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Comercio", "Servicios", "Manufactura", "Tecnolog\u00EDa", "Construcci\u00F3n", "Salud", "Educaci\u00F3n", "Transporte", "Turismo", "Agricultura", "Finanzas", "Energ\u00EDa", "Telecomunicaciones", "Alimentos y Bebidas", "Textil", "Inmobiliaria", "Log\u00EDstica", "Publicidad", "Automotriz", "Seguros", "Consultor\u00EDa", "Miner\u00EDa", "Pesca", "Artes Gr\u00E1ficas", "Entretenimiento", "Farmac\u00E9utica", "Qu\u00EDmica", "Ambiental", "Seguridad", "Legal", "Artesan\u00EDa"}));
+        cbxSector.setBounds(120, 150, 280, 20);
+        panel.add(cbxSector);
 
         JPanel buttonPane = new JPanel();
+        buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
         
-        JButton btnRegistrar = new JButton("Registrar");
+        btnRegistrar = new JButton("Registrar");
         btnRegistrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 registrarEmpresa();
@@ -104,7 +127,7 @@ public class RegistrarEmpresa extends JDialog {
         buttonPane.add(btnRegistrar);
         getRootPane().setDefaultButton(btnRegistrar);
         
-        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -116,8 +139,8 @@ public class RegistrarEmpresa extends JDialog {
     private void registrarEmpresa() {
         String identificador = txtIdentificador.getText();
         String nombre = txtNombre.getText();
-        String pais = txtPais.getText();
-        String sector = txtSector.getText();
+        String pais = cbxPais.getSelectedItem().toString();
+        String sector = cbxSector.getSelectedItem().toString();
         
         if(identificador.isEmpty() || nombre.isEmpty() || pais.isEmpty() || sector.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
