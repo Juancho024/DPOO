@@ -161,9 +161,6 @@ public class RegistrarCandidato extends JDialog {
 				if(!Character.isDigit(letras)) {
 					e.consume();
 				}
-				if(Bolsa.getInstance().validarExistenciaCedula(text) == true) {
-					JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
 			}
 		});
 		txtCedula.setBounds(76, 31, 170, 22);
@@ -491,6 +488,9 @@ public class RegistrarCandidato extends JDialog {
 							}
 							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, misHabilidades);
 						}
+						if(Bolsa.getInstance().validarExistenciaRNC(cedula) == true) {
+		        			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+		        		}
 						Bolsa.getInstance().registrarCandidato(aux);
 						JOptionPane.showMessageDialog(null, "Registro Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
 						clean();

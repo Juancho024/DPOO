@@ -74,9 +74,6 @@ public class RegistrarEmpresa extends JDialog {
         		if(!Character.isDigit(letras)) {
 					e.consume();
 				}
-        		if(Bolsa.getInstance().validarExistenciaRNC(text) == true) {
-        			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
-        		}
         	}
         });
         txtIdentificador.setBounds(167, 30, 233, 22);
@@ -146,6 +143,9 @@ public class RegistrarEmpresa extends JDialog {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(Bolsa.getInstance().validarExistenciaRNC(identificador) == true) {
+			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
         
         Empresa nuevaEmpresa = new Empresa(identificador, nombre, pais, sector);
         Bolsa.getInstance().registrarEmpresa(nuevaEmpresa);
