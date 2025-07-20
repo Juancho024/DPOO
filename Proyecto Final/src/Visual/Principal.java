@@ -154,6 +154,14 @@ public class Principal extends JFrame {
 		addPopup(lbVacante, menuVacante);
 
 		mntmNewMenuItem_8 = new JMenuItem("Registro");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RegistrarVacante regVac = new RegistrarVacante();
+				regVac.setModal(true);
+				regVac.setVisible(true);
+			}
+		});
 		menuVacante.add(mntmNewMenuItem_8);
 
 		Label lbPostulacion = new Label("Postulacion");
@@ -172,6 +180,14 @@ public class Principal extends JFrame {
 		addPopup(lbPostulacion, menuPostulacion);
 
 		mntmNewMenuItem_9 = new JMenuItem("Registro");
+		mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RegistrarPostulacion regPost = new RegistrarPostulacion();
+				regPost.setModal(true);
+				regPost.setVisible(true);
+			}
+		});
 		menuPostulacion.add(mntmNewMenuItem_9);
 		// FIN DE MENÚS AÑADIDOS
 
