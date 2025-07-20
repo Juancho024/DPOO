@@ -29,6 +29,17 @@ public class Principal extends JFrame {
     private Label lbEmpresa;
     private Label lbListado;
     private Label lbMatch;
+    private JPopupMenu menuCandidatos;
+    private JPopupMenu menuEmpresa;
+    private JMenuItem mntmNewMenuItem;
+    private JMenuItem mntmNewMenuItem_1;
+    private JMenuItem mntmNewMenuItem_2;
+    private JMenuItem mntmNewMenuItem_3;
+    private JPopupMenu MenuListados;
+    private JMenuItem mntmNewMenuItem_4;
+    private JMenuItem mntmNewMenuItem_5;
+    private JMenuItem mntmNewMenuItem_6;
+    private JMenuItem mntmNewMenuItem_7;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -70,35 +81,91 @@ public class Principal extends JFrame {
         lbCandidatos.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
+        		menuCandidatos.show(lbCandidatos, 0, lbCandidatos.getHeight());
+        	}
+        });
+        lbCandidatos.setAlignment(Label.CENTER);
+        lbCandidatos.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lbCandidatos.setBounds(819, 10, 78, 22);
+        panel.add(lbCandidatos);
+        
+        menuCandidatos = new JPopupMenu();
+        addPopup(lbCandidatos, menuCandidatos);
+        
+        mntmNewMenuItem_2 = new JMenuItem("Registro");
+        mntmNewMenuItem_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
         		RegistrarCandidato regCan = new RegistrarCandidato();
         		regCan.setModal(true);
         		regCan.setVisible(true);
         	}
         });
-        lbCandidatos.setAlignment(Label.CENTER);
-        lbCandidatos.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lbCandidatos.setBounds(927, 10, 78, 22);
-        panel.add(lbCandidatos);
+        menuCandidatos.add(mntmNewMenuItem_2);
+        
+        mntmNewMenuItem_3 = new JMenuItem("Abrir postulaci\u00F3n");
+        menuCandidatos.add(mntmNewMenuItem_3);
         
         lbEmpresa = new Label("Empresa");
         lbEmpresa.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
+        		menuEmpresa.show(lbEmpresa, 0, lbEmpresa.getHeight());
+        	}
+        });
+        lbEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lbEmpresa.setAlignment(Label.CENTER);
+        lbEmpresa.setBounds(958, 10, 78, 22);
+        panel.add(lbEmpresa);
+        
+        menuEmpresa = new JPopupMenu();
+        addPopup(lbEmpresa, menuEmpresa);
+        
+        mntmNewMenuItem = new JMenuItem("Registro");
+        mntmNewMenuItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
         		RegistrarEmpresa regEmp = new RegistrarEmpresa();
         		regEmp.setModal(true);
         		regEmp.setVisible(true);
         	}
         });
-        lbEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lbEmpresa.setAlignment(Label.CENTER);
-        lbEmpresa.setBounds(1025, 10, 78, 22);
-        panel.add(lbEmpresa);
+        menuEmpresa.add(mntmNewMenuItem);
+        
+        mntmNewMenuItem_1 = new JMenuItem("Crear Vacante");
+        menuEmpresa.add(mntmNewMenuItem_1);
         
         lbListado = new Label("Listados y Reportes");
+        lbListado.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		MenuListados.show(lbListado, 0, lbListado.getHeight());
+        	}
+        });
         lbListado.setFont(new Font("Tahoma", Font.BOLD, 12));
         lbListado.setAlignment(Label.CENTER);
-        lbListado.setBounds(1121, 10, 127, 22);
+        lbListado.setBounds(1091, 10, 127, 22);
         panel.add(lbListado);
+        
+        MenuListados = new JPopupMenu();
+        addPopup(lbListado, MenuListados);
+        
+        mntmNewMenuItem_4 = new JMenuItem("Listados de Candidatos");
+        mntmNewMenuItem_4.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ListadoCandidatos lisCan = new ListadoCandidatos();
+        		lisCan.setModal(true);
+        		lisCan.setVisible(true);
+        	}
+        });
+        MenuListados.add(mntmNewMenuItem_4);
+        
+        mntmNewMenuItem_5 = new JMenuItem("Listados de Empresas");
+        MenuListados.add(mntmNewMenuItem_5);
+        
+        mntmNewMenuItem_6 = new JMenuItem("Listados de Vacantes");
+        MenuListados.add(mntmNewMenuItem_6);
+        
+        mntmNewMenuItem_7 = new JMenuItem("Listados de Postulaci\u00F3nes");
+        MenuListados.add(mntmNewMenuItem_7);
     }
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

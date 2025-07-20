@@ -145,12 +145,12 @@ public class RegistrarEmpresa extends JDialog {
         }
         if(Bolsa.getInstance().validarExistenciaRNC(identificador) == true) {
 			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			Empresa nuevaEmpresa = new Empresa(identificador, nombre, pais, sector);
+	        Bolsa.getInstance().registrarEmpresa(nuevaEmpresa);
+	        
+	        JOptionPane.showMessageDialog(this, "Empresa registrada con éxito!");
+	        dispose();
 		}
-        
-        Empresa nuevaEmpresa = new Empresa(identificador, nombre, pais, sector);
-        Bolsa.getInstance().registrarEmpresa(nuevaEmpresa);
-        
-        JOptionPane.showMessageDialog(this, "Empresa registrada con éxito!");
-        dispose();
     }
 }

@@ -265,12 +265,12 @@ public class RegistrarCandidato extends JDialog {
 		btnFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnFoto.setBounds(392, 128, 90, 22);
 		panel.add(btnFoto);
-		
+
 		label_11 = new Label("Nacionalidad:");
 		label_11.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_11.setBounds(108, 226, 101, 22);
 		panel.add(label_11);
-		
+
 		cbxNacionalidad = new JComboBox();
 		cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Per\u00FA", "M\u00E9xico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panam\u00E1", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "Rep\u00FAblica Dominicana", "Puerto Rico", "Espa\u00F1a", "Estados Unidos", "Canad\u00E1", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Jap\u00F3n", "Corea del Sur", "China", "India", "Australia", "Sud\u00E1frica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turqu\u00EDa", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "B\u00E9lgica", "Pa\u00EDses Bajos", "Nueva Zelanda"}));
 		cbxNacionalidad.setBounds(215, 224, 170, 20);
@@ -460,11 +460,11 @@ public class RegistrarCandidato extends JDialog {
 									correo.isEmpty() || 
 									nacionalidad.isEmpty() ||
 									(!chkElectricidad.isSelected() &&
-										    !chkSoldadura.isSelected() &&
-										    !chkTecnicaPintura.isSelected() &&
-										    !chkTuberias.isSelected() &&
-										    !chkMantenimiento.isSelected() &&
-										    !chkMaquinaria.isSelected())) {
+											!chkSoldadura.isSelected() &&
+											!chkTecnicaPintura.isSelected() &&
+											!chkTuberias.isSelected() &&
+											!chkMantenimiento.isSelected() &&
+											!chkMaquinaria.isSelected())) {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
@@ -488,12 +488,13 @@ public class RegistrarCandidato extends JDialog {
 							}
 							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, misHabilidades);
 						}
-						if(Bolsa.getInstance().validarExistenciaRNC(cedula) == true) {
-		        			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
-		        		}
-						Bolsa.getInstance().registrarCandidato(aux);
-						JOptionPane.showMessageDialog(null, "Registro Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
-						clean();
+						if(Bolsa.getInstance().validarExistenciaCedula(cedula) == true) {
+							JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+						} else {
+							Bolsa.getInstance().registrarCandidato(aux);
+							JOptionPane.showMessageDialog(null, "Registro Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
+							clean();
+						}
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
