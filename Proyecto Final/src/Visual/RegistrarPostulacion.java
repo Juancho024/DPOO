@@ -207,26 +207,56 @@ public class RegistrarPostulacion extends JDialog {
             Vacante vacante = (Vacante) cbxVacantes.getSelectedItem();
             
             // Validar campos obligatorios
-            String pais = txtPaisResidencia.getText();
-            String ciudad = txtCiudadResidencia.getText();
-            String salarioStr = txtPretensionSalarial.getText();
+            String pais = txtPaisResidencia.getText().trim();
+            String ciudad = txtCiudadResidencia.getText().trim();
+            String salarioStr = txtPretensionSalarial.getText().trim();
             
             if (pais.isEmpty() || ciudad.isEmpty() || salarioStr.isEmpty()) {
                 throw new Exception("Complete todos los campos obligatorios");
             }
             
+            // Validar formato de país y ciudad
+            if (!pais.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+                throw new Exception("País contiene caracteres inválidos");
+            }
+            
+            if (!ciudad.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+                throw new Exception("Ciudad contiene caracteres inválidos");
+            }
+            
+            // Validar longitud de campos
+            if (pais.length() > 50) {
+                throw new Exception("País no puede exceder 50 caracteres");
+            }
+            
+            if (ciudad.length() > 50) {
+                throw new Exception("Ciudad no puede exceder 50 caracteres");
+            }
+            
             float pretensionSalarial = Float.parseFloat(salarioStr);
+            if (pretensionSalarial <= 0) {
+                throw new Exception("La pretensión salarial debe ser mayor que 0");
+            }
+            
             String tipoContrato = (String) cbxTipoContrato.getSelectedItem();
             boolean mudanza = chkMudanza.isSelected();
             boolean vehiculo = chkDisponibilidadVehiculo.isSelected();
             boolean licencia = chkLicencia.isSelected();
             
+            // Determinar nivel de estudio del candidato
+            String nivelEstudio = "";
+            if (candidato instanceof Logico.Universitario) {
+                nivelEstudio = "Universitario";
+            } else if (candidato instanceof Logico.TecnicoSuperior) {
+                nivelEstudio = "Técnico Superior";
+            } else if (candidato instanceof Logico.Obrero) {
+                nivelEstudio = "Obrero";
+            }
+            
             // Crear postulación
-            String[] infoEstudio = vacante.getTipoEmpleado()};
             Postulacion postulacion = new Postulacion(
-                "PST-" + System.currentTimeMillis(),
-                vacante.getTipoEmpleado(),
-                infoEstudio,
+                candidato.getCedula(),   // Usar cédula como identificador
+                nivelEstudio,
                 tipoContrato,
                 pais,
                 ciudad,
@@ -238,11 +268,10 @@ public class RegistrarPostulacion extends JDialog {
             
             // Registrar en bolsa
             Bolsa bolsa = Bolsa.getInstance();
-            postulacion.getMisPersonas().add(candidato);
             bolsa.getMisPostulaciones().add(postulacion);
             
-            // Agregar a candidato
-            candidato.getMisFormulariosPersona().add(postulacion);
+            // Agregar postulación al candidato
+            candidato.getMisPostulaciones().add(postulacion);
             
             JOptionPane.showMessageDialog(this, "Postulación registrada con éxito!");
             dispose();

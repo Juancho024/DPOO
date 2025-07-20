@@ -29,6 +29,7 @@ public class RegistrarVacante extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
     private JTextField txtIdentificador;
+    private JTextField txtNombreVacante;
     private JComboBox<String> cbxTipoContrato;
     private JTextField txtPaisResidencia;
     private JTextField txtCiudadResidencia;
@@ -64,7 +65,7 @@ public class RegistrarVacante extends JDialog {
 
     public RegistrarVacante() {
         setTitle("Registrar Vacante");
-        setBounds(100, 100, 600, 600);
+        setBounds(100, 100, 650, 650);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -73,7 +74,7 @@ public class RegistrarVacante extends JDialog {
         JPanel panelEmpresa = new JPanel();
         panelEmpresa.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
             "Datos de la Empresa", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelEmpresa.setBounds(10, 11, 564, 70);
+        panelEmpresa.setBounds(10, 11, 614, 70);
         contentPanel.add(panelEmpresa);
         panelEmpresa.setLayout(null);
         
@@ -83,13 +84,13 @@ public class RegistrarVacante extends JDialog {
         panelEmpresa.add(lblEmpresa);
         
         cbxEmpresa = new JComboBox<>();
-        cbxEmpresa.setBounds(100, 30, 450, 22);
+        cbxEmpresa.setBounds(100, 30, 500, 22);
         panelEmpresa.add(cbxEmpresa);
         
         JPanel panelVacante = new JPanel();
         panelVacante.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
             "Datos de la Vacante", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelVacante.setBounds(10, 92, 564, 200);
+        panelVacante.setBounds(10, 92, 614, 230);
         contentPanel.add(panelVacante);
         panelVacante.setLayout(null);
         
@@ -103,78 +104,88 @@ public class RegistrarVacante extends JDialog {
         panelVacante.add(txtIdentificador);
         txtIdentificador.setColumns(10);
         
+        Label lblNombreVacante = new Label("Nombre Vacante:");
+        lblNombreVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblNombreVacante.setBounds(10, 70, 120, 22);
+        panelVacante.add(lblNombreVacante);
+        
+        txtNombreVacante = new JTextField();
+        txtNombreVacante.setBounds(140, 70, 200, 22);
+        panelVacante.add(txtNombreVacante);
+        txtNombreVacante.setColumns(10);
+        
         Label lblTipoContrato = new Label("Tipo de Contrato:");
         lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblTipoContrato.setBounds(10, 70, 120, 22);
+        lblTipoContrato.setBounds(10, 110, 120, 22);
         panelVacante.add(lblTipoContrato);
         
         cbxTipoContrato = new JComboBox<>();
         cbxTipoContrato.setModel(new DefaultComboBoxModel<>(new String[] {
             "Tiempo Completo", "Medio Tiempo", "Por Horas", "Por Proyecto"
         }));
-        cbxTipoContrato.setBounds(140, 70, 200, 22);
+        cbxTipoContrato.setBounds(140, 110, 200, 22);
         panelVacante.add(cbxTipoContrato);
         
         Label lblPais = new Label("País Residencia:");
         lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblPais.setBounds(10, 110, 120, 22);
+        lblPais.setBounds(10, 150, 120, 22);
         panelVacante.add(lblPais);
         
         txtPaisResidencia = new JTextField();
-        txtPaisResidencia.setBounds(140, 110, 200, 22);
+        txtPaisResidencia.setBounds(140, 150, 200, 22);
         panelVacante.add(txtPaisResidencia);
         txtPaisResidencia.setColumns(10);
         
         Label lblCiudad = new Label("Ciudad Residencia:");
         lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblCiudad.setBounds(10, 150, 120, 22);
+        lblCiudad.setBounds(10, 190, 120, 22);
         panelVacante.add(lblCiudad);
         
         txtCiudadResidencia = new JTextField();
-        txtCiudadResidencia.setBounds(140, 150, 200, 22);
+        txtCiudadResidencia.setBounds(140, 190, 200, 22);
         panelVacante.add(txtCiudadResidencia);
         txtCiudadResidencia.setColumns(10);
         
         Label lblMudanza = new Label("Disponibilidad Mudanza:");
         lblMudanza.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblMudanza.setBounds(330, 30, 170, 22);
+        lblMudanza.setBounds(350, 30, 170, 22);
         panelVacante.add(lblMudanza);
         
         chkMudanza = new JCheckBox("");
-        chkMudanza.setBounds(510, 30, 30, 22);
+        chkMudanza.setBounds(530, 30, 30, 22);
         panelVacante.add(chkMudanza);
         
         Label lblVehiculo = new Label("Vehículo Propio:");
         lblVehiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblVehiculo.setBounds(330, 70, 120, 22);
+        lblVehiculo.setBounds(350, 70, 120, 22);
         panelVacante.add(lblVehiculo);
         
         chkDisponibilidadVehiculo = new JCheckBox("");
-        chkDisponibilidadVehiculo.setBounds(460, 70, 30, 22);
+        chkDisponibilidadVehiculo.setBounds(480, 70, 30, 22);
         panelVacante.add(chkDisponibilidadVehiculo);
         
         Label lblLicencia = new Label("Licencia Conducir:");
         lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblLicencia.setBounds(330, 110, 120, 22);
+        lblLicencia.setBounds(350, 110, 120, 22);
         panelVacante.add(lblLicencia);
         
         chkLicencia = new JCheckBox("");
-        chkLicencia.setBounds(460, 110, 30, 22);
+        chkLicencia.setBounds(480, 110, 30, 22);
         panelVacante.add(chkLicencia);
         
         Label lblSalario = new Label("Pretensión Salarial:");
         lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblSalario.setBounds(330, 150, 120, 22);
+        lblSalario.setBounds(350, 150, 120, 22);
         panelVacante.add(lblSalario);
         
         txtPretensionSalarial = new JTextField();
-        txtPretensionSalarial.setBounds(460, 150, 80, 22);
+        txtPretensionSalarial.setBounds(480, 150, 80, 22);
         panelVacante.add(txtPretensionSalarial);
         txtPretensionSalarial.setColumns(10);
         
         JPanel panelEstudios = new JPanel();
         panelEstudios.setBorder(new TitledBorder(null, "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelEstudios.setBounds(10, 303, 564, 70);
+        panelEstudios.setBounds(10, 333, 614, 70);
         contentPanel.add(panelEstudios);
         panelEstudios.setLayout(null);
         
@@ -195,7 +206,7 @@ public class RegistrarVacante extends JDialog {
         
         panelUniversitario = new JPanel();
         panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelUniversitario.setBounds(10, 384, 564, 70);
+        panelUniversitario.setBounds(10, 414, 614, 70);
         contentPanel.add(panelUniversitario);
         panelUniversitario.setLayout(null);
         panelUniversitario.setVisible(false);
@@ -206,7 +217,7 @@ public class RegistrarVacante extends JDialog {
         panelUniversitario.add(lblCarrera);
         
         cbxCarreraUniversitario = new JComboBox<>();
-        cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {
+        cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",					
             "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Finanzas", 
             "Psicología", "Derecho", "Educación / Pedagogía", "Trabajo Social", 
             "Comunicación Social / Periodismo", "Relaciones Internacionales", 
@@ -221,7 +232,7 @@ public class RegistrarVacante extends JDialog {
         
         panelTecnicoSuperior = new JPanel();
         panelTecnicoSuperior.setBorder(new TitledBorder(null, "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelTecnicoSuperior.setBounds(10, 384, 564, 70);
+        panelTecnicoSuperior.setBounds(10, 414, 614, 70);
         contentPanel.add(panelTecnicoSuperior);
         panelTecnicoSuperior.setLayout(null);
         panelTecnicoSuperior.setVisible(false);
@@ -232,7 +243,7 @@ public class RegistrarVacante extends JDialog {
         panelTecnicoSuperior.add(lblEspecialidad);
         
         cbxEspecialidadTecnico = new JComboBox<>();
-        cbxEspecialidadTecnico.setModel(new DefaultComboBoxModel<>(new String[] {
+        cbxEspecialidadTecnico.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",
             "Técnico en Informática", "Técnico en Contabilidad", "Técnico en Electrónica", 
             "Técnico en Electricidad", "Técnico en Mecánica Industrial", 
             "Técnico en Refrigeración y Climatización", "Técnico en Enfermería", 
@@ -251,7 +262,7 @@ public class RegistrarVacante extends JDialog {
         
         panelObrero = new JPanel();
         panelObrero.setBorder(new TitledBorder(null, "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelObrero.setBounds(10, 384, 564, 130);
+        panelObrero.setBounds(10, 414, 614, 130);
         contentPanel.add(panelObrero);
         panelObrero.setLayout(null);
         panelObrero.setVisible(false);
@@ -319,14 +330,47 @@ public class RegistrarVacante extends JDialog {
     private void registrarVacante() {
         try {
             // Validar campos básicos
-            String identificador = txtIdentificador.getText();
+            String identificador = txtIdentificador.getText().trim();
+            String nombreVacante = txtNombreVacante.getText().trim();
             String tipoContrato = (String) cbxTipoContrato.getSelectedItem();
-            String pais = txtPaisResidencia.getText();
-            String ciudad = txtCiudadResidencia.getText();
-            String salarioStr = txtPretensionSalarial.getText();
+            String pais = txtPaisResidencia.getText().trim();
+            String ciudad = txtCiudadResidencia.getText().trim();
+            String salarioStr = txtPretensionSalarial.getText().trim();
             
-            if (identificador.isEmpty() || pais.isEmpty() || ciudad.isEmpty() || salarioStr.isEmpty()) {
+            // Validar campos vacíos
+            if (identificador.isEmpty() || nombreVacante.isEmpty() || pais.isEmpty() || ciudad.isEmpty() || salarioStr.isEmpty()) {
                 throw new Exception("Complete todos los campos obligatorios");
+            }
+            
+            // Validar formato del identificador
+            if (!identificador.matches("[A-Za-z0-9-]+")) {
+                throw new Exception("Identificador solo puede contener letras, números y guiones");
+            }
+            
+            // Validar identificador único
+            for (Vacante v : Bolsa.getInstance().getMisVacantes()) {
+                if (v.getIdentificador().equals(identificador)) {
+                    throw new Exception("Ya existe una vacante con este identificador");
+                }
+            }
+            
+            // Validar longitud de campos
+            if (nombreVacante.length() > 100) {
+                throw new Exception("Nombre de vacante no puede exceder 100 caracteres");
+            }
+            
+            if (pais.length() > 50) {
+                throw new Exception("País no puede exceder 50 caracteres");
+            }
+            
+            if (ciudad.length() > 50) {
+                throw new Exception("Ciudad no puede exceder 50 caracteres");
+            }
+            
+            // Validar pretensión salarial
+            float pretensionSalarial = Float.parseFloat(salarioStr);
+            if (pretensionSalarial <= 0) {
+                throw new Exception("La pretensión salarial debe ser mayor que 0");
             }
             
             // Validar empresa
@@ -337,18 +381,26 @@ public class RegistrarVacante extends JDialog {
             // Validar nivel de estudio
             String nivelEstudio = "";
             String[] infoEstudio = new String[1];
+            ArrayList<String> habilidades = new ArrayList<>();
             
             if (rdbtnUniversitario.isSelected()) {
                 nivelEstudio = "Universitario";
-                infoEstudio[0] = (String) cbxCarreraUniversitario.getSelectedItem();
+                String carrera = (String) cbxCarreraUniversitario.getSelectedItem();
+                if (carrera.equals("Seleccione una opcion")) {
+                    throw new Exception("Seleccione una carrera universitaria");
+                }
+                infoEstudio[0] = carrera;
             } 
             else if (rdbtnTecnicoSuperior.isSelected()) {
                 nivelEstudio = "Técnico Superior";
-                infoEstudio[0] = (String) cbxEspecialidadTecnico.getSelectedItem();
+                String especialidad = (String) cbxEspecialidadTecnico.getSelectedItem();
+                if (especialidad.equals("Seleccione una opcion")) {
+                    throw new Exception("Seleccione una especialidad técnica");
+                }
+                infoEstudio[0] = especialidad;
             } 
             else if (rdbtnObrero.isSelected()) {
                 nivelEstudio = "Obrero";
-                ArrayList<String> habilidades = new ArrayList<>();
                 if (chkElectricidad.isSelected()) habilidades.add("Electricidad básica");
                 if (chkSoldadura.isSelected()) habilidades.add("Soldadura");
                 if (chkTecnicaPintura.isSelected()) habilidades.add("Técnicas de pintura");
@@ -365,18 +417,25 @@ public class RegistrarVacante extends JDialog {
                 throw new Exception("Seleccione un nivel de estudio requerido");
             }
             
-            // Convertir salario
-            float pretensionSalarial = Float.parseFloat(salarioStr);
+            // Validar formato de país y ciudad
+            if (!pais.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+                throw new Exception("País contiene caracteres inválidos");
+            }
+            
+            if (!ciudad.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
+                throw new Exception("Ciudad contiene caracteres inválidos");
+            }
             
             // Obtener empresa
             Empresa empresa = (Empresa) cbxEmpresa.getSelectedItem();
+            String rnc = empresa.getIdentificador();
             
             // Crear vacante
             Vacante vacante = new Vacante(
                 identificador,
                 nivelEstudio,
                 tipoContrato,
-                "Nombre de la vacante",
+                nombreVacante,
                 pais,
                 ciudad,
                 chkMudanza.isSelected(),
