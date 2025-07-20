@@ -25,8 +25,11 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListadoCandidatos extends JDialog {
 
@@ -39,6 +42,7 @@ public class ListadoCandidatos extends JDialog {
 	private JButton btnCancelar;
 	private JComboBox cbxTiposCandidatos;
 	private int selection;
+	private Candidato selected = null;
 
 	/**
 	 * Launch the application.
@@ -99,6 +103,26 @@ public class ListadoCandidatos extends JDialog {
 			panel_1.add(scrollPane, BorderLayout.CENTER);
 
 			table = new JTable();
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = table.getSelectedRow();
+					if(index >= 0) {
+						selected = Bolsa.getInstance().buscarCandidatoByCod(table.getValueAt(index, 0).toString());
+						btnEliminar.setEnabled(true);
+						btnModificar.setEnabled(true);
+					}
+				}
+			});
+			
+			
+			modelo = new DefaultTableModel(){
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                // Nunca permitir edición
+	                return false;
+	            }
+	        };
 			loadHeaderTable();
 			scrollPane.setViewportView(table);
 		}
@@ -157,7 +181,7 @@ public class ListadoCandidatos extends JDialog {
 			break;
 		}
 		modelo.setColumnIdentifiers(header);
-		loadCandidatos(0);
+		loadCandidatos(selection);
 	}
 
 	private void loadCandidatos(int selection) {
@@ -170,7 +194,8 @@ public class ListadoCandidatos extends JDialog {
 				row [0] = aux.getCedula();
 				row [1] = aux.getNombre();
 				row [2] = aux.getApellido();
-				row [3] = aux.getFechaNacimiento();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				row [3] = sdf.format(aux.getFechaNacimiento());
 				row [4] = aux.getNacionalidad();
 				row [5] = aux.getSexo();
 				row [6] = aux.getTelefono();
@@ -192,7 +217,8 @@ public class ListadoCandidatos extends JDialog {
 					row [0] = aux.getCedula();
 					row [1] = aux.getNombre();
 					row [2] = aux.getApellido();
-					row [3] = aux.getFechaNacimiento();
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					row [3] = sdf.format(aux.getFechaNacimiento());
 					row [4] = aux.getNacionalidad();
 					row [5] = aux.getSexo();
 					row [6] = aux.getTelefono();
@@ -207,7 +233,8 @@ public class ListadoCandidatos extends JDialog {
 					row [0] = aux.getCedula();
 					row [1] = aux.getNombre();
 					row [2] = aux.getApellido();
-					row [3] = aux.getFechaNacimiento();
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					row [3] = sdf.format(aux.getFechaNacimiento());
 					row [4] = aux.getNacionalidad();
 					row [5] = aux.getSexo();
 					row [6] = aux.getTelefono();
@@ -222,11 +249,13 @@ public class ListadoCandidatos extends JDialog {
 					row [0] = aux.getCedula();
 					row [1] = aux.getNombre();
 					row [2] = aux.getApellido();
-					row [3] = aux.getFechaNacimiento();
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					row [3] = sdf.format(aux.getFechaNacimiento());
 					row [4] = aux.getNacionalidad();
 					row [5] = aux.getSexo();
 					row [6] = aux.getTelefono();
-					row [7] = ((Obrero) aux).getMisHabilidades();
+					String[] habilidades = ((Obrero) aux).getMisHabilidades();
+			        row[7] = String.join(", ", habilidades);
 					modelo.addRow(row);
 				}
 			}

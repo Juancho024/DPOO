@@ -35,6 +35,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
 import java.awt.Canvas;
@@ -58,7 +59,6 @@ public class RegistrarCandidato extends JDialog {
 	private JPanel panel_TecnicoSuperior;
 	private JPanel panel_Obrero;
 	private char genero;
-	private String [] misHabilidades;
 	private JRadioButton rdbtnMasculino;
 	private JRadioButton rdbtnFemenino;
 	private Label label_6;
@@ -212,20 +212,12 @@ public class RegistrarCandidato extends JDialog {
 		panel.add(label_9);
 
 		spnFecha = new JSpinner();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date fechaInicial = null;
-		try {
-			fechaInicial = sdf.parse("01/01/2007");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		SpinnerDateModel modeloFecha = new SpinnerDateModel();
-		modeloFecha.setValue(fechaInicial);
-		spnFecha.setModel(modeloFecha);
-		JSpinner.DateEditor editor = new JSpinner.DateEditor(spnFecha, "yyyy/MM/dd");
-		spnFecha.setEditor(editor);
+		spnFecha.setModel(new SpinnerDateModel(new Date(1167638400000L), new Date(-788889600000L), new Date(1199174400000L), Calendar.DAY_OF_YEAR));
 		spnFecha.setBounds(148, 197, 101, 20);
 		panel.add(spnFecha);
+		
+		JSpinner.DateEditor editorfecha = new JSpinner.DateEditor(spnFecha, "dd/MM/yyyy");
+		spnFecha.setEditor(editorfecha);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setBounds(76, 154, 170, 22);
@@ -425,7 +417,7 @@ public class RegistrarCandidato extends JDialog {
 						Date fechaNacimiento = (Date) spnFecha.getValue();
 						String nacionalidad = cbxNacionalidad.getSelectedItem().toString();
 						if(rdbtnUniversitario.isSelected()) {
-							if(cedula.isEmpty() || 
+							if(genero != 'M' && genero != 'F'|| cedula.isEmpty() || 
 									nombre.isEmpty() || 
 									apellido.isEmpty() || 
 									telefono.isEmpty() || 
@@ -438,7 +430,7 @@ public class RegistrarCandidato extends JDialog {
 							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxUniversitario.getSelectedItem().toString());
 						}
 						if(rdbtnTecnicoSuperior.isSelected()) {
-							if(cedula.isEmpty() || 
+							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
 									nombre.isEmpty() || 
 									apellido.isEmpty() || 
 									telefono.isEmpty() || 
@@ -453,7 +445,7 @@ public class RegistrarCandidato extends JDialog {
 							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
 						}
 						if(rdbtnObrero.isSelected()) {
-							if(cedula.isEmpty() || 
+							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
 									nombre.isEmpty() || 
 									apellido.isEmpty() || 
 									telefono.isEmpty() || 
@@ -468,25 +460,28 @@ public class RegistrarCandidato extends JDialog {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-							if(chkElectricidad.isSelected()) {
-								misHabilidades [0] = "Electricidad Básica"; 
-							}
-							if(chkSoldadura.isSelected()) {
-								misHabilidades [1] = "Soldadura";
-							}
-							if(chkTecnicaPintura.isSelected()) {
-								misHabilidades [2] = "Técnica de pintura o Albañilería";
-							}
-							if(chkMantenimiento.isSelected()) {
-								misHabilidades [3] = "Mantenimiento Básico de Equipos";
-							}
-							if(chkTuberias.isSelected()) {
-								misHabilidades [4] = "Instalación de Tuberías";
-							}
-							if(chkMaquinaria.isSelected()) {
-								misHabilidades [5] = "Lectura de Planos";
-							}
-							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, misHabilidades);
+				            ArrayList<String> habilidadesList = new ArrayList<>();
+				            if (chkElectricidad.isSelected()) {
+				                habilidadesList.add("Electricidad Básica");
+				            }
+				            if (chkSoldadura.isSelected()) {
+				                habilidadesList.add("Soldadura");
+				            }
+				            if (chkTecnicaPintura.isSelected()) {
+				                habilidadesList.add("Técnica de pintura o Albañilería");
+				            }
+				            if (chkTuberias.isSelected()) {
+				                habilidadesList.add("Instalación de Tuberías");
+				            }
+				            if (chkMantenimiento.isSelected()) {
+				                habilidadesList.add("Mantenimiento Básico de Equipos");
+				            }
+				            if (chkMaquinaria.isSelected()) {
+				                habilidadesList.add("Lectura de Planos");
+				            }
+
+				            String[] habilidades = habilidadesList.toArray(new String[0]);
+							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, habilidades);
 						}
 						if(Bolsa.getInstance().validarExistenciaCedula(cedula) == true) {
 							JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);

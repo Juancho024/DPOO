@@ -159,6 +159,13 @@ public class Principal extends JFrame {
         MenuListados.add(mntmNewMenuItem_4);
         
         mntmNewMenuItem_5 = new JMenuItem("Listados de Empresas");
+        mntmNewMenuItem_5.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ListadoEmpresa lisEmp = new ListadoEmpresa();
+        		lisEmp.setModal(true);
+        		lisEmp.setVisible(true);
+        	}
+        });
         MenuListados.add(mntmNewMenuItem_5);
         
         mntmNewMenuItem_6 = new JMenuItem("Listados de Vacantes");
