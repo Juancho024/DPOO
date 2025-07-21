@@ -28,7 +28,6 @@ public class Principal extends JFrame {
 	private Label lbCandidatos;
 	private Label lbEmpresa;
 	private Label lbListado;
-	private Label lbMatch;
 	private JPopupMenu menuCandidatos;
 	private JPopupMenu menuEmpresa;
 	private JMenuItem mntmNewMenuItem;
@@ -40,10 +39,7 @@ public class Principal extends JFrame {
 	private JMenuItem mntmNewMenuItem_5;
 	private JMenuItem mntmNewMenuItem_6;
 	private JMenuItem mntmNewMenuItem_7;
-	private JPopupMenu menuVacante;
-	private JMenuItem mntmNewMenuItem_8;
-	private JPopupMenu menuPostulacion;
-	private JMenuItem mntmNewMenuItem_9;
+	private Label lbMatch;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,9 +72,17 @@ public class Principal extends JFrame {
 		panel.setLayout(null);
 
 		lbMatch = new Label("Match");
+		lbMatch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RealizarMatch reaMat = new RealizarMatch();
+				reaMat.setModal(true);
+				reaMat.setVisible(true);
+			}
+		});
 		lbMatch.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbMatch.setAlignment(Label.CENTER);
-		lbMatch.setBounds(1266, 10, 62, 22); // Posición ajustada
+		lbMatch.setBounds(1257, 10, 62, 22); // Posición ajustada
 		panel.add(lbMatch);
 
 		lbCandidatos = new Label("Candidatos");
@@ -90,7 +94,7 @@ public class Principal extends JFrame {
 		});
 		lbCandidatos.setAlignment(Label.CENTER);
 		lbCandidatos.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbCandidatos.setBounds(797, 10, 78, 22);
+		lbCandidatos.setBounds(828, 10, 78, 22);
 		panel.add(lbCandidatos);
 
 		menuCandidatos = new JPopupMenu();
@@ -107,6 +111,13 @@ public class Principal extends JFrame {
 		menuCandidatos.add(mntmNewMenuItem_2);
 
 		mntmNewMenuItem_3 = new JMenuItem("Abrir postulaci\u00F3n");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarPostulacion regPos = new RegistrarPostulacion();
+				regPos.setModal(true);
+				regPos.setVisible(true);
+			}
+		});
 		menuCandidatos.add(mntmNewMenuItem_3);
 
 		lbEmpresa = new Label("Empresa");
@@ -118,7 +129,7 @@ public class Principal extends JFrame {
 		});
 		lbEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbEmpresa.setAlignment(Label.CENTER);
-		lbEmpresa.setBounds(881, 10, 78, 22);
+		lbEmpresa.setBounds(959, 10, 78, 22);
 		panel.add(lbEmpresa);
 
 		menuEmpresa = new JPopupMenu();
@@ -135,60 +146,14 @@ public class Principal extends JFrame {
 		menuEmpresa.add(mntmNewMenuItem);
 
 		mntmNewMenuItem_1 = new JMenuItem("Crear Vacante");
-		menuEmpresa.add(mntmNewMenuItem_1);
-
-		// MENÚS DE VACANTE Y POSTULACIÓN AÑADIDOS
-		Label lbVacante = new Label("Vacante");
-		lbVacante.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				menuVacante.show(lbVacante, 0, lbVacante.getHeight());
-			}
-		});
-		lbVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbVacante.setAlignment(Label.CENTER);
-		lbVacante.setBounds(965, 10, 78, 22); // Posición ajustada
-		panel.add(lbVacante);
-
-		menuVacante = new JPopupMenu();
-		addPopup(lbVacante, menuVacante);
-
-		mntmNewMenuItem_8 = new JMenuItem("Registro");
-		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				RegistrarVacante regVac = new RegistrarVacante();
 				regVac.setModal(true);
 				regVac.setVisible(true);
 			}
 		});
-		menuVacante.add(mntmNewMenuItem_8);
-
-		Label lbPostulacion = new Label("Postulacion");
-		lbPostulacion.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				menuPostulacion.show(lbPostulacion, 0, lbPostulacion.getHeight());
-			}
-		});
-		lbPostulacion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbPostulacion.setAlignment(Label.CENTER);
-		lbPostulacion.setBounds(1049, 10, 78, 22); // Posición ajustada
-		panel.add(lbPostulacion);
-
-		menuPostulacion = new JPopupMenu();
-		addPopup(lbPostulacion, menuPostulacion);
-
-		mntmNewMenuItem_9 = new JMenuItem("Registro");
-		mntmNewMenuItem_9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				RegistrarPostulacion regPost = new RegistrarPostulacion();
-				regPost.setModal(true);
-				regPost.setVisible(true);
-			}
-		});
-		menuPostulacion.add(mntmNewMenuItem_9);
+		menuEmpresa.add(mntmNewMenuItem_1);
 		// FIN DE MENÚS AÑADIDOS
 
 		lbListado = new Label("Listados y Reportes");
@@ -200,7 +165,7 @@ public class Principal extends JFrame {
 		});
 		lbListado.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbListado.setAlignment(Label.CENTER);
-		lbListado.setBounds(1133, 10, 127, 22); // Posición ajustada
+		lbListado.setBounds(1080, 10, 127, 22); // Posición ajustada
 		panel.add(lbListado);
 
 		MenuListados = new JPopupMenu();
@@ -227,9 +192,23 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_5);
 
 		mntmNewMenuItem_6 = new JMenuItem("Listados de Vacantes");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoVacante lisVac = new ListadoVacante();
+				lisVac.setModal(true);
+				lisVac.setVisible(true);
+			}
+		});
 		MenuListados.add(mntmNewMenuItem_6);
 
 		mntmNewMenuItem_7 = new JMenuItem("Listados de Postulaci\u00F3nes");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoPostulacion listPos = new ListadoPostulacion();
+				listPos.setModal(true);
+				listPos.setVisible(true);
+			}
+		});
 		MenuListados.add(mntmNewMenuItem_7);
 	}
 

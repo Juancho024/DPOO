@@ -11,6 +11,7 @@ public abstract class Candidato {
 	protected String telefono;
 	protected String correo;
 	protected String nacionalidad;
+	protected boolean status;
 	private ArrayList<Postulacion> misPostulaciones;
 	
 	public Candidato(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,

@@ -13,6 +13,7 @@ public class Vacante {
 	private boolean disponibilidadVehiculo;
 	private boolean licencia;
 	private float pretensionSalarial;
+	protected boolean status;
 	
 	public Vacante(String identificador, String nivelEstudio, String tipoContrato,String nombreVacante,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
