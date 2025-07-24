@@ -42,7 +42,7 @@ public class RegistrarVacante extends JDialog {
     private JPanel panelUniversitario;
     private JPanel panelTecnicoSuperior;
     private JPanel panelObrero;
-    private JComboBox<Empresa> cbxEmpresa;
+    private JComboBox cbxEmpresa;
     private JComboBox<String> cbxCarreraUniversitario;
     private JComboBox<String> cbxEspecialidadTecnico;
     private JCheckBox chkElectricidad;
@@ -61,6 +61,7 @@ public class RegistrarVacante extends JDialog {
     private JComboBox<String> cbxPaisResidencia;
     private Map<String, String[]> ciudadesPorPais = new HashMap<>();
     private JComboBox<String> cbxCiudades; 
+    private String rnc;
 
     public static void main(String[] args) {
         try {
@@ -451,8 +452,9 @@ public class RegistrarVacante extends JDialog {
     
     private void cargarEmpresas() {
         cbxEmpresa.removeAllItems();
+        cbxEmpresa.addItem("Seleccione una Opción");
         for (Empresa empresa : Bolsa.getInstance().getMisEmpresas()) {
-            cbxEmpresa.addItem(empresa);
+            cbxEmpresa.addItem(empresa.getNombre() + " - " + empresa.getIdentificador());
         }
     }
     
@@ -471,6 +473,13 @@ public class RegistrarVacante extends JDialog {
             
             if (cbxCiudades.getSelectedIndex() == -1) {
                 throw new Exception("Seleccione una ciudad");
+            }
+            if(cbxEmpresa.getSelectedItem() != null) {
+            	String selection = cbxEmpresa.getSelectedItem().toString();
+            	String[] partes = selection.split(" - ");
+            	if(partes.length == 2) {
+            		rnc = partes[1];
+            	}
             }
             
             String pais = (String) cbxPaisResidencia.getSelectedItem();
@@ -567,12 +576,11 @@ public class RegistrarVacante extends JDialog {
             }
             
             // Obtener empresa
-            Empresa empresa = (Empresa) cbxEmpresa.getSelectedItem();
-            String rnc = empresa.getIdentificador();
+            Empresa empresa = Bolsa.getInstance().buscarEmpresaByCod(rnc);
             
             // Crear vacante
-            Vacante vacante = new Vacante(
-                identificador,
+            Vacante vacante = new Vacante(identificador,
+               	rnc,
                 nivelEstudio,
                 tipoContrato,
                 nombreVacante,
@@ -581,7 +589,7 @@ public class RegistrarVacante extends JDialog {
                 mudanza,
                 vehiculo,
                 licencia,
-                pretensionSalarial
+                pretensionSalarial, true
             );
             
             // Registrar vacante

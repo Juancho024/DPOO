@@ -1,15 +1,23 @@
 package Logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Bolsa {
+public class Bolsa implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	private static Bolsa instance = null;
+	private ArrayList<User> misUsers;
+	private static User loginUser;
 	private ArrayList<Empresa> misEmpresas;
 	private ArrayList<Candidato> misCandidatos;
 	private ArrayList<Postulacion> misPostulaciones;
 	private ArrayList<Vacante> misVacantes;
+	public static int generadorCodVacantes = 0;
+	public static int generadorCodPostulaciones = 0;
 
 	private Bolsa() {
+		setMisUsers(new ArrayList<>());
 		misEmpresas = new ArrayList<>();
 		misCandidatos = new ArrayList<>();
 		misPostulaciones = new ArrayList<>();
@@ -238,6 +246,96 @@ public class Bolsa {
 			i++;
 		}
 		return aux;
+	}
+	
+	public boolean buscarCandidatoInPostulacion(String cedula) {
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misPostulaciones.size()) {
+			if(misPostulaciones.get(i).getCedulaCliente().equals(cedula)) {
+				encontrado = true;
+			}
+			i++;
+		}
+		return encontrado;
+	}
+	
+	public boolean buscarEmpresaInVacante(String rnc) {
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misVacantes.size()) {
+			if(misVacantes.get(i).getRncEmpresa().equals(rnc)) {
+				encontrado = true;
+			}
+			i++;
+		}
+		return encontrado;
+	}
+	public void modificarEmpresa(Empresa selected) {
+		// TODO Auto-generated method stub
+		int index = buscarIndexVinoByCode(selected.getIdentificador());
+		misEmpresas.set(index, selected);
+	}
+	private int buscarIndexVinoByCode(String identificador) {
+		boolean encontrado = false;
+		int aux = -1;
+		int i = 0;
+		while(!encontrado && i < misEmpresas.size()) {
+			if(misEmpresas.get(i).getIdentificador().equals(identificador)) {
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+	public void modificarCandidatos(Candidato selected) {
+		// TODO Auto-generated method stub
+		int index = buscarIndexCandidatoByCode(selected.getCedula());
+		misCandidatos.set(index, selected);
+	}
+	private int buscarIndexCandidatoByCode(String cedula) {
+		boolean encontrado = false;
+		int aux = -1;
+		int i = 0;
+		while(!encontrado && i < misCandidatos.size()) {
+			if(misCandidatos.get(i).getCedula().equals(cedula)) {
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+	public static void setControl(Bolsa temp) {
+		instance = temp;
+	}
+	public void registrarUser(User aux) {
+		misUsers.add(aux);
+	}
+	public ArrayList<User> getMisUsers() {
+		return misUsers;
+	}
+	public void setMisUsers(ArrayList<User> misUsers) {
+		this.misUsers = misUsers;
+	}
+	
+	public boolean confirmUser(String text, String password) {
+		// TODO Auto-generated method stub
+		boolean login = false;
+		for(User aux: misUsers) {
+			if(aux.getUserName().equals(text) && aux.getPassword().equals(password)) {
+				loginUser = aux;
+				login = true;
+			}
+		}
+		return login;
+	}
+	public static User getLoginUser() {
+		return loginUser;
+	}
+	public static void setLoginUser(User loginUser) {
+		Bolsa.loginUser = loginUser;
 	}
 
 }

@@ -1,8 +1,13 @@
 package Logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Obrero extends Candidato {
+public class Obrero extends Candidato implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 611747791953002589L;
 	private String[] misHabilidades;
 
 	public Obrero(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento, String telefono,

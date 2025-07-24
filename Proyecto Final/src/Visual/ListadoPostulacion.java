@@ -28,9 +28,9 @@ public class ListadoPostulacion extends JDialog {
 	private JButton btnModificar;
 	private JButton btnCancelar;
 	private JButton btnEliminar;
-	private JTable table;
+	private static JTable table;
 	private static Object[] row;
-	private DefaultTableModel modelo = new DefaultTableModel();
+	private static DefaultTableModel modelo = new DefaultTableModel();
 	private Postulacion selected = null;
 	
 	/**
@@ -123,12 +123,12 @@ public class ListadoPostulacion extends JDialog {
 		}
 	}
 
-	private void loadPostulacion() {
+	public static void loadPostulacion() {
 		// TODO Auto-generated method stub
 		modelo.setRowCount(0);
 		row = new Object[modelo.getColumnCount()];
 		for(Postulacion aux: Bolsa.getInstance().getMisPostulaciones()) {
-			row[0] = aux.getIdentificador();
+			row[0] = aux.getCedulaCliente();
 			row[1] = aux.getTipoContrato();
 			row[2] = aux.getPaisResidencia();
 			row[3] = aux.getCiudadResidencia();

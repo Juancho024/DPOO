@@ -1,9 +1,15 @@
 package Logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Postulacion {
-	private String cedula;
+public class Postulacion implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1726739163634744025L;
+	private String identificador;
+	private String cedulaCliente;
 	private String nivelEstudio; // 2pnt 1pnt
 	private String tipoContrato;	// 2punt  1pnt
 	private String paisResidencia;	// 1punt
@@ -13,11 +19,12 @@ public class Postulacion {
 	private boolean licencia; // 1punt
 	private float pretensionSalarial; //3pnt
 	
-	public Postulacion(String identificador, String nivelEstudio, String tipoContrato,
+	public Postulacion(String identificador, String cedulaCliente, String nivelEstudio, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial) {
 		super();
-		this.cedula = identificador;
+		this.identificador = identificador;
+		this.cedulaCliente = cedulaCliente;
 		this.nivelEstudio = nivelEstudio;
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
@@ -29,11 +36,19 @@ public class Postulacion {
 	}
 
 	public String getIdentificador() {
-		return cedula;
+		return identificador;
 	}
 
 	public void setIdentificador(String identificador) {
-		this.cedula = identificador;
+		this.identificador = identificador;
+	}
+
+	public String getCedulaCliente() {
+		return cedulaCliente;
+	}
+
+	public void setCedulaCliente(String cedulaCliente) {
+		this.cedulaCliente = cedulaCliente;
 	}
 
 	public String getNivelEstudio() {

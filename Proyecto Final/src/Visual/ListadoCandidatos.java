@@ -34,9 +34,9 @@ import java.awt.event.MouseEvent;
 public class ListadoCandidatos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
+	private static JTable table;
 	private static Object[] row;
-	private DefaultTableModel modelo = new DefaultTableModel();
+	private static DefaultTableModel modelo = new DefaultTableModel();
 	private JButton btnModificar;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
@@ -144,6 +144,9 @@ public class ListadoCandidatos extends JDialog {
 				btnModificar = new JButton("Modificar");
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						ModCandidato modCan = new ModCandidato(selected);
+						modCan.setModal(true);
+						modCan.setVisible(true);
 					}
 				});
 				btnModificar.setEnabled(false);
@@ -184,7 +187,7 @@ public class ListadoCandidatos extends JDialog {
 		loadCandidatos(selection);
 	}
 
-	private void loadCandidatos(int selection) {
+	public static void loadCandidatos(int selection) {
 		// TODO Auto-generated method stub
 		modelo.setRowCount(0);
 		row = new Object[modelo.getColumnCount()];

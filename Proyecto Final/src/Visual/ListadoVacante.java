@@ -25,9 +25,9 @@ public class ListadoVacante extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static Object[] row;
-	private DefaultTableModel modelo = new DefaultTableModel();
+	private static DefaultTableModel modelo = new DefaultTableModel();
 	private JButton btnCancelar;
-	private JTable table;
+	private static JTable table;
 	private JButton btnModificar;
 	private JButton btnEliminar;
 	private Vacante selected = null;
@@ -124,12 +124,12 @@ public class ListadoVacante extends JDialog {
 		}
 	}
 
-	private void loadVacantes() {
+	public static void loadVacantes() {
 		// TODO Auto-generated method stub
 		modelo.setRowCount(0);
 		row = new Object[modelo.getColumnCount()];
 		for(Vacante aux: Bolsa.getInstance().getMisVacantes()) {
-			row[0] = aux.getIdentificador();
+			row[0] = aux.getRncEmpresa();
 			row[1] = aux.getNombreVacante();
 			row[2] = aux.getTipoContrato();
 			row[3] = aux.getPaisResidencia();

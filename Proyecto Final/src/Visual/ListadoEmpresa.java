@@ -24,9 +24,9 @@ import java.awt.event.MouseEvent;
 public class ListadoEmpresa extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
+	private static JTable table;
 	private static Object[] row;
-	private DefaultTableModel modelo = new DefaultTableModel();
+	private static DefaultTableModel modelo = new DefaultTableModel();
 	private JButton btnModificar;
 	private JButton btnCancelar;
 	private JButton btnEliminar;
@@ -113,7 +113,9 @@ public class ListadoEmpresa extends JDialog {
 				btnModificar = new JButton("Modificar");
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						ModEmpresa modEmp = new ModEmpresa(selected);
+						modEmp.setModal(true);
+						modEmp.setVisible(true);
 					}
 				});
 				btnModificar.setEnabled(false);
@@ -134,7 +136,7 @@ public class ListadoEmpresa extends JDialog {
 		}
 	}
 
-	private void loadEmpresas() {
+	public static void loadEmpresas() {
 		// TODO Auto-generated method stub
 		modelo.setRowCount(0);
 		row = new Object[modelo.getColumnCount()];

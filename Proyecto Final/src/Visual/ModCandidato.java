@@ -42,7 +42,7 @@ import java.awt.Canvas;
 import java.awt.Button;
 import java.awt.SystemColor;
 
-public class RegistrarCandidato extends JDialog {
+public class ModCandidato extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnRegistrar;
@@ -83,19 +83,20 @@ public class RegistrarCandidato extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegistrarCandidato dialog = new RegistrarCandidato();
+			ModCandidato dialog = new ModCandidato(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al abrir la ventana: " + e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarCandidato() {
-		setTitle("Registrar Candidato");
+	public ModCandidato(Candidato selected) {
+		setTitle("Modificar Candidato");
 		setBounds(100, 100, 600, 575);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -120,11 +121,13 @@ public class RegistrarCandidato extends JDialog {
 
 		txtCorreo = new JTextField();
 		txtCorreo.setBounds(324, 154, 228, 20);
+		txtCorreo.setText(selected.getCorreo());
 		panel.add(txtCorreo);
 		txtCorreo.setColumns(10);
 
 		txtApellido = new JTextField();
 		txtApellido.setBounds(76, 113, 170, 22);
+		txtApellido.setText(selected.getApellido());
 		panel.add(txtApellido);
 		txtApellido.setColumns(10);
 
@@ -134,6 +137,8 @@ public class RegistrarCandidato extends JDialog {
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		txtCedula = new JTextField();
+		txtCedula.setEnabled(false);
+		txtCedula.setEditable(false);
 		txtCedula.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -154,6 +159,7 @@ public class RegistrarCandidato extends JDialog {
 			}
 		});
 		txtCedula.setBounds(76, 31, 170, 22);
+		txtCedula.setText(selected.getCedula());
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);
 
@@ -203,13 +209,15 @@ public class RegistrarCandidato extends JDialog {
 
 		spnFecha = new JSpinner();
 		spnFecha.setModel(new SpinnerDateModel(new Date(1167638400000L), new Date(-788889600000L), new Date(1199174400000L), Calendar.DAY_OF_YEAR));
+		spnFecha.setValue(selected.getFechaNacimiento());
 		spnFecha.setBounds(148, 197, 101, 20);
 		panel.add(spnFecha);
-		
+
 		JSpinner.DateEditor editorfecha = new JSpinner.DateEditor(spnFecha, "dd/MM/yyyy");
 		spnFecha.setEditor(editorfecha);
 
 		txtTelefono = new JTextField();
+		txtTelefono.setText(selected.getTelefono());
 		txtTelefono.setBounds(76, 154, 170, 22);
 		panel.add(txtTelefono);
 		txtTelefono.addKeyListener(new KeyAdapter() {
@@ -234,6 +242,7 @@ public class RegistrarCandidato extends JDialog {
 		txtTelefono.setColumns(10);
 
 		txtNombre = new JTextField();
+		txtNombre.setText(selected.getNombre());
 		txtNombre.setBounds(76, 70, 170, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
@@ -255,6 +264,7 @@ public class RegistrarCandidato extends JDialog {
 
 		cbxNacionalidad = new JComboBox();
 		cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Per\u00FA", "M\u00E9xico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panam\u00E1", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "Rep\u00FAblica Dominicana", "Puerto Rico", "Espa\u00F1a", "Estados Unidos", "Canad\u00E1", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Jap\u00F3n", "Corea del Sur", "China", "India", "Australia", "Sud\u00E1frica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turqu\u00EDa", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "B\u00E9lgica", "Pa\u00EDses Bajos", "Nueva Zelanda"}));
+		cbxNacionalidad.setSelectedItem(selected.getNacionalidad());
 		cbxNacionalidad.setBounds(215, 224, 170, 20);
 		panel.add(cbxNacionalidad);
 
@@ -266,48 +276,16 @@ public class RegistrarCandidato extends JDialog {
 		panel_1.setLayout(null);
 
 		rdbtnUniversitario = new JRadioButton("Universitario");
-		rdbtnUniversitario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rdbtnTecnicoSuperior.setSelected(false);
-				rdbtnUniversitario.setSelected(true);
-				rdbtnObrero.setSelected(false);
-				panel_Obrero.setVisible(false);
-				panel_Universitario.setVisible(true);
-				panel_TecnicoSuperior.setVisible(false);
-
-			}
-		});
 		rdbtnUniversitario.setFont(new Font("Tahoma", Font.BOLD, 12));
 		rdbtnUniversitario.setBounds(32, 27, 109, 23);
 		panel_1.add(rdbtnUniversitario);
 
 		rdbtnTecnicoSuperior = new JRadioButton("T\u00E9cnico Superior");
-		rdbtnTecnicoSuperior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rdbtnTecnicoSuperior.setSelected(true);
-				rdbtnUniversitario.setSelected(false);
-				rdbtnObrero.setSelected(false);
-				panel_Obrero.setVisible(false);
-				panel_Universitario.setVisible(false);
-				panel_TecnicoSuperior.setVisible(true);
-			}
-		});
 		rdbtnTecnicoSuperior.setFont(new Font("Tahoma", Font.BOLD, 12));
 		rdbtnTecnicoSuperior.setBounds(186, 27, 133, 23);
 		panel_1.add(rdbtnTecnicoSuperior);
 
 		rdbtnObrero = new JRadioButton("Obrero");
-		rdbtnObrero.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rdbtnTecnicoSuperior.setSelected(false);
-				rdbtnUniversitario.setSelected(false);
-				rdbtnObrero.setSelected(true);
-				panel_Obrero.setVisible(true);
-				panel_Universitario.setVisible(false);
-				panel_TecnicoSuperior.setVisible(false);
-
-			}
-		});
 		rdbtnObrero.setFont(new Font("Tahoma", Font.BOLD, 12));
 		rdbtnObrero.setBounds(370, 27, 133, 23);
 		panel_1.add(rdbtnObrero);
@@ -388,17 +366,82 @@ public class RegistrarCandidato extends JDialog {
 		cbxUniversitario.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Administraci\u00F3n de Empresas", "Contabilidad", "Econom\u00EDa", "Marketing", "Finanzas", "Psicolog\u00EDa", "Derecho", "Educaci\u00F3n / Pedagog\u00EDa", "Trabajo Social", "Comunicaci\u00F3n Social / Periodismo", "Relaciones Internacionales", "Ingenier\u00EDa en Sistemas / Inform\u00E1tica", "Ingenier\u00EDa Civil", "Ingenier\u00EDa Industrial", "Ingenier\u00EDa El\u00E9ctrica / Electr\u00F3nica", "Medicina", "Enfermer\u00EDa", "Odontolog\u00EDa", "Farmacia", "Nutrici\u00F3n", "Fisioterapia", "Veterinaria", "Ciencias de la Computaci\u00F3n", "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Dise\u00F1o Gr\u00E1fico", "Dise\u00F1o Industrial", "Turismo y Hoteler\u00EDa", "Gastronom\u00EDa / Artes Culinarias"}));
 		cbxUniversitario.setBounds(55, 58, 219, 20);
 		panel_Universitario.add(cbxUniversitario);
+		rdbtnTecnicoSuperior.setEnabled(false);
+		rdbtnUniversitario.setEnabled(false);
+		rdbtnObrero.setEnabled(false);
+		if (selected.getSexo() == 'M') {
+		    rdbtnMasculino.setSelected(true);
+		    genero = 'M';
+		} else {
+		    rdbtnFemenino.setSelected(true);
+		    genero = 'F';
+		}
+		if(selected instanceof Universitario) {
+			rdbtnTecnicoSuperior.setSelected(false);
+			rdbtnUniversitario.setSelected(true);
+			rdbtnObrero.setSelected(false);
+			panel_Obrero.setVisible(false);
+			panel_Universitario.setVisible(true);
+			panel_TecnicoSuperior.setVisible(false);
+			cbxUniversitario.setSelectedItem(((Universitario) selected).getCarreraGraduada());
+		}
+		if(selected instanceof TecnicoSuperior) {
+			rdbtnTecnicoSuperior.setSelected(true);
+			rdbtnUniversitario.setSelected(false);
+			rdbtnObrero.setSelected(false);
+			panel_Obrero.setVisible(false);
+			panel_Universitario.setVisible(false);
+			panel_TecnicoSuperior.setVisible(true);
+			cbxTecnicoSuperior.setSelectedItem(((TecnicoSuperior) selected).getAreaEspecialidad());
+			spnExperiencia.setValue(((TecnicoSuperior) selected).getAnyoExperiencia());
+		}
+		if(selected instanceof Obrero) {
+			rdbtnTecnicoSuperior.setSelected(false);
+			rdbtnUniversitario.setSelected(false);
+			rdbtnObrero.setSelected(true);
+			panel_Obrero.setVisible(true);
+			panel_Universitario.setVisible(false);
+			panel_TecnicoSuperior.setVisible(false);
+			 String[] habilidades = ((Obrero) selected).getMisHabilidades();
+			    for (String aux : habilidades) {
+			        switch (aux) {
+			            case "Electricidad Básica":
+			                chkElectricidad.setSelected(true);
+			                chkElectricidad.setEnabled(false);
+			                break;
+			            case "Soldadura":
+			                chkSoldadura.setSelected(true);
+			                chkSoldadura.setEnabled(false);
+			                break;
+			            case "Técnica de pintura o Albañilería":
+			                chkTecnicaPintura.setSelected(true);
+			                chkTecnicaPintura.setEnabled(false);
+			                break;
+			            case "Instalación de Tuberías":
+			                chkTuberias.setSelected(true);
+			                chkTuberias.setEnabled(false);
+			                break;
+			            case "Mantenimiento Básico de Equipos":
+			                chkMantenimiento.setSelected(true);
+			                chkMantenimiento.setEnabled(false);
+			                break;
+			            case "Lectura de Planos":
+			                chkMaquinaria.setSelected(true);
+			                chkMaquinaria.setEnabled(false);
+			                break;
+			        }
+			    }
+		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnRegistrar = new JButton("Registrar");
+				btnRegistrar = new JButton("Modificar");
 				btnRegistrar.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
-						Candidato aux = null;
 						String cedula = txtCedula.getText();
 						String nombre = txtNombre.getText();
 						String apellido = txtApellido.getText();
@@ -406,7 +449,14 @@ public class RegistrarCandidato extends JDialog {
 						String correo = txtCorreo.getText();
 						Date fechaNacimiento = (Date) spnFecha.getValue();
 						String nacionalidad = cbxNacionalidad.getSelectedItem().toString();
-						
+						selected.setCedula(cedula);
+						selected.setNombre(nombre);
+						selected.setApellido(apellido);
+						selected.setCorreo(correo);
+						selected.setFechaNacimiento(fechaNacimiento);
+						selected.setSexo(genero);
+						selected.setTelefono(telefono);
+						selected.setNacionalidad(nacionalidad);
 						if(rdbtnUniversitario.isSelected()) {
 							if(genero != 'M' && genero != 'F'|| cedula.isEmpty() || 
 									nombre.isEmpty() || 
@@ -418,7 +468,9 @@ public class RegistrarCandidato extends JDialog {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxUniversitario.getSelectedItem().toString());
+							if(selected instanceof Universitario) {
+								((Universitario) selected).setCarreraGraduada(cbxUniversitario.getSelectedItem().toString());
+							}
 						}
 						if(rdbtnTecnicoSuperior.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -433,7 +485,10 @@ public class RegistrarCandidato extends JDialog {
 								return;
 							}
 							int anyoExperiencia = (int) spnExperiencia.getValue();
-							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
+							if(selected instanceof TecnicoSuperior) {
+								((TecnicoSuperior) selected).setAreaEspecialidad(cbxTecnicoSuperior.getSelectedItem().toString());
+								((TecnicoSuperior) selected).setAnyoExperiencia(anyoExperiencia);
+							}
 						}
 						if(rdbtnObrero.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -451,39 +506,38 @@ public class RegistrarCandidato extends JDialog {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-				            ArrayList<String> habilidadesList = new ArrayList<>();
-				            if (chkElectricidad.isSelected()) {
-				                habilidadesList.add("Electricidad Básica");
-				            }
-				            if (chkSoldadura.isSelected()) {
-				                habilidadesList.add("Soldadura");
-				            }
-				            if (chkTecnicaPintura.isSelected()) {
-				                habilidadesList.add("Técnica de pintura o Albañilería");
-				            }
-				            if (chkTuberias.isSelected()) {
-				                habilidadesList.add("Instalación de Tuberías");
-				            }
-				            if (chkMantenimiento.isSelected()) {
-				                habilidadesList.add("Mantenimiento Básico de Equipos");
-				            }
-				            if (chkMaquinaria.isSelected()) {
-				                habilidadesList.add("Lectura de Planos");
-				            }
-
-				            String[] habilidades = habilidadesList.toArray(new String[0]);
-							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, habilidades);
+							ArrayList<String> habilidadesList = new ArrayList<>();
+							if (chkElectricidad.isSelected()) {
+								habilidadesList.add("Electricidad Básica");
+							}
+							if (chkSoldadura.isSelected()) {
+								habilidadesList.add("Soldadura");
+							}
+							if (chkTecnicaPintura.isSelected()) {
+								habilidadesList.add("Técnica de pintura o Albañilería");
+							}
+							if (chkTuberias.isSelected()) {
+								habilidadesList.add("Instalación de Tuberías");
+							}
+							if (chkMantenimiento.isSelected()) {
+								habilidadesList.add("Mantenimiento Básico de Equipos");
+							}
+							if (chkMaquinaria.isSelected()) {
+								habilidadesList.add("Lectura de Planos");
+							}
+							String[] habilidades = habilidadesList.toArray(new String[0]);
+							if(selected instanceof Obrero) {
+								((Obrero) selected).setMisHabilidades(habilidades);
+							}
 						}
 						if (!Bolsa.getInstance().validarCorreo(correo) && !txtCorreo.getText().trim().isEmpty()) {
 							JOptionPane.showMessageDialog(null, "Correo inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
 							txtCorreo.requestFocus(); 
-						}  else if(Bolsa.getInstance().validarExistenciaCedula(cedula) == true) {
-							JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
-							txtCedula.requestFocus();
 						} else {
-							Bolsa.getInstance().registrarCandidato(aux);
-							JOptionPane.showMessageDialog(null, "Registro Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
-							clean();
+							Bolsa.getInstance().modificarCandidatos(selected);
+							JOptionPane.showMessageDialog(null, "Modificación Satisfactorio", "Información", JOptionPane.INFORMATION_MESSAGE);
+							ListadoCandidatos.loadCandidatos(0);
+							dispose();
 						}
 					}
 				});
@@ -501,47 +555,7 @@ public class RegistrarCandidato extends JDialog {
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);
 			}
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					clean();
-				}
-			});
 		}
 
-	}
-	private void clean() {
-		// TODO Auto-generated method stub
-		txtCedula.setText("");
-		txtNombre.setText("");
-		txtApellido.setText("");
-		txtTelefono.setText("");
-		txtCorreo.setText("");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		try {
-			Date fechaInicial = sdf.parse("2007/01/01");
-			spnFecha.setValue(fechaInicial);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		cbxNacionalidad.setSelectedIndex(0);
-		rdbtnMasculino.setSelected(false);
-		rdbtnFemenino.setSelected(false);
-		rdbtnUniversitario.setSelected(true);
-		rdbtnTecnicoSuperior.setSelected(false);
-		rdbtnObrero.setSelected(false);
-		panel_Universitario.setVisible(true);
-		panel_TecnicoSuperior.setVisible(false);
-		panel_Obrero.setVisible(false);
-		cbxUniversitario.setSelectedIndex(0);
-		cbxTecnicoSuperior.setSelectedIndex(0);
-		spnExperiencia.setValue(1);
-		chkElectricidad.setSelected(false);
-		chkSoldadura.setSelected(false);
-		chkTecnicaPintura.setSelected(false);
-		chkTuberias.setSelected(false);
-		chkMantenimiento.setSelected(false);
-		chkMaquinaria.setSelected(false);
-
-		txtCedula.requestFocus();
 	}
 }

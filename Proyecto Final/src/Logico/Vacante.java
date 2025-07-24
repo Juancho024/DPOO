@@ -1,9 +1,15 @@
 package Logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Vacante {
-	private String rnc;
+public class Vacante implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8961884375339861710L;
+	private String identificador;
+	private String rncEmpresa;
 	private String nivelEstudio;
 	private String tipoContrato;
 	private String nombreVacante;
@@ -15,11 +21,12 @@ public class Vacante {
 	private float pretensionSalarial;
 	protected boolean status;
 	
-	public Vacante(String identificador, String nivelEstudio, String tipoContrato,String nombreVacante,
-			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
-			boolean licencia, float pretensionSalarial) {
+	public Vacante(String identificador, String rncEmpresa, String nivelEstudio, String tipoContrato,
+			String nombreVacante, String paisResidencia, String ciudadResidencia, boolean mudanza,
+			boolean disponibilidadVehiculo, boolean licencia, float pretensionSalarial, boolean status) {
 		super();
-		this.rnc = identificador;
+		this.identificador = identificador;
+		this.rncEmpresa = rncEmpresa;
 		this.nivelEstudio = nivelEstudio;
 		this.tipoContrato = tipoContrato;
 		this.nombreVacante = nombreVacante;
@@ -29,14 +36,23 @@ public class Vacante {
 		this.disponibilidadVehiculo = disponibilidadVehiculo;
 		this.licencia = licencia;
 		this.pretensionSalarial = pretensionSalarial;
+		this.status = status;
 	}
 
 	public String getIdentificador() {
-		return rnc;
+		return identificador;
 	}
 
 	public void setIdentificador(String identificador) {
-		this.rnc = identificador;
+		this.identificador = identificador;
+	}
+
+	public String getRncEmpresa() {
+		return rncEmpresa;
+	}
+
+	public void setRncEmpresa(String rncEmpresa) {
+		this.rncEmpresa = rncEmpresa;
 	}
 
 	public String getNivelEstudio() {
@@ -53,6 +69,14 @@ public class Vacante {
 
 	public void setTipoContrato(String tipoContrato) {
 		this.tipoContrato = tipoContrato;
+	}
+
+	public String getNombreVacante() {
+		return nombreVacante;
+	}
+
+	public void setNombreVacante(String nombreVacante) {
+		this.nombreVacante = nombreVacante;
 	}
 
 	public String getPaisResidencia() {
@@ -103,12 +127,12 @@ public class Vacante {
 		this.pretensionSalarial = pretensionSalarial;
 	}
 
-	public String getNombreVacante() {
-		return nombreVacante;
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setNombreVacante(String nombreVacante) {
-		this.nombreVacante = nombreVacante;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 }

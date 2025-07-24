@@ -1,8 +1,13 @@
 package Logico;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Candidato {
+public abstract class Candidato implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5229150145884640197L;
 	protected String cedula;
 	protected String nombre;
 	protected String apellido;
