@@ -35,7 +35,7 @@ public class Login extends JFrame {
 	private JTextField txtUser;
 	private JButton btnCancelar;
 	private JButton btnRegistrar;
-	private JTextField txtPassword;
+	private JPasswordField txtpasssword;
 
 	/**
 	 * Launch the application.
@@ -119,15 +119,12 @@ public class Login extends JFrame {
 		label_1.setBounds(28, 102, 151, 22);
 		panel.add(label_1);
 		
-		txtPassword = new JTextField();
-		txtPassword.setBounds(185, 102, 159, 20);
-		panel.add(txtPassword);
-		txtPassword.setColumns(10);
-		
 		btnRegistrar = new JButton("Entrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Bolsa.getInstance().confirmUser(txtUser.getText(), txtPassword.getText())) {
+				String user = txtUser.getText();
+				String clave = new String(txtpasssword.getPassword());
+				if (Bolsa.getInstance().confirmUser(user, clave)) {
 					Principal frame = new Principal();
 					dispose();
 					frame.setVisible(true);
@@ -138,7 +135,7 @@ public class Login extends JFrame {
 		});
 		btnRegistrar.setBackground(new Color(0, 120, 215));
 		btnRegistrar.setForeground(Color.WHITE);
-		btnRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRegistrar.setBounds(91, 173, 100, 30);
 		panel.add(btnRegistrar);
@@ -151,9 +148,13 @@ public class Login extends JFrame {
 		});
 		btnCancelar.setBackground(new Color(220, 53, 69)); // Rojo claro tipo Bootstrap
 		btnCancelar.setForeground(Color.WHITE); // Texto blanco
-		btnCancelar.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCancelar.setBounds(229, 173, 100, 30);
 		panel.add(btnCancelar);
+		
+		txtpasssword = new JPasswordField();
+		txtpasssword.setBounds(185, 102, 159, 20);
+		panel.add(txtpasssword);
 	}
 }

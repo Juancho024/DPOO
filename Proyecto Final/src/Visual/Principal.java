@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -49,6 +50,8 @@ public class Principal extends JFrame {
 	private JMenuItem mntmNewMenuItem_6;
 	private JMenuItem mntmNewMenuItem_7;
 	private Label lbMatch;
+	private Label lbUsuario;
+	private JPopupMenu menuUsuario;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -104,9 +107,18 @@ public class Principal extends JFrame {
 		lbMatch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RealizarMatch reaMat = new RealizarMatch();
-				reaMat.setModal(true);
-				reaMat.setVisible(true);
+				if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
+					JOptionPane.showMessageDialog(
+						    null,
+						    "Solo los Administradores tienen acceso a esa opción.",
+						    "Acceso denegado",
+						    JOptionPane.WARNING_MESSAGE
+						);
+				} else {
+					RealizarMatch reaMat = new RealizarMatch();
+					reaMat.setModal(true);
+					reaMat.setVisible(true);
+				}
 			}
 		});
 		lbMatch.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -149,7 +161,7 @@ public class Principal extends JFrame {
 		});
 		menuCandidatos.add(mntmNewMenuItem_3);
 
-		lbEmpresa = new Label("Empresa");
+		lbEmpresa = new Label("Empresas");
 		lbEmpresa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,6 +251,44 @@ public class Principal extends JFrame {
 			}
 		});
 		MenuListados.add(mntmNewMenuItem_7);
+		
+		lbUsuario = new Label("Usuarios");
+		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
+			lbUsuario.setVisible(false);
+		}
+		lbUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuUsuario.show(lbUsuario, 0, lbUsuario.getHeight());
+			}
+		});
+		lbUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbUsuario.setAlignment(Label.CENTER);
+		lbUsuario.setBounds(716, 10, 78, 22);
+		panel.add(lbUsuario);
+		
+		menuUsuario = new JPopupMenu();
+		addPopup(lbUsuario, menuUsuario);
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registros");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarUser regUser = new RegistrarUser();
+				regUser.setModal(true);
+				regUser.setVisible(true);
+			}
+		});
+		menuUsuario.add(mntmNewMenuItem_8);
+		
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Listados");
+		mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoUser lisUser = new ListadoUser();
+				lisUser.setModal(true);
+				lisUser.setVisible(true);
+			}
+		});
+		menuUsuario.add(mntmNewMenuItem_9);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

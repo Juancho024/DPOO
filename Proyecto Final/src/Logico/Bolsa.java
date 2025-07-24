@@ -337,5 +337,36 @@ public class Bolsa implements Serializable {
 	public static void setLoginUser(User loginUser) {
 		Bolsa.loginUser = loginUser;
 	}
+	public User buscarUserByUser(String user) {
+		User aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misUsers.size()) {
+			if(misUsers.get(i).getUserName().equals(user)) {
+				aux = misUsers.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
+	public void modificarUser(User selected) {
+		// TODO Auto-generated method stub
+		int index = buscarIndexUserByCod(selected.getUserName());
+		misUsers.set(index, selected);
+	}
+	private int buscarIndexUserByCod(String userName) {
+		boolean encontrado = false;
+		int i = 0;
+		int aux = -1;
+		while(!encontrado && i < misUsers.size()) {
+			if(misUsers.get(i).getUserName().equals(userName)) {
+				aux = i;
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
+	}
 
 }
