@@ -377,6 +377,33 @@ public class Bolsa implements Serializable {
 		// TODO Auto-generated method stub
 		misEmpresas.remove(selected);
 	}
+	//Eliminar Users y su validacion de existir por lo menos uno
+	public boolean validarEliminarUser(String userName) {
+		int admin = contarAdmins();
+		User aux = buscarUserByUser(userName);
+		boolean encontrado = false;
+		if(aux != null) {
+			if(aux.getUserName().equals(userName) && aux.getTipoUser().equalsIgnoreCase("Administrador")) {
+				if(admin <= 1) {
+					encontrado = true;
+				}
+			}
+		}
+		return encontrado;
+	}
+	
+	public int contarAdmins() {
+		int cont = 0;
+		for(User aux: misUsers) {
+			if(aux.getTipoUser().equalsIgnoreCase("Administrador")) {
+				cont++;
+			}
+		}
+		return cont;
+	}
+	public void eliminarUser(User selected) {
+		misUsers.remove(selected);
+	}
 	
 
 }

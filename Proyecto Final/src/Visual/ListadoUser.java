@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -101,7 +102,20 @@ public class ListadoUser extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						if(Bolsa.getInstance().validarEliminarUser(selected.getUserName()) == true) {
+							JOptionPane.showMessageDialog(null, "No se puede eliminar todos los usuarios.\nDebe permanecer al menos un usuario administrador para garantizar el acceso al sistema.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar ese Usuario?", "Información", JOptionPane.WARNING_MESSAGE);
+							if(opcion == JOptionPane.OK_OPTION) {
+								Bolsa.getInstance().eliminarUser(selected);
+								loadUser();
+								table.clearSelection();
+								btnModificar.setEnabled(false);
+								btnEliminar.setEnabled(false);
+								selected = null;
+							}
+						}
 					}
 				});
 				btnEliminar.setEnabled(false);

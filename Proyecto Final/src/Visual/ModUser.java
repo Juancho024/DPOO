@@ -120,6 +120,10 @@ public class ModUser extends JDialog {
 							JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
+						if(Bolsa.getInstance().validarEliminarUser(user) == true) {
+							JOptionPane.showMessageDialog(null, "No se puede modificar todos los usuarios a Cliente.\nDebe permanecer al menos un usuario administrador para garantizar el acceso al sistema.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
 						if(!password1.equals(password2)) {
 							JOptionPane.showMessageDialog(null, "Las contraseñas ingresadas no coinciden.\nPor favor, verifique e intente nuevamente.", "Validación de Contraseña", JOptionPane.ERROR_MESSAGE);
 							return;
