@@ -72,7 +72,7 @@ public class ListadoUser extends JDialog {
 						public void mouseClicked(MouseEvent e) {
 							int index = table.getSelectedRow();
 							if(index >= 0) {
-								selected = Bolsa.getInstance().buscarUserByUser(table.getValueAt(index, 0).toString());
+								selected = Bolsa.getInstance().buscarUserByUser(table.getValueAt(index, 1).toString());
 								btnEliminar.setEnabled(true);
 								btnModificar.setEnabled(true);
 							}
@@ -115,6 +115,11 @@ public class ListadoUser extends JDialog {
 						ModUser modUser = new ModUser(selected);
 						modUser.setModal(true);
 						modUser.setVisible(true);
+						loadUser();
+						table.clearSelection();
+						btnModificar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						selected = null;
 					}
 				});
 				btnModificar.setEnabled(false);

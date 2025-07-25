@@ -408,7 +408,7 @@ public class RegistrarPostulacion extends JDialog {
 					mudanza,
 					vehiculo,
 					licencia,
-					pretensionSalarial
+					pretensionSalarial, true
 					);
 
 			// Registrar en bolsa

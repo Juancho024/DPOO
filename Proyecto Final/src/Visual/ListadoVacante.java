@@ -104,6 +104,7 @@ public class ListadoVacante extends JDialog {
 				btnModificar = new JButton("Modificar");
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 					}
 				});
 				btnModificar.setEnabled(false);

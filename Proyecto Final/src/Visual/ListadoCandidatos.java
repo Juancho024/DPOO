@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -135,6 +136,20 @@ public class ListadoCandidatos extends JDialog {
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(Bolsa.getInstance().buscarCandidatoInPostulacion(selected.getCedula()) == true) {
+						JOptionPane.showMessageDialog(null, "El candidato " + selected.getCedula()+ " todavia tiene una postulación abierta.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					} else {
+						int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar ese Candidato?", "Información", JOptionPane.WARNING_MESSAGE);
+						if(opcion == JOptionPane.OK_OPTION) {
+							Bolsa.getInstance().eliminarCandidato(selected);
+							loadCandidatos(0);
+							table.clearSelection();
+							btnModificar.setEnabled(false);
+							btnEliminar.setEnabled(false);
+							selected = null;
+						}
+					}
 				}
 			});
 			btnEliminar.setEnabled(false);

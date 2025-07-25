@@ -44,6 +44,7 @@ public class ModUser extends JDialog {
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al abrir la ventana: " + e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -65,7 +66,6 @@ public class ModUser extends JDialog {
 		contentPanel.add(label);
 		
 		cbxTipoUser = new JComboBox();
-		cbxTipoUser.setSelectedItem(selected.getTipoUser());
 		cbxTipoUser.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Administrador", "Cliente"}));
 		cbxTipoUser.setBounds(154, 37, 231, 20);
 		contentPanel.add(cbxTipoUser);
@@ -78,7 +78,6 @@ public class ModUser extends JDialog {
 		txtUser = new JTextField();
 		txtUser.setEnabled(false);
 		txtUser.setEditable(false);
-		txtUser.setText(selected.getUserName());
 		txtUser.setBounds(184, 81, 201, 20);
 		contentPanel.add(txtUser);
 		txtUser.setColumns(10);
@@ -94,13 +93,15 @@ public class ModUser extends JDialog {
 		contentPanel.add(label_3);
 		
 		txtpassword1 = new JPasswordField();
-		txtpassword1.setText(selected.getPassword());
 		txtpassword1.setBounds(198, 125, 187, 20);
 		contentPanel.add(txtpassword1);
 		
 		txtpassword2 = new JPasswordField();
-		txtpassword2.setText(selected.getPassword());
 		txtpassword2.setBounds(198, 169, 187, 20);
+		cbxTipoUser.setSelectedItem(selected.getTipoUser());
+		txtUser.setText(selected.getUserName());
+		txtpassword1.setText(selected.getPassword());
+		txtpassword2.setText(selected.getPassword());
 		contentPanel.add(txtpassword2);
 		{
 			JPanel buttonPane = new JPanel();

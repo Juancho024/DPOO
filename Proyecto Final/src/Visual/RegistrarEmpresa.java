@@ -143,7 +143,7 @@ public class RegistrarEmpresa extends JDialog {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Bolsa.getInstance().validarExistenciaRNC(identificador) == true) {
+        if(Bolsa.getInstance().buscarEmpresaByCod(identificador) != null) {
 			JOptionPane.showMessageDialog(null, "El RNC ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {
 			Empresa nuevaEmpresa = new Empresa(identificador, nombre, pais, sector);

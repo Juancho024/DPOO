@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -102,7 +103,20 @@ public class ListadoEmpresa extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						if(Bolsa.getInstance().buscarEmpresaInVacante(selected.getIdentificador()) == true) {
+							JOptionPane.showMessageDialog(null, "La empresa " + selected.getIdentificador() + " todavia tiene una vacante abierta.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						} else {
+							int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar esa empresa?", "Información", JOptionPane.WARNING_MESSAGE);
+							if(opcion == JOptionPane.OK_OPTION) {
+								Bolsa.getInstance().eliminarEmpresa(selected);
+								loadEmpresas();
+								table.clearSelection();
+								btnModificar.setEnabled(false);
+								btnEliminar.setEnabled(false);
+								selected = null;
+							}
+						}
 					}
 				});
 				btnEliminar.setEnabled(false);

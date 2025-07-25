@@ -63,6 +63,8 @@ public class ModEmpresa extends JDialog {
         panel.add(label);
 
         txtIdentificador = new JTextField();
+        txtIdentificador.setEditable(false);
+        txtIdentificador.setEnabled(false);
         txtIdentificador.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyTyped(KeyEvent e) {

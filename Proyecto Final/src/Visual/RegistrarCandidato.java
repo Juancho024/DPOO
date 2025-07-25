@@ -477,7 +477,7 @@ public class RegistrarCandidato extends JDialog {
 						if (!Bolsa.getInstance().validarCorreo(correo) && !txtCorreo.getText().trim().isEmpty()) {
 							JOptionPane.showMessageDialog(null, "Correo inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
 							txtCorreo.requestFocus(); 
-						}  else if(Bolsa.getInstance().validarExistenciaCedula(cedula) == true) {
+						}  else if(Bolsa.getInstance().buscarCandidatoByCod(cedula) != null) {
 							JOptionPane.showMessageDialog(null, "La Cedula ingresada ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 							txtCedula.requestFocus();
 						} else {

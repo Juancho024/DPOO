@@ -17,10 +17,11 @@ public class Postulacion implements Serializable{
 	private boolean disponibilidadVehiculo; // 3punt 1punt
 	private boolean licencia; // 1punt
 	private float pretensionSalarial; //3pnt
+	private boolean status;
 	
 	public Postulacion(String identificador, String cedulaCliente, String nivelEstudio, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
-			boolean licencia, float pretensionSalarial) {
+			boolean licencia, float pretensionSalarial, boolean status) {
 		super();
 		this.identificador = identificador;
 		this.cedulaCliente = cedulaCliente;
@@ -112,6 +113,14 @@ public class Postulacion implements Serializable{
 
 	public void setPretensionSalarial(float pretensionSalarial) {
 		this.pretensionSalarial = pretensionSalarial;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 }

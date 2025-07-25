@@ -23,6 +23,8 @@ public class Bolsa implements Serializable {
 		misPostulaciones = new ArrayList<>();
 		misVacantes = new ArrayList<>();
 	}
+	
+	//Validar correo, tengo que corregir
 	public boolean validarCorreo(String correo) {
 		int contArroba = 0, contPunto = 0;
 		int posArroba = -1;
@@ -67,11 +69,11 @@ public class Bolsa implements Serializable {
 		return instance;
 	}
 
-	// M�todos para registrar
+	// Metodos para registrar
 	public void registrarEmpresa(Empresa empresa) {
 		misEmpresas.add(empresa);
 	}
-
+	
 	public void registrarCandidato(Candidato candidato) {
 		misCandidatos.add(candidato);
 	}
@@ -108,7 +110,8 @@ public class Bolsa implements Serializable {
 	public void setMisVacantes(ArrayList<Vacante> misVacantes) {
 		this.misVacantes = misVacantes;
 	}
-
+	
+	
 	public Empresa buscarEmpresaByCod(String rnc) {
 		Empresa aux = null;
 		int i = 0;
@@ -199,28 +202,8 @@ public class Bolsa implements Serializable {
 		ordenarMatch(porcentajeMatch);
 		return porcentajeMatch;
 	}
-	public boolean validarExistenciaRNC(String text) {
-		boolean encontrado = false;
-		int i = 0;
-		while(!encontrado && i < misEmpresas.size()) {
-			if(misEmpresas.get(i).getIdentificador().equals(text)) {
-				encontrado = true;
-			}
-			i++;
-		}
-		return encontrado;
-	}
-	public boolean validarExistenciaCedula(String text) {
-		boolean encontrado = false;
-		int i = 0;
-		while(!encontrado && i < misCandidatos.size()) {
-			if(misCandidatos.get(i).getCedula().equals(text)) {
-				encontrado = true;
-			}
-			i++;
-		}
-		return encontrado;
-	}
+	
+	//Buscar postulacion
 	public Postulacion buscarPostulacionByCode(String cedula) {
 		Postulacion aux = null;
 		boolean encontrado = false;
@@ -234,6 +217,8 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
+	
+	//Buscar vacantes
 	public Vacante buscarVacanteByCode(String rnc) {
 		Vacante aux = null;
 		boolean encontrado = false;
@@ -248,6 +233,7 @@ public class Bolsa implements Serializable {
 		return aux;
 	}
 	
+	// Buscar si una Candidato tiene una postulacion 
 	public boolean buscarCandidatoInPostulacion(String cedula) {
 		boolean encontrado = false;
 		int i = 0;
@@ -260,23 +246,26 @@ public class Bolsa implements Serializable {
 		return encontrado;
 	}
 	
+	// Buscar si una empresa tiene una vacante abierta
 	public boolean buscarEmpresaInVacante(String rnc) {
 		boolean encontrado = false;
 		int i = 0;
 		while(!encontrado && i < misVacantes.size()) {
-			if(misVacantes.get(i).getRncEmpresa().equals(rnc)) {
+			if(misVacantes.get(i).getRncEmpresa().equals(rnc) && misVacantes.get(i).isStatus() == true) {
 				encontrado = true;
 			}
 			i++;
 		}
 		return encontrado;
 	}
+	
+	//Modificar Empresa
 	public void modificarEmpresa(Empresa selected) {
 		// TODO Auto-generated method stub
-		int index = buscarIndexVinoByCode(selected.getIdentificador());
+		int index = buscarIndexEmpresaByCode(selected.getIdentificador());
 		misEmpresas.set(index, selected);
 	}
-	private int buscarIndexVinoByCode(String identificador) {
+	private int buscarIndexEmpresaByCode(String identificador) {
 		boolean encontrado = false;
 		int aux = -1;
 		int i = 0;
@@ -289,6 +278,8 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
+	
+	//Modificar Candidatos
 	public void modificarCandidatos(Candidato selected) {
 		// TODO Auto-generated method stub
 		int index = buscarIndexCandidatoByCode(selected.getCedula());
@@ -310,6 +301,8 @@ public class Bolsa implements Serializable {
 	public static void setControl(Bolsa temp) {
 		instance = temp;
 	}
+	
+	//Registrar Usuario
 	public void registrarUser(User aux) {
 		misUsers.add(aux);
 	}
@@ -320,6 +313,7 @@ public class Bolsa implements Serializable {
 		this.misUsers = misUsers;
 	}
 	
+	//Confirmar la existencia del Usuario
 	public boolean confirmUser(String text, String password) {
 		// TODO Auto-generated method stub
 		boolean login = false;
@@ -331,12 +325,15 @@ public class Bolsa implements Serializable {
 		}
 		return login;
 	}
+	
 	public static User getLoginUser() {
 		return loginUser;
 	}
 	public static void setLoginUser(User loginUser) {
 		Bolsa.loginUser = loginUser;
 	}
+	
+	//Buscar Usuario
 	public User buscarUserByUser(String user) {
 		User aux = null;
 		boolean encontrado = false;
@@ -350,6 +347,8 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
+	
+	//Funciones para modificar Usuarios
 	public void modificarUser(User selected) {
 		// TODO Auto-generated method stub
 		int index = buscarIndexUserByCod(selected.getUserName());
@@ -368,5 +367,16 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
+
+	public void eliminarCandidato(Candidato selected) {
+		// TODO Auto-generated method stub
+		misCandidatos.remove(selected);
+	}
+
+	public void eliminarEmpresa(Empresa selected) {
+		// TODO Auto-generated method stub
+		misEmpresas.remove(selected);
+	}
+	
 
 }

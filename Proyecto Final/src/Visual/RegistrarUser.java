@@ -115,6 +115,7 @@ public class RegistrarUser extends JDialog {
 						}
 						if(Bolsa.getInstance().buscarUserByUser(user) != null) {
 							JOptionPane.showMessageDialog(null, "El usuario ingresado ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
 						}
 						if(!password1.equals(password2)) {
 							JOptionPane.showMessageDialog(null, "Las contraseñas ingresadas no coinciden.\nPor favor, verifique e intente nuevamente.", "Validación de Contraseña", JOptionPane.ERROR_MESSAGE);
