@@ -17,7 +17,7 @@ public class Bolsa implements Serializable {
 	public static int generadorCodPostulaciones = 0;
 
 	private Bolsa() {
-		setMisUsers(new ArrayList<>());
+		misUsers = new ArrayList<>();
 		misEmpresas = new ArrayList<>();
 		misCandidatos = new ArrayList<>();
 		misPostulaciones = new ArrayList<>();

@@ -23,6 +23,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RealizarMatch extends JDialog {
 
@@ -54,6 +56,7 @@ public class RealizarMatch extends JDialog {
 	private Button btnContratar2;
 	private Button btnContratar3;
 	private Button btnContratar1;
+	private JComboBox cbxVacantes;
 
 	/**
 	 * Launch the application.
@@ -89,7 +92,17 @@ public class RealizarMatch extends JDialog {
 		label.setBounds(23, 23, 123, 22);
 		panel.add(label);
 		
-		JComboBox cbxVacantes = new JComboBox();
+		cbxVacantes = new JComboBox();
+		cbxVacantes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cbxVacantes.removeAllItems();
+				cbxVacantes.addItem("Seleccione una Opción");
+				for(Vacante aux: Bolsa.getInstance().getMisVacantes()) {
+					cbxVacantes.addItem(aux.getNombreVacante() + " - " + aux.getRncEmpresa());
+				}
+			}
+		});
 		cbxVacantes.setBounds(152, 25, 499, 20);
 		panel.add(cbxVacantes);
 		

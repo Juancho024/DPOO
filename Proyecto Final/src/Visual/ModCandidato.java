@@ -302,6 +302,7 @@ public class ModCandidato extends JDialog {
 		panel_TecnicoSuperior.add(label_8);
 
 		cbxTecnicoSuperior = new JComboBox();
+		cbxTecnicoSuperior.setEnabled(false);
 		cbxTecnicoSuperior.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "T\u00E9cnico en Inform\u00E1tica", "T\u00E9cnico en Contabilidad", "T\u00E9cnico en Electr\u00F3nica", "T\u00E9cnico en Electricidad", "T\u00E9cnico en Mec\u00E1nica Industrial", "T\u00E9cnico en Refrigeraci\u00F3n y Climatizaci\u00F3n", "T\u00E9cnico en Enfermer\u00EDa", "T\u00E9cnico en Farmacia", "T\u00E9cnico en An\u00E1lisis de Sistemas", "T\u00E9cnico en Gesti\u00F3n Administrativa", "T\u00E9cnico en Desarrollo de Software", "T\u00E9cnico en Redes", "T\u00E9cnico en Seguridad Industrial", "T\u00E9cnico en Construcci\u00F3n Civil", "T\u00E9cnico en Dise\u00F1o Gr\u00E1fico", "T\u00E9cnico en Producci\u00F3n Audiovisual", "T\u00E9cnico en Turismo", "T\u00E9cnico en Gastronom\u00EDa", "T\u00E9cnico en Log\u00EDstica", "T\u00E9cnico en Recursos Humanos", "T\u00E9cnico en Mercadeo", "T\u00E9cnico en Agronom\u00EDa", "T\u00E9cnico en Educaci\u00F3n Inicial", "T\u00E9cnico en Gesti\u00F3n Ambiental", "T\u00E9cnico en Mantenimiento Industrial"}));
 		cbxTecnicoSuperior.setBounds(27, 56, 212, 20);
 		panel_TecnicoSuperior.add(cbxTecnicoSuperior);
@@ -363,6 +364,7 @@ public class ModCandidato extends JDialog {
 		panel_Universitario.add(label_7);
 
 		cbxUniversitario = new JComboBox();
+		cbxUniversitario.setEnabled(false);
 		cbxUniversitario.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Administraci\u00F3n de Empresas", "Contabilidad", "Econom\u00EDa", "Marketing", "Finanzas", "Psicolog\u00EDa", "Derecho", "Educaci\u00F3n / Pedagog\u00EDa", "Trabajo Social", "Comunicaci\u00F3n Social / Periodismo", "Relaciones Internacionales", "Ingenier\u00EDa en Sistemas / Inform\u00E1tica", "Ingenier\u00EDa Civil", "Ingenier\u00EDa Industrial", "Ingenier\u00EDa El\u00E9ctrica / Electr\u00F3nica", "Medicina", "Enfermer\u00EDa", "Odontolog\u00EDa", "Farmacia", "Nutrici\u00F3n", "Fisioterapia", "Veterinaria", "Ciencias de la Computaci\u00F3n", "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Dise\u00F1o Gr\u00E1fico", "Dise\u00F1o Industrial", "Turismo y Hoteler\u00EDa", "Gastronom\u00EDa / Artes Culinarias"}));
 		cbxUniversitario.setBounds(55, 58, 219, 20);
 		panel_Universitario.add(cbxUniversitario);

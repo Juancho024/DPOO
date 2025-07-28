@@ -103,7 +103,7 @@ public class RegistrarCandidato extends JDialog {
 		contentPanel.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Datos Personales: ", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Datos Personales ", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBounds(10, 11, 564, 255);
 		contentPanel.add(panel);
 		panel.setLayout(null);
@@ -260,7 +260,7 @@ public class RegistrarCandidato extends JDialog {
 
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, " Nivel de Estudios: ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Nivel de Estudios ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBounds(10, 277, 564, 61);
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);

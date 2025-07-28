@@ -44,6 +44,7 @@ public class ListadoCandidatos extends JDialog {
 	private JComboBox cbxTiposCandidatos;
 	private int selection;
 	private Candidato selected = null;
+	private JButton btnReportes;
 
 	/**
 	 * Launch the application.
@@ -112,6 +113,7 @@ public class ListadoCandidatos extends JDialog {
 						selected = Bolsa.getInstance().buscarCandidatoByCod(table.getValueAt(index, 0).toString());
 						btnEliminar.setEnabled(true);
 						btnModificar.setEnabled(true);
+						btnReportes.setEnabled(true);
 					}
 				}
 			});
@@ -147,11 +149,24 @@ public class ListadoCandidatos extends JDialog {
 							table.clearSelection();
 							btnModificar.setEnabled(false);
 							btnEliminar.setEnabled(false);
+							btnReportes.setEnabled(true);
 							selected = null;
 						}
 					}
 				}
 			});
+			
+			btnReportes = new JButton("Ver Reporte");
+			btnReportes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ReporteCandidato repCan = new ReporteCandidato(selected);
+					repCan.setModal(true);
+					repCan.setVisible(true);
+				}
+			});
+			btnReportes.setEnabled(false);
+			btnReportes.setActionCommand("OK");
+			buttonPane.add(btnReportes);
 			btnEliminar.setEnabled(false);
 			btnEliminar.setActionCommand("OK");
 			buttonPane.add(btnEliminar);
