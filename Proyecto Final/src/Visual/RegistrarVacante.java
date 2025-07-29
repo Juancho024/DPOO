@@ -75,7 +75,7 @@ public class RegistrarVacante extends JDialog {
 
     public RegistrarVacante() {
         setTitle("Registrar Vacante");
-        setBounds(100, 100, 668, 650);
+        setBounds(100, 100, 675, 684);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -103,45 +103,45 @@ public class RegistrarVacante extends JDialog {
         JPanel panelVacante = new JPanel();
         panelVacante.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
             "Datos de la Vacante", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelVacante.setBounds(10, 92, 626, 230);
+        panelVacante.setBounds(10, 92, 626, 310);
         contentPanel.add(panelVacante);
         panelVacante.setLayout(null);
         
         Label lblIdentificador = new Label("Identificador:");
         lblIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblIdentificador.setBounds(10, 30, 100, 22);
+        lblIdentificador.setBounds(10, 35, 100, 22);
         panelVacante.add(lblIdentificador);
         
         txtIdentificador = new JTextField();
-        txtIdentificador.setBounds(140, 30, 200, 22);
+        txtIdentificador.setBounds(140, 35, 200, 22);
         panelVacante.add(txtIdentificador);
         txtIdentificador.setColumns(10);
         
         Label lblNombreVacante = new Label("Nombre Vacante:");
         lblNombreVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblNombreVacante.setBounds(10, 70, 120, 22);
+        lblNombreVacante.setBounds(10, 80, 120, 22);
         panelVacante.add(lblNombreVacante);
         
         txtNombreVacante = new JTextField();
-        txtNombreVacante.setBounds(140, 70, 200, 22);
+        txtNombreVacante.setBounds(140, 80, 200, 22);
         panelVacante.add(txtNombreVacante);
         txtNombreVacante.setColumns(10);
         
         Label lblTipoContrato = new Label("Tipo de Contrato:");
         lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblTipoContrato.setBounds(10, 110, 120, 22);
+        lblTipoContrato.setBounds(10, 130, 120, 22);
         panelVacante.add(lblTipoContrato);
         
         cbxTipoContrato = new JComboBox<>();
         cbxTipoContrato.setModel(new DefaultComboBoxModel<>(new String[] {
             "Tiempo Completo", "Medio Tiempo", "Por Horas", "Por Proyecto"
         }));
-        cbxTipoContrato.setBounds(140, 110, 200, 22);
+        cbxTipoContrato.setBounds(140, 130, 200, 22);
         panelVacante.add(cbxTipoContrato);
         
         Label lblPais = new Label("País Residencia:");
         lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblPais.setBounds(10, 150, 120, 22);
+        lblPais.setBounds(10, 174, 120, 22);
         panelVacante.add(lblPais);
         
         cbxPaisResidencia = new JComboBox<>();
@@ -154,16 +154,16 @@ public class RegistrarVacante extends JDialog {
             "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos", 
             "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia", 
             "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"}));
-        cbxPaisResidencia.setBounds(140, 150, 200, 22);
+        cbxPaisResidencia.setBounds(140, 174, 200, 22);
         panelVacante.add(cbxPaisResidencia);
         
         Label lblCiudad = new Label("Ciudad Residencia:");
         lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblCiudad.setBounds(10, 190, 120, 22);
+        lblCiudad.setBounds(10, 220, 120, 22);
         panelVacante.add(lblCiudad);
         
         cbxCiudades = new JComboBox<>();
-        cbxCiudades.setBounds(140, 190, 200, 22);
+        cbxCiudades.setBounds(140, 220, 200, 22);
         panelVacante.add(cbxCiudades);
         cbxCiudades.setEnabled(false); // Inicialmente deshabilitado
 
@@ -184,11 +184,11 @@ public class RegistrarVacante extends JDialog {
         
         Label lblMudanza = new Label("Dipuesto a Mudarse:");
         lblMudanza.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblMudanza.setBounds(350, 30, 130, 22);
+        lblMudanza.setBounds(374, 209, 130, 22);
         panelVacante.add(lblMudanza);
         
         JPanel panelMudanza = new JPanel();
-        panelMudanza.setBounds(486, 30, 120, 22);
+        panelMudanza.setBounds(506, 209, 108, 22);
         panelVacante.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         
@@ -203,11 +203,11 @@ public class RegistrarVacante extends JDialog {
         
         Label lblVehiculo = new Label("Vehículo Propio:");
         lblVehiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblVehiculo.setBounds(350, 70, 120, 22);
+        lblVehiculo.setBounds(374, 237, 120, 22);
         panelVacante.add(lblVehiculo);
         
         JPanel panelVehiculo = new JPanel();
-        panelVehiculo.setBounds(486, 70, 120, 22);
+        panelVehiculo.setBounds(506, 237, 108, 22);
         panelVacante.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         
@@ -222,11 +222,11 @@ public class RegistrarVacante extends JDialog {
         
         Label lblLicencia = new Label("Licencia Conducir:");
         lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblLicencia.setBounds(350, 110, 120, 22);
+        lblLicencia.setBounds(374, 265, 120, 22);
         panelVacante.add(lblLicencia);
         
         JPanel panelLicencia = new JPanel();
-        panelLicencia.setBounds(486, 110, 120, 22);
+        panelLicencia.setBounds(506, 265, 108, 22);
         panelVacante.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         
@@ -241,17 +241,17 @@ public class RegistrarVacante extends JDialog {
         
         Label lblSalario = new Label("Pretensión Salarial:");
         lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblSalario.setBounds(350, 150, 120, 22);
+        lblSalario.setBounds(10, 265, 120, 22);
         panelVacante.add(lblSalario);
         
         spnPretensionSalarial = new JSpinner();
         spnPretensionSalarial.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(10)));
-        spnPretensionSalarial.setBounds(486, 150, 120, 22);
+        spnPretensionSalarial.setBounds(140, 265, 200, 22);
         panelVacante.add(spnPretensionSalarial);
         
         JPanel panelEstudios = new JPanel();
         panelEstudios.setBorder(new TitledBorder(null, "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelEstudios.setBounds(10, 333, 626, 70);
+        panelEstudios.setBounds(10, 415, 626, 70); 
         contentPanel.add(panelEstudios);
         panelEstudios.setLayout(null);
         
@@ -278,10 +278,9 @@ public class RegistrarVacante extends JDialog {
         
         panelUniversitario = new JPanel();
         panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelUniversitario.setBounds(10, 414, 614, 70);
+        panelUniversitario.setBounds(10, 496, 614, 70); // Movido hacia abajo
         contentPanel.add(panelUniversitario);
         panelUniversitario.setLayout(null);
-        panelUniversitario.setVisible(false);
         
         Label lblCarrera = new Label("Carrera Requerida:");
         lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -304,10 +303,9 @@ public class RegistrarVacante extends JDialog {
         
         panelTecnicoSuperior = new JPanel();
         panelTecnicoSuperior.setBorder(new TitledBorder(null, "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelTecnicoSuperior.setBounds(10, 414, 614, 70);
+        panelTecnicoSuperior.setBounds(10, 496, 614, 70); // Movido hacia abajo
         contentPanel.add(panelTecnicoSuperior);
         panelTecnicoSuperior.setLayout(null);
-        panelTecnicoSuperior.setVisible(false);
         
         Label lblEspecialidad = new Label("Especialidad Requerida:");
         lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -334,11 +332,12 @@ public class RegistrarVacante extends JDialog {
         
         panelObrero = new JPanel();
         panelObrero.setBorder(new TitledBorder(null, "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelObrero.setBounds(10, 414, 626, 130);
+        panelObrero.setBounds(10, 496, 626, 130); 
         contentPanel.add(panelObrero);
         panelObrero.setLayout(null);
-        panelObrero.setVisible(false);
         
+        // --- FIN DE MODIFICACIONES DE POSICIÓN ---
+
         chkElectricidad = new JCheckBox("Electricidad básica");
         chkElectricidad.setBounds(20, 30, 200, 23);
         panelObrero.add(chkElectricidad);
@@ -367,6 +366,10 @@ public class RegistrarVacante extends JDialog {
         rdbtnUniversitario.addActionListener(e -> mostrarPanelEstudio(panelUniversitario));
         rdbtnTecnicoSuperior.addActionListener(e -> mostrarPanelEstudio(panelTecnicoSuperior));
         rdbtnObrero.addActionListener(e -> mostrarPanelEstudio(panelObrero));
+        
+        // Marcar "Universitario" por defecto y mostrar su panel
+        rdbtnUniversitario.setSelected(true);
+        mostrarPanelEstudio(panelUniversitario);
         
         // Cargar empresas
         cargarEmpresas();
