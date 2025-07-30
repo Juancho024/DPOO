@@ -132,6 +132,7 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
+			//fuap
 		});
 		btnRegistrar.setBackground(new Color(0, 120, 215));
 		btnRegistrar.setForeground(Color.WHITE);
