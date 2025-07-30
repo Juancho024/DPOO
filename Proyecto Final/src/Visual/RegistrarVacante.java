@@ -689,5 +689,12 @@ public class RegistrarVacante extends JDialog {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        // MIOP, ACA TERMINA, lo que esta arriba es mejor no tocarlo, es para guardar en el array y para gestionar errores
+        // Como que no se inserten datos o que sean invalidos
+        //Coloca por aca las cosas del Match
+        
+        
+        
     }
 }
