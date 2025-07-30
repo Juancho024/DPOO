@@ -644,7 +644,14 @@ public class ModVacante extends JDialog {
             vacanteOriginal.setMudanza(rdbtnMudanzaSi.isSelected());
             vacanteOriginal.setDisponibilidadVehiculo(rdbtnVehiculoSi.isSelected());
             vacanteOriginal.setLicencia(rdbtnLicenciaSi.isSelected());
-            vacanteOriginal.setPretensionSalarial((float) spnPretensionSalarial.getValue());
+            
+            // Test de reparacion, pasar una variable del integer a float para llevarlo a la vacante original
+            
+            Number pretensionSalarialNumber = (Number) spnPretensionSalarial.getValue();
+            float pretensionSalarial = pretensionSalarialNumber.floatValue();
+            vacanteOriginal.setPretensionSalarial(pretensionSalarial);
+            
+            // FIN TEST
             
             // Guardar cambios
             Bolsa.getInstance().modificarVacante(vacanteOriginal);
