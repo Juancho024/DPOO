@@ -230,6 +230,21 @@ public class Bolsa implements Serializable {
 		return aux;
 	}
 	
+	public Postulacion buscarPostulacionById(String id) {
+	    for (Postulacion p : misPostulaciones) {
+	        if (p.getIdentificador().equalsIgnoreCase(id)) {
+	            return p;
+	        }
+	    }
+	    return null;
+	}
+	
+	// En la clase Bolsa.java
+	public void eliminarPostulacion(Postulacion p) {
+		genCodPost--;
+	    misPostulaciones.remove(p);
+	}
+	
 	//Buscar vacantes
 	public Vacante buscarVacanteByCode(String rnc) {
 		Vacante aux = null;

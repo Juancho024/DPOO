@@ -25,17 +25,21 @@ import javax.swing.border.TitledBorder;
 import Logico.Bolsa;
 import Logico.Candidato;
 import Logico.Postulacion;
+import Logico.Obrero; // Necesario para acceder a las habilidades específicas si las guardas como String[]
+import Logico.TecnicoSuperior; // Necesario si usas sus campos directamente para pre-cargar
+import Logico.Universitario; // Necesario si usas sus campos directamente para pre-cargar
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
-public class RegistrarPostulacion extends JDialog {
+public class ModPostulacion extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
-    private JButton btnRegistrar;
-    private JButton btnCancelar;
-    private JComboBox<String> cbxCandidatos;
+    private Postulacion postulacionActual; // La postulación que se va a modificar
+
+    // --- Componentes de la UI ---
+    private JComboBox<String> cbxCandidatos; // Deshabilitado para modificación, pero se usa para mostrar
     private JComboBox<String> cbxTipoContrato;
     private JRadioButton rdbtnMudanzaSi;
     private JRadioButton rdbtnMudanzaNo;
@@ -47,9 +51,9 @@ public class RegistrarPostulacion extends JDialog {
     private JComboBox<String> cbxCiudades;
     private Map<String, String[]> ciudadesPorPais = new HashMap<>();
     private JSpinner spnPretensionSalarial;
-    private String cedula;
+    private JTextField txtIdentificador;
 
-    // --- Componentes para Nivel de Estudio ---
+    // Componentes específicos para Nivel de Estudio
     private JRadioButton rdbtnTecnicoSuperior;
     private JRadioButton rdbtnUniversitario;
     private JRadioButton rdbtnObrero;
@@ -65,25 +69,15 @@ public class RegistrarPostulacion extends JDialog {
     private JCheckBox chkTuberias;
     private JCheckBox chkMantenimiento;
     private JCheckBox chkMaquinaria;
-    private Label lbFoto;
-    private Label lbIdentificador;
-    private JTextField txtIdentificador;
 
 
-    public static void main(String[] args) {
-        try {
-            RegistrarPostulacion dialog = new RegistrarPostulacion();
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public ModPostulacion(Postulacion post) {
+        this.postulacionActual = post; // Guarda la postulación a modificar
 
-    public RegistrarPostulacion() {
-        setTitle("Registrar Postulación");
-        setBounds(100, 100, 750, 700); // Ajustado para nuevo contenido
+        setTitle("Modificar Postulación");
+        setBounds(100, 100, 750, 700);
         setLocationRelativeTo(null);
+        setModal(true); // Asegura que la ventana sea modal
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
@@ -91,13 +85,27 @@ public class RegistrarPostulacion extends JDialog {
         // Inicializar mapa de ciudades por país
         inicializarCiudadesPorPais();
 
+        // --- Resto de la inicialización de la interfaz de usuario ---
         JPanel panelDatos = new JPanel();
         panelDatos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
                 "Datos de Postulación", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelDatos.setBounds(12, 13, 708, 592); // Ajustado para nuevo contenido
+        panelDatos.setBounds(12, 13, 708, 592);
         contentPanel.add(panelDatos);
         panelDatos.setLayout(null);
 
+        // Identificador
+        Label lblIdentificador = new Label("Identificador:");
+        lblIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblIdentificador.setBounds(10, 58, 80, 22);
+        panelDatos.add(lblIdentificador);
+
+        txtIdentificador = new JTextField();
+        txtIdentificador.setBounds(10, 80, 331, 22);
+        txtIdentificador.setEditable(false); // No editable para el identificador
+        panelDatos.add(txtIdentificador);
+        txtIdentificador.setColumns(10);
+
+        // Candidato (no editable para una postulación existente)
         Label lblCandidato = new Label("Candidato:");
         lblCandidato.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblCandidato.setBounds(30, 30, 80, 22);
@@ -105,8 +113,10 @@ public class RegistrarPostulacion extends JDialog {
 
         cbxCandidatos = new JComboBox<>();
         cbxCandidatos.setBounds(112, 30, 569, 22);
+        cbxCandidatos.setEnabled(false); // Deshabilitado para modificación
         panelDatos.add(cbxCandidatos);
 
+        // Tipo de Contrato
         Label lblTipoContrato = new Label("Tipo de Contrato:");
         lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblTipoContrato.setBounds(10, 105, 120, 22);
@@ -117,6 +127,7 @@ public class RegistrarPostulacion extends JDialog {
         cbxTipoContrato.setBounds(10, 133, 331, 22);
         panelDatos.add(cbxTipoContrato);
 
+        // País y Ciudad de Residencia
         Label lblPais = new Label("País Residencia:");
         lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblPais.setBounds(10, 161, 120, 22);
@@ -148,43 +159,38 @@ public class RegistrarPostulacion extends JDialog {
             }
         });
 
+        // Pretensión Salarial
         Label lblSalario = new Label("Pretensión Salarial:");
         lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblSalario.setBounds(10, 273, 120, 22);
         panelDatos.add(lblSalario);
 
         spnPretensionSalarial = new JSpinner();
-        spnPretensionSalarial.setModel(new SpinnerNumberModel(0, 0, null, 100));
+        spnPretensionSalarial.setModel(new SpinnerNumberModel(0.0f, 0.0f, null, 100.0f)); // Usar float
         spnPretensionSalarial.setBounds(10, 301, 331, 22);
         panelDatos.add(spnPretensionSalarial);
 
-        // --- Panel Nivel de Estudio ---
+        // Panel Nivel de Estudio
         JPanel panelNivelEstudio = new JPanel();
         panelNivelEstudio.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Nivel de Estudio ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelNivelEstudio.setBounds(10, 372, 686, 61); // Nueva posición: 340
+        panelNivelEstudio.setBounds(10, 372, 686, 61);
         panelDatos.add(panelNivelEstudio);
         panelNivelEstudio.setLayout(null);
 
         rdbtnUniversitario = new JRadioButton("Universitario");
-        rdbtnUniversitario.addActionListener(e -> {
-            toggleNivelEstudioPanels(true, false, false);
-        });
+        rdbtnUniversitario.addActionListener(e -> toggleNivelEstudioPanels(true, false, false));
         rdbtnUniversitario.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnUniversitario.setBounds(77, 27, 109, 23);
         panelNivelEstudio.add(rdbtnUniversitario);
 
         rdbtnTecnicoSuperior = new JRadioButton("Técnico Superior");
-        rdbtnTecnicoSuperior.addActionListener(e -> {
-            toggleNivelEstudioPanels(false, true, false);
-        });
+        rdbtnTecnicoSuperior.addActionListener(e -> toggleNivelEstudioPanels(false, true, false));
         rdbtnTecnicoSuperior.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnTecnicoSuperior.setBounds(263, 27, 133, 23);
         panelNivelEstudio.add(rdbtnTecnicoSuperior);
 
         rdbtnObrero = new JRadioButton("Obrero");
-        rdbtnObrero.addActionListener(e -> {
-            toggleNivelEstudioPanels(false, false, true);
-        });
+        rdbtnObrero.addActionListener(e -> toggleNivelEstudioPanels(false, false, true));
         rdbtnObrero.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnObrero.setBounds(473, 27, 133, 23);
         panelNivelEstudio.add(rdbtnObrero);
@@ -194,17 +200,16 @@ public class RegistrarPostulacion extends JDialog {
         grupoNivelEstudio.add(rdbtnTecnicoSuperior);
         grupoNivelEstudio.add(rdbtnObrero);
 
-        // --- Paneles Específicos de Nivel de Estudio ---
-        setupPanelesNivelEstudio(panelDatos);
+        setupPanelesNivelEstudio(panelDatos); // Configura los paneles específicos de nivel de estudio
 
-        // --- Radio Buttons Adicionales ---
+        // Radio Buttons Adicionales
         Label lblMudanza = new Label("Dispuesto a Mudarse:");
         lblMudanza.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblMudanza.setBounds(10, 336, 134, 22); // Nueva posición: 230
+        lblMudanza.setBounds(10, 336, 134, 22);
         panelDatos.add(lblMudanza);
 
         JPanel panelMudanza = new JPanel();
-        panelMudanza.setBounds(138, 336, 100, 23); // Nueva posición: 229
+        panelMudanza.setBounds(138, 336, 100, 23);
         panelDatos.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnMudanzaSi = new JRadioButton("Sí");
@@ -214,14 +219,13 @@ public class RegistrarPostulacion extends JDialog {
         grupoMudanza.add(rdbtnMudanzaNo);
         panelMudanza.add(rdbtnMudanzaSi);
         panelMudanza.add(rdbtnMudanzaNo);
-        rdbtnMudanzaNo.setSelected(true);
 
         Label lblVehiculo = new Label("Vehículo Propio:");
         lblVehiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblVehiculo.setBounds(258, 336, 100, 22); // Nueva posición: 267
+        lblVehiculo.setBounds(258, 336, 100, 22);
         panelDatos.add(lblVehiculo);
         JPanel panelVehiculo = new JPanel();
-        panelVehiculo.setBounds(353, 336, 100, 23); // Nueva posición: 266
+        panelVehiculo.setBounds(353, 336, 100, 23);
         panelDatos.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnVehiculoSi = new JRadioButton("Sí");
@@ -231,14 +235,13 @@ public class RegistrarPostulacion extends JDialog {
         grupoVehiculo.add(rdbtnVehiculoNo);
         panelVehiculo.add(rdbtnVehiculoSi);
         panelVehiculo.add(rdbtnVehiculoNo);
-        rdbtnVehiculoNo.setSelected(true);
 
         Label lblLicencia = new Label("Licencia Conducir:");
         lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblLicencia.setBounds(470, 336, 120, 22); // Nueva posición: 304
+        lblLicencia.setBounds(470, 336, 120, 22);
         panelDatos.add(lblLicencia);
         JPanel panelLicencia = new JPanel();
-        panelLicencia.setBounds(581, 336, 100, 23); // Nueva posición: 303
+        panelLicencia.setBounds(581, 336, 100, 23);
         panelDatos.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnLicenciaSi = new JRadioButton("Sí");
@@ -248,61 +251,162 @@ public class RegistrarPostulacion extends JDialog {
         grupoLicencia.add(rdbtnLicenciaNo);
         panelLicencia.add(rdbtnLicenciaSi);
         panelLicencia.add(rdbtnLicenciaNo);
-        rdbtnLicenciaNo.setSelected(true);
 
-        // --- Cargar datos iniciales ---
-        cargarCandidatos();
-        toggleNivelEstudioPanels(true, false, false); // Estado inicial
-        rdbtnUniversitario.setSelected(true);
+        JPanel panelFoto = new JPanel();
+        panelFoto.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        panelFoto.setBounds(353, 65, 328, 258);
+        panelDatos.add(panelFoto);
+        panelFoto.setLayout(null);
         
-        JPanel panel = new JPanel();
-        panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panel.setBounds(353, 65, 328, 258);
-        panelDatos.add(panel);
-        panel.setLayout(null);
-        
-        lbFoto = new Label("Imagen de Candidato: ");
+        Label lbFoto = new Label("Imagen de Candidato: ");
         lbFoto.setBounds(94, 5, 139, 23);
-        panel.add(lbFoto);
+        panelFoto.add(lbFoto);
         lbFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
-        
-        lbIdentificador = new Label("Identificador:");
-        lbIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lbIdentificador.setBounds(10, 58, 80, 22);
-        panelDatos.add(lbIdentificador);
-        
-        txtIdentificador = new JTextField();
-        txtIdentificador.setText(Bolsa.getInstance().generarCodigoPostulacion());
-        txtIdentificador.setEditable(false);
-        txtIdentificador.setBounds(10, 80, 331, 22);
-        panelDatos.add(txtIdentificador);
-        txtIdentificador.setColumns(10);
 
         // --- Botones ---
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-        btnRegistrar = new JButton("Registrar");
-        btnRegistrar.addActionListener(e -> registrarPostulacion());
-        buttonPane.add(btnRegistrar);
+        JButton btnModificar = new JButton("Modificar");
+        btnModificar.addActionListener(e -> modificarPostulacion()); // Llama al método de modificación
+        buttonPane.add(btnModificar);
 
-        btnCancelar = new JButton("Cancelar");
+        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(e -> dispose());
         buttonPane.add(btnCancelar);
+
+        // --- Llamada al método para pre-cargar los datos ---
+        preCargarDatosPostulacion();
     }
-    
+
+    private void inicializarCiudadesPorPais() {
+        // Argentina
+        ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires", "Córdoba", "Rosario", "Mendoza", "La Plata", "Mar del Plata", "Salta", "San Juan", "San Miguel de Tucumán"});
+
+        // Brasil
+        ciudadesPorPais.put("Brasil", new String[]{"Brasilia", "São Paulo", "Río de Janeiro", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife"});
+
+        // Chile
+        ciudadesPorPais.put("Chile", new String[]{"Santiago", "Valparaíso", "Concepción", "La Serena", "Antofagasta", "Temuco", "Puerto Montt", "Arica", "Iquique"});
+
+        // Colombia
+        ciudadesPorPais.put("Colombia", new String[]{"Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena", "Cúcuta", "Bucaramanga", "Pereira", "Santa Marta"});
+
+        // México
+        ciudadesPorPais.put("México", new String[]{"Ciudad de México", "Guadalajara", "Monterrey", "Puebla", "Toluca", "Tijuana", "León", "Querétaro", "Mérida"});
+
+        // Estados Unidos
+        ciudadesPorPais.put("Estados Unidos", new String[]{"Washington D.C.", "Nueva York", "Los Ángeles", "Chicago", "Houston", "Phoenix", "Filadelfia", "San Antonio", "San Diego"});
+
+        // España
+        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza", "Málaga", "Murcia", "Palma de Mallorca", "Las Palmas"});
+
+        // Perú
+        ciudadesPorPais.put("Perú", new String[]{"Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura", "Iquitos", "Cusco", "Chimbote", "Huancayo"});
+
+        // Resto de países (ejemplos)
+        ciudadesPorPais.put("Ecuador", new String[]{"Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Loja", "Ambato"});
+        ciudadesPorPais.put("Venezuela", new String[]{"Caracas", "Maracaibo", "Valencia", "Barquisimeto", "Maracay", "Ciudad Guayana", "Maturín", "Barcelona", "San Cristóbal"});
+        ciudadesPorPais.put("Uruguay", new String[]{"Montevideo", "Salto", "Ciudad de la Costa", "Paysandú", "Las Piedras", "Rivera", "Maldonado", "Tacuarembó", "Melo"});
+        ciudadesPorPais.put("Paraguay", new String[]{"Asunción", "Ciudad del Este", "San Lorenzo", "Capiatá", "Lambaré", "Fernando de la Mora", "Encarnación", "Pedro Juan Caballero", "Itauguá"});
+        ciudadesPorPais.put("Bolivia", new String[]{"Sucre", "La Paz", "Santa Cruz de la Sierra", "Cochabamba", "Oruro", "Tarija", "Potosí", "Sacaba", "Montero"});
+        ciudadesPorPais.put("Cuba", new String[]{"La Habana", "Santiago de Cuba", "Camagüey", "Holguín", "Guantánamo", "Santa Clara", "Cienfuegos", "Bayamo", "Las Tunas"});
+        ciudadesPorPais.put("República Dominicana", new String[]{"Santo Domingo", "Santiago de los Caballeros", "Santo Domingo Este", "San Pedro de Macorís", "La Romana", "San Cristóbal", "San Francisco de Macorís", "Salvaleón de Higüey", "Concepción de la Vega"});
+        ciudadesPorPais.put("Canadá", new String[]{"Ottawa", "Toronto", "Montreal", "Vancouver", "Calgary", "Edmonton", "Quebec", "Winnipeg", "Hamilton"});
+        ciudadesPorPais.put("Italia", new String[]{"Roma", "Milán", "Nápoles", "Turín", "Palermo", "Génova", "Bolonia", "Florencia", "Venecia"});
+        ciudadesPorPais.put("Francia", new String[]{"París", "Marsella", "Lyon", "Toulouse", "Niza", "Nantes", "Estrasburgo", "Montpellier", "Burdeos"});
+        ciudadesPorPais.put("Alemania", new String[]{"Berlín", "Hamburgo", "Múnich", "Colonia", "Fráncfort", "Stuttgart", "Düsseldorf", "Dortmund", "Essen"});
+        ciudadesPorPais.put("Reino Unido", new String[]{"Londres", "Birmingham", "Glasgow", "Liverpool", "Bristol", "Mánchester", "Sheffield", "Leeds", "Edimburgo"});
+        ciudadesPorPais.put("China", new String[]{"Pekín", "Shanghái", "Hong Kong", "Cantón", "Shenzhen", "Tianjín", "Chongqing", "Dongguan", "Nankín"});
+        ciudadesPorPais.put("Japón", new String[]{"Tokio", "Osaka", "Nagoya", "Yokohama", "Kioto", "Kobe", "Fukuoka", "Sapporo", "Hiroshima"});
+
+        // Países sin definir (usar capital como única opción)
+        String[] paisesRestantes = {"Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panamá", "Puerto Rico", "Portugal", "Corea del Sur", "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"};
+        for (String pais : paisesRestantes) {
+            ciudadesPorPais.put(pais, new String[]{pais});
+        }
+    }
+
+    private void cargarCiudadesPorPais(String pais) {
+        String[] ciudades = ciudadesPorPais.getOrDefault(pais, new String[]{pais});
+        cbxCiudades.setModel(new DefaultComboBoxModel<>(ciudades));
+    }
+
+    // Método para pre-cargar los datos de la postulación
+    private void preCargarDatosPostulacion() {
+        if (postulacionActual != null) {
+            txtIdentificador.setText(postulacionActual.getIdentificador());
+
+            // Candidato: Buscar el candidato y seleccionarlo en el ComboBox
+            // Como el cbxCandidatos está deshabilitado, solo necesitamos seleccionar el correcto
+            Candidato candidatoPostulacion = Bolsa.getInstance().buscarCandidatoByCod(postulacionActual.getCedulaCliente());
+            if (candidatoPostulacion != null) {
+                cbxCandidatos.addItem(candidatoPostulacion.getNombre() + " - " + candidatoPostulacion.getCedula());
+                cbxCandidatos.setSelectedItem(candidatoPostulacion.getNombre() + " - " + candidatoPostulacion.getCedula());
+            }
+
+            // Tipo de Contrato
+            cbxTipoContrato.setSelectedItem(postulacionActual.getTipoContrato());
+
+            // País y Ciudad
+            cbxPaisResidencia.setSelectedItem(postulacionActual.getPaisResidencia());
+            cargarCiudadesPorPais(postulacionActual.getPaisResidencia()); // Asegurar que las ciudades se carguen
+            cbxCiudades.setSelectedItem(postulacionActual.getCiudadResidencia());
+
+            // Pretensión Salarial
+            spnPretensionSalarial.setValue(postulacionActual.getPretensionSalarial());
+
+            // Opciones de Radio Buttons
+            rdbtnMudanzaSi.setSelected(postulacionActual.isMudanza());
+            rdbtnMudanzaNo.setSelected(!postulacionActual.isMudanza());
+            rdbtnVehiculoSi.setSelected(postulacionActual.isDisponibilidadVehiculo());
+            rdbtnVehiculoNo.setSelected(!postulacionActual.isDisponibilidadVehiculo());
+            rdbtnLicenciaSi.setSelected(postulacionActual.isLicencia());
+            rdbtnLicenciaNo.setSelected(!postulacionActual.isLicencia());
+
+            // Nivel de Estudio y sus detalles
+            String nivelEstudio = postulacionActual.getNivelEstudio();
+            String detalleNivelEstudio = postulacionActual.getDetalleNivelEstudio();
+            int aniosExperiencia = postulacionActual.getAniosExperiencia();
+
+            if ("Universitario".equals(nivelEstudio)) {
+                rdbtnUniversitario.setSelected(true);
+                toggleNivelEstudioPanels(true, false, false);
+                cbxUniversitario.setSelectedItem(detalleNivelEstudio);
+            } else if ("Técnico Superior".equals(nivelEstudio)) {
+                rdbtnTecnicoSuperior.setSelected(true);
+                toggleNivelEstudioPanels(false, true, false);
+                cbxTecnicoSuperior.setSelectedItem(detalleNivelEstudio);
+                spnExperiencia.setValue(aniosExperiencia);
+            } else if ("Obrero".equals(nivelEstudio)) {
+                rdbtnObrero.setSelected(true);
+                toggleNivelEstudioPanels(false, false, true);
+                // Para obrero, las habilidades están en un String separado por comas
+                String[] habilidades = detalleNivelEstudio.split(", ");
+                for (String habilidad : habilidades) {
+                    if ("Electricidad básica".equals(habilidad)) chkElectricidad.setSelected(true);
+                    else if ("Soldadura".equals(habilidad)) chkSoldadura.setSelected(true);
+                    else if ("Técnicas de pintura o albañilería".equals(habilidad)) chkTecnicaPintura.setSelected(true);
+                    else if ("Instalación de tuberías".equals(habilidad)) chkTuberias.setSelected(true);
+                    else if ("Mantenimiento básico de equipos".equals(habilidad)) chkMantenimiento.setSelected(true);
+                    else if ("Lectura de planos".equals(habilidad)) chkMaquinaria.setSelected(true);
+                }
+            }
+        }
+    }
+
     private void toggleNivelEstudioPanels(boolean showUni, boolean showTec, boolean showObr) {
         panel_Universitario.setVisible(showUni);
         panel_TecnicoSuperior.setVisible(showTec);
         panel_Obrero.setVisible(showObr);
     }
-    
+
     private void setupPanelesNivelEstudio(JPanel parentPanel) {
         // Panel Universitario
         panel_Universitario = new JPanel();
         panel_Universitario.setBorder(new TitledBorder(null, " Universitario ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel_Universitario.setBounds(10, 430, 686, 140); // Nueva posición: 410
+        panel_Universitario.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_Universitario);
         panel_Universitario.setLayout(null);
         Label lblCarrera = new Label("Nombre de la Carrera: ");
@@ -372,108 +476,30 @@ public class RegistrarPostulacion extends JDialog {
         chkMaquinaria = new JCheckBox("Lectura de planos");
         chkMaquinaria.setBounds(425, 76, 247, 23);       // Col3, Fila2
         panel_Obrero.add(chkMaquinaria);
+
+        // Asegurarse de que los paneles estén ocultos al inicio hasta que se seleccione el tipo de estudio
+        panel_Universitario.setVisible(false);
+        panel_TecnicoSuperior.setVisible(false);
+        panel_Obrero.setVisible(false);
     }
-
-
-    private void inicializarCiudadesPorPais() {
-		// Argentina
-		ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires", "Córdoba", "Rosario", "Mendoza", "La Plata", "Mar del Plata", "Salta", "San Juan", "San Miguel de Tucumán"});
-
-		// Brasil
-		ciudadesPorPais.put("Brasil", new String[]{"Brasilia", "São Paulo", "Río de Janeiro", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife"});
-
-		// Chile
-		ciudadesPorPais.put("Chile", new String[]{"Santiago", "Valparaíso", "Concepción", "La Serena", "Antofagasta", "Temuco", "Puerto Montt", "Arica", "Iquique"});
-
-		// Colombia
-		ciudadesPorPais.put("Colombia", new String[]{"Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena", "Cúcuta", "Bucaramanga", "Pereira", "Santa Marta"});
-
-		// México
-		ciudadesPorPais.put("México", new String[]{"Ciudad de México", "Guadalajara", "Monterrey", "Puebla", "Toluca", "Tijuana", "León", "Querétaro", "Mérida"});
-
-		// Estados Unidos
-		ciudadesPorPais.put("Estados Unidos", new String[]{"Washington D.C.", "Nueva York", "Los Ángeles", "Chicago", "Houston", "Phoenix", "Filadelfia", "San Antonio", "San Diego"});
-
-		// España
-		ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza", "Málaga", "Murcia", "Palma de Mallorca", "Las Palmas"});
-
-		// Perú
-		ciudadesPorPais.put("Perú", new String[]{"Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura", "Iquitos", "Cusco", "Chimbote", "Huancayo"});
-
-		// Resto de países (ejemplos)
-		ciudadesPorPais.put("Ecuador", new String[]{"Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Loja", "Ambato"});
-		ciudadesPorPais.put("Venezuela", new String[]{"Caracas", "Maracaibo", "Valencia", "Barquisimeto", "Maracay", "Ciudad Guayana", "Maturín", "Barcelona", "San Cristóbal"});
-		ciudadesPorPais.put("Uruguay", new String[]{"Montevideo", "Salto", "Ciudad de la Costa", "Paysandú", "Las Piedras", "Rivera", "Maldonado", "Tacuarembó", "Melo"});
-		ciudadesPorPais.put("Paraguay", new String[]{"Asunción", "Ciudad del Este", "San Lorenzo", "Capiatá", "Lambaré", "Fernando de la Mora", "Encarnación", "Pedro Juan Caballero", "Itauguá"});
-		ciudadesPorPais.put("Bolivia", new String[]{"Sucre", "La Paz", "Santa Cruz de la Sierra", "Cochabamba", "Oruro", "Tarija", "Potosí", "Sacaba", "Montero"});
-		ciudadesPorPais.put("Cuba", new String[]{"La Habana", "Santiago de Cuba", "Camagüey", "Holguín", "Guantánamo", "Santa Clara", "Cienfuegos", "Bayamo", "Las Tunas"});
-		ciudadesPorPais.put("República Dominicana", new String[]{"Santo Domingo", "Santiago de los Caballeros", "Santo Domingo Este", "San Pedro de Macorís", "La Romana", "San Cristóbal", "San Francisco de Macorís", "Salvaleón de Higüey", "Concepción de la Vega"});
-		ciudadesPorPais.put("Canadá", new String[]{"Ottawa", "Toronto", "Montreal", "Vancouver", "Calgary", "Edmonton", "Quebec", "Winnipeg", "Hamilton"});
-		ciudadesPorPais.put("Italia", new String[]{"Roma", "Milán", "Nápoles", "Turín", "Palermo", "Génova", "Bolonia", "Florencia", "Venecia"});
-		ciudadesPorPais.put("Francia", new String[]{"París", "Marsella", "Lyon", "Toulouse", "Niza", "Nantes", "Estrasburgo", "Montpellier", "Burdeos"});
-		ciudadesPorPais.put("Alemania", new String[]{"Berlín", "Hamburgo", "Múnich", "Colonia", "Fráncfort", "Stuttgart", "Düsseldorf", "Dortmund", "Essen"});
-		ciudadesPorPais.put("Reino Unido", new String[]{"Londres", "Birmingham", "Glasgow", "Liverpool", "Bristol", "Mánchester", "Sheffield", "Leeds", "Edimburgo"});
-		ciudadesPorPais.put("China", new String[]{"Pekín", "Shanghái", "Hong Kong", "Cantón", "Shenzhen", "Tianjín", "Chongqing", "Dongguan", "Nankín"});
-		ciudadesPorPais.put("Japón", new String[]{"Tokio", "Osaka", "Nagoya", "Yokohama", "Kioto", "Kobe", "Fukuoka", "Sapporo", "Hiroshima"});
-
-		// Países sin definir (usar capital como única opción)
-		String[] paisesRestantes = {"Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panamá", "Puerto Rico", "Portugal", "Corea del Sur", "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"};
-		for (String pais : paisesRestantes) {
-			ciudadesPorPais.put(pais, new String[]{pais});
-		}
-	}
-
-
-    private void cargarCiudadesPorPais(String pais) {
-        String[] ciudades = ciudadesPorPais.getOrDefault(pais, new String[]{pais});
-        cbxCiudades.setModel(new DefaultComboBoxModel<>(ciudades));
-    }
-
-    private void cargarCandidatos() {
-        cbxCandidatos.removeAllItems();
-        cbxCandidatos.addItem("Seleccione una Opción");
-        for (Candidato candidato : Bolsa.getInstance().getMisCandidatos()) {
-            cbxCandidatos.addItem(candidato.getNombre() + " - " + candidato.getCedula());
-        }
-    }
-
-    private void registrarPostulacion() {
+    
+    private void modificarPostulacion() {
         try {
-            // Validar selección de candidato
-            if (cbxCandidatos.getSelectedIndex() <= 0) {
-                throw new Exception("Seleccione un candidato");
-            }
-            
-            String seleccion = cbxCandidatos.getSelectedItem().toString();
-            String[] partes = seleccion.split(" - ");
-            if (partes.length == 2) {
-                cedula = partes[1];
-            } else {
-                 throw new Exception("Error al obtener la cédula del candidato.");
-            }
+            // Validaciones (similares a RegistrarPostulacion, pero adaptadas para modificación)
+            // El candidato no se valida porque su cbx está deshabilitado.
 
-            Candidato candidato = Bolsa.getInstance().buscarCandidatoByCod(cedula);
-            if (candidato == null) {
-                throw new Exception("No se pudo encontrar el candidato.");
-            }
+            if (cbxTipoContrato.getSelectedIndex() == 0) throw new Exception("Seleccione un tipo de contrato.");
+            if (cbxPaisResidencia.getSelectedIndex() == 0) throw new Exception("Seleccione un país.");
+            if (cbxCiudades.getSelectedIndex() == -1 || cbxCiudades.getSelectedItem().toString().isEmpty()) throw new Exception("Seleccione una ciudad.");
 
-            // Validar país y ciudad
-            if (cbxPaisResidencia.getSelectedIndex() == 0) throw new Exception("Seleccione un país");
-            if (cbxCiudades.getSelectedIndex() == -1 || cbxCiudades.getSelectedItem().toString().isEmpty()) throw new Exception("Seleccione una ciudad");
-
-            // Validar campos obligatorios
-            String pais = cbxPaisResidencia.getSelectedItem().toString();
-            String ciudad = cbxCiudades.getSelectedItem().toString();
-            float pretensionSalarial = Float.parseFloat(spnPretensionSalarial.getValue().toString());
-
+            float pretensionSalarial = ((Number) spnPretensionSalarial.getValue()).floatValue();
             if (pretensionSalarial <= 0) {
                 throw new Exception("La pretensión salarial debe ser mayor que 0.");
             }
-            
-            // Validar nivel de estudio y sus campos específicos
+
             String nivelEstudio = "";
             String detalleNivelEstudio = "";
-            int aniosExperiencia = 0; // Por defecto en 0, solo se usa para Técnico Superior
+            int aniosExperiencia = 0; // Solo aplica para Técnico Superior
 
             if (rdbtnUniversitario.isSelected()) {
                 nivelEstudio = "Universitario";
@@ -486,52 +512,44 @@ public class RegistrarPostulacion extends JDialog {
                 aniosExperiencia = (Integer) spnExperiencia.getValue();
             } else if (rdbtnObrero.isSelected()) {
                 nivelEstudio = "Obrero";
-                 if (!chkElectricidad.isSelected() && !chkSoldadura.isSelected() && !chkTecnicaPintura.isSelected() &&
-                     !chkTuberias.isSelected() && !chkMantenimiento.isSelected() && !chkMaquinaria.isSelected()) {
-                     throw new Exception("Seleccione al menos una habilidad para el obrero.");
-                 }
-                 ArrayList<String> oficios = new ArrayList<>();
-                 if (chkElectricidad.isSelected()) oficios.add("Electricidad básica");
-                 if (chkSoldadura.isSelected()) oficios.add("Soldadura");
-                 if (chkTecnicaPintura.isSelected()) oficios.add("Técnicas de pintura o albañilería");
-                 if (chkTuberias.isSelected()) oficios.add("Instalación de tuberías");
-                 if (chkMantenimiento.isSelected()) oficios.add("Mantenimiento básico de equipos");
-                 if (chkMaquinaria.isSelected()) oficios.add("Lectura de planos");
-                 detalleNivelEstudio = String.join(", ", oficios);
+                if (!chkElectricidad.isSelected() && !chkSoldadura.isSelected() && !chkTecnicaPintura.isSelected() &&
+                    !chkTuberias.isSelected() && !chkMantenimiento.isSelected() && !chkMaquinaria.isSelected()) {
+                    throw new Exception("Seleccione al menos una habilidad para el obrero.");
+                }
+                ArrayList<String> oficios = new ArrayList<>();
+                if (chkElectricidad.isSelected()) oficios.add("Electricidad básica");
+                if (chkSoldadura.isSelected()) oficios.add("Soldadura");
+                if (chkTecnicaPintura.isSelected()) oficios.add("Técnicas de pintura o albañilería");
+                if (chkTuberias.isSelected()) oficios.add("Instalación de tuberías");
+                if (chkMantenimiento.isSelected()) oficios.add("Mantenimiento básico de equipos");
+                if (chkMaquinaria.isSelected()) oficios.add("Lectura de planos");
+                detalleNivelEstudio = String.join(", ", oficios);
             } else {
                 throw new Exception("Seleccione un nivel de estudio.");
             }
 
-
-            // Obtener valores de los radio buttons
             boolean mudanza = rdbtnMudanzaSi.isSelected();
             boolean vehiculo = rdbtnVehiculoSi.isSelected();
             boolean licencia = rdbtnLicenciaSi.isSelected();
             String tipoContrato = (String) cbxTipoContrato.getSelectedItem();
+            String pais = (String) cbxPaisResidencia.getSelectedItem();
+            String ciudad = (String) cbxCiudades.getSelectedItem();
 
-            // Crear postulación
-            Postulacion postulacion = new Postulacion(
-                    txtIdentificador.getText(), // Usar el ID autogenerado
-                    candidato.getCedula(),
-                    nivelEstudio,
-                    detalleNivelEstudio, // Se pasa el detalle
-                    aniosExperiencia,     // Se pasan los años de experiencia
-                    tipoContrato,
-                    pais,
-                    ciudad,
-                    mudanza,
-                    vehiculo,
-                    licencia,
-                    pretensionSalarial, 
-                    true // Estado inicial: activa
-            );
+            // Actualizar la postulación existente (postulacionActual es la referencia al objeto original)
+            postulacionActual.setNivelEstudio(nivelEstudio);
+            postulacionActual.setDetalleNivelEstudio(detalleNivelEstudio);
+            postulacionActual.setAniosExperiencia(aniosExperiencia); // Este campo ahora está en Postulacion
+            postulacionActual.setTipoContrato(tipoContrato);
+            postulacionActual.setPaisResidencia(pais);
+            postulacionActual.setCiudadResidencia(ciudad);
+            postulacionActual.setMudanza(mudanza);
+            postulacionActual.setDisponibilidadVehiculo(vehiculo);
+            postulacionActual.setLicencia(licencia);
+            postulacionActual.setPretensionSalarial(pretensionSalarial);
+            // El status no se modifica desde aquí, asumo que se hace en otro lugar si es necesario.
 
-            // Registrar en bolsa y agregar al candidato
-            Bolsa.getInstance().getMisPostulaciones().add(postulacion);
-            candidato.getMisPostulaciones().add(postulacion);
-
-            JOptionPane.showMessageDialog(this, "¡Postulación registrada con éxito!");
-            dispose();
+            JOptionPane.showMessageDialog(this, "¡Postulación modificada con éxito!");
+            dispose(); // Cierra la ventana después de modificar
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Formato de salario inválido.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {

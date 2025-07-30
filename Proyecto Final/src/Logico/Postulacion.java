@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class Postulacion implements Serializable{
 	/**
-	 * 
-	 */
+	 * */
 	private static final long serialVersionUID = -1726739163634744025L;
 	private String identificador;
 	private String cedulaCliente;
 	private String nivelEstudio; // 2pnt 1pnt
+	private String detalleNivelEstudio; // Nuevo atributo para guardar la carrera, area o habilidades
+	private int aniosExperiencia; // Nuevo atributo para guardar años de experiencia para tecnicos
 	private String tipoContrato;	// 2punt  1pnt
 	private String paisResidencia;	// 1punt
 	private String ciudadResidencia; // 1punt
@@ -19,13 +20,15 @@ public class Postulacion implements Serializable{
 	private float pretensionSalarial; //3pnt
 	private boolean status;
 	
-	public Postulacion(String identificador, String cedulaCliente, String nivelEstudio, String tipoContrato,
+	public Postulacion(String identificador, String cedulaCliente, String nivelEstudio, String detalleNivelEstudio, int aniosExperiencia, String tipoContrato,
 			String paisResidencia, String ciudadResidencia, boolean mudanza, boolean disponibilidadVehiculo,
 			boolean licencia, float pretensionSalarial, boolean status) {
 		super();
 		this.identificador = identificador;
 		this.cedulaCliente = cedulaCliente;
 		this.nivelEstudio = nivelEstudio;
+		this.detalleNivelEstudio = detalleNivelEstudio; // Inicialización del nuevo atributo
+		this.aniosExperiencia = aniosExperiencia;     // Inicialización del nuevo atributo
 		this.tipoContrato = tipoContrato;
 		this.paisResidencia = paisResidencia;
 		this.ciudadResidencia = ciudadResidencia;
@@ -33,6 +36,7 @@ public class Postulacion implements Serializable{
 		this.disponibilidadVehiculo = disponibilidadVehiculo;
 		this.licencia = licencia;
 		this.pretensionSalarial = pretensionSalarial;
+		this.status = status; // Este atributo estaba en el constructor pero no se asignaba
 	}
 
 	public String getIdentificador() {
@@ -57,6 +61,24 @@ public class Postulacion implements Serializable{
 
 	public void setNivelEstudio(String nivelEstudio) {
 		this.nivelEstudio = nivelEstudio;
+	}
+
+	// Nuevos getters y setters para detalleNivelEstudio
+	public String getDetalleNivelEstudio() {
+		return detalleNivelEstudio;
+	}
+
+	public void setDetalleNivelEstudio(String detalleNivelEstudio) {
+		this.detalleNivelEstudio = detalleNivelEstudio;
+	}
+
+	// Nuevos getters y setters para aniosExperiencia
+	public int getAniosExperiencia() {
+		return aniosExperiencia;
+	}
+
+	public void setAniosExperiencia(int aniosExperiencia) {
+		this.aniosExperiencia = aniosExperiencia;
 	}
 
 	public String getTipoContrato() {
@@ -122,5 +144,4 @@ public class Postulacion implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
 }
