@@ -264,9 +264,6 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_7);
 		
 		lbUsuario = new Label("Usuarios");
-		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
-			lbUsuario.setVisible(false);
-		}
 		lbUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -308,6 +305,10 @@ public class Principal extends JFrame {
 				menuRespaldo.show(lbRespaldo, 0, lbRespaldo.getHeight());
 			}
 		});
+		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
+			lbUsuario.setVisible(false);
+			lbRespaldo.setVisible(false);
+		}
 		lbRespaldo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbRespaldo.setAlignment(Label.CENTER);
 		lbRespaldo.setBounds(598, 10, 78, 22);

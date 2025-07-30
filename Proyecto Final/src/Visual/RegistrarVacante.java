@@ -169,7 +169,7 @@ public class RegistrarVacante extends JDialog {
         panelVacante.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
-        txtIdentificador.setText(Bolsa.getInstance().generarCodigoVacante());
+        txtIdentificador.setText("Vac - 00"+(Bolsa.getInstance().genCodVac+5));
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 63, 440, 22);
         panelVacante.add(txtIdentificador);
@@ -580,13 +580,8 @@ public class RegistrarVacante extends JDialog {
             String ciudad = (String) cbxCiudades.getSelectedItem();
             
             // Validar campos vacíos
-            if (identificador.isEmpty() || nombreVacante.isEmpty() || salarioStr.isEmpty()) {
+            if (nombreVacante.isEmpty() || salarioStr.isEmpty()) {
                 throw new Exception("Complete todos los campos obligatorios");
-            }
-            
-            // Validar formato del identificador
-            if (!identificador.matches("[A-Za-z0-9-]+")) {
-                throw new Exception("Identificador solo puede contener letras, números y guiones");
             }
             
             // Validar identificador único
@@ -688,8 +683,7 @@ public class RegistrarVacante extends JDialog {
             );
             
             // Registrar vacante
-            Bolsa bolsa = Bolsa.getInstance();
-            bolsa.getMisVacantes().add(vacante);
+            Bolsa.getInstance().registrarVacante(vacante);
             
             // Asociar vacante a empresa
             empresa.getMisFormulariosEmpresa().add(vacante);

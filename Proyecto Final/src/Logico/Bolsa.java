@@ -13,6 +13,8 @@ public class Bolsa implements Serializable {
 	private ArrayList<Candidato> misCandidatos;
 	private ArrayList<Postulacion> misPostulaciones;
 	private ArrayList<Vacante> misVacantes;
+	private ArrayList<PorcentajeMatch> misPorcentajesMatches;
+	private ArrayList<DatosMatch> misDatosMatches;
 	public static int genCodVac = 0;
 	public static int genCodPost = 0;
 
@@ -22,18 +24,14 @@ public class Bolsa implements Serializable {
 		misCandidatos = new ArrayList<>();
 		misPostulaciones = new ArrayList<>();
 		misVacantes = new ArrayList<>();
+		misPorcentajesMatches = new ArrayList<>();
+		misDatosMatches = new ArrayList<>();
 	}
 	
 	// Método para generar el código de Postulacion
 	public String generarCodigoPostulacion() {
 		genCodPost++;
 		return String.format("Post - %02d", genCodPost);
-	}
-
-	// Método para generar el código de Vacante
-	public String generarCodigoVacante() {
-		genCodVac++;
-		return String.format("Vac - %02d", genCodVac);
 	}
 	
 	//Validar correo, tengo que corregir
@@ -151,77 +149,170 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-
-	public void ordenarMatch(ArrayList<PorcentajeMatch>porcentajeMatch) {
-		PorcentajeMatch temp;
-
-		for (int i = 1; i < porcentajeMatch.size(); i++) {
-			for (int j = 0; j < porcentajeMatch.size() - i; j++) {
-				if(porcentajeMatch.get(j).getPunts() < porcentajeMatch.get(j + 1).getPunts()) {
-					temp = porcentajeMatch.get(j);
-					porcentajeMatch.set(j, porcentajeMatch.get(j + 1));
-					porcentajeMatch.set(j + 1, temp);   			
+	//Actualizar Match de las Postulaciones
+	public void actualizarMatchPorPostulacion(Postulacion aux) {
+		for(Vacante auxV: misVacantes) {
+			if(auxV.isStatus() == true) {
+				int puntos = contarPuntosMatch(aux, auxV);
+				
+				PorcentajeMatch VacMatch = buscarMatchByVacante(auxV.getIdentificador());
+				ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
+				if(VacMatch != null) { //si es diferente de null, ya estaba guarda en un match
+					for(int i = 0; i < 3; i++) {
+						if(!VacMatch.getMis3Postulaciones()[i].isEmpty()) { //saber si queda espacio
+							misDatosMatch.add(new DatosMatch(VacMatch.getMis3Postulaciones()[i], VacMatch.getPuntos()[i]));
+						}
+					}
 				}
+				
+				boolean encontrado = false;
+				int i = 0;
+				while(!encontrado && i < misDatosMatches.size()) {
+					if(misDatosMatches.get(i).getCedula().equals(aux.getCedulaCliente())) {
+						misDatosMatches.get(i).setPuntos(puntos);
+						encontrado = true;
+					}
+					i++;
+				}
+				
+				if(!encontrado) {
+					misDatosMatch.add(new DatosMatch(aux.getCedulaCliente(), puntos));
+				}
+				misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+				String[] cedulaM = new String[3];
+				int[] puntosM = new int[3];
+				float[] porcentajeM = new float[3];
+				
+				for(int j = 0; j < 3; j++) {
+					if(j < misDatosMatch.size()) {
+						cedulaM[j] = misDatosMatch.get(j).getCedula();
+						puntosM[j] = misDatosMatch.get(j).getPuntos();
+						porcentajeM[j] = ((float) puntosM[j] / 15f) * 100f;
+					} else {
+						cedulaM[j] = "";
+						puntosM[j] = 0;
+						porcentajeM[j] = 0.00f;
+					}
+				}
+				PorcentajeMatch newMatch = new PorcentajeMatch(auxV, cedulaM, puntosM, porcentajeM);
+				eliminarMatchGuardadoVacante(auxV.getIdentificador());
+				misPorcentajesMatches.add(newMatch);
+				
 			}
 		}
 	}
+	public ArrayList<PorcentajeMatch> getMisPorcentajesMatches() {
+		return misPorcentajesMatches;
+	}
 
-	public ArrayList<PorcentajeMatch>match(Vacante auxVac) {
-		int cont = 0;
-		PorcentajeMatch auxMatch;
-		ArrayList<PorcentajeMatch>porcentajeMatch = new ArrayList<>();
+	public void setMisPorcentajesMatches(ArrayList<PorcentajeMatch> misPorcentajesMatches) {
+		this.misPorcentajesMatches = misPorcentajesMatches;
+	}
+	
+	//Revisar
+	private PorcentajeMatch buscarMatchByVacante(String identificador) {
+	    PorcentajeMatch aux = null;
+	    boolean encontrado = false;
+	    int i = 0;
 
-		for (Postulacion auxPostulacion : misPostulaciones) {
+	    while (!encontrado && i < misPorcentajesMatches.size()) {
+	        PorcentajeMatch match = misPorcentajesMatches.get(i);
+	        if (match != null && match.getMisVacantes() != null && match.getMisVacantes().getIdentificador() != null) {
+	            if (match.getMisVacantes().getIdentificador().equals(identificador)) {
+	                aux = match;
+	                encontrado = true;
+	            }
+	        }
+	        i++;
+	    }
 
-			if(auxPostulacion.getNivelEstudio().equalsIgnoreCase(auxVac.getNivelEstudio())) {
-				cont += 2;
-			}else cont += 1;
+	    return aux;
+	}
 
-			if(auxPostulacion.getTipoContrato().equalsIgnoreCase(auxVac.getTipoContrato())) {
-				cont += 2;
-			}else cont += 1;
-
-			if(auxPostulacion.getPaisResidencia().equalsIgnoreCase(auxVac.getPaisResidencia())) {
-				cont += 1;
+	//Actualizar Match de las Vacantes 
+	private void actualizarMatchPorVacante(Vacante aux) {
+		ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
+		for(Postulacion auxP: misPostulaciones) {
+			if(auxP.isStatus() == true) {
+				int puntos = contarPuntosMatch(auxP, aux);
+				misDatosMatch.add(new DatosMatch(auxP.getCedulaCliente(), puntos));
 			}
-
-			if(auxPostulacion.getCiudadResidencia().equalsIgnoreCase(auxVac.getCiudadResidencia())) {
-				cont += 1;
-			}
-
-			if(auxPostulacion.isMudanza() == auxVac.isMudanza()) {
-				cont += 2;
-			}else cont += 1;
-
-			if(auxPostulacion.isDisponibilidadVehiculo() == auxVac.isDisponibilidadVehiculo()) {
-				cont += 3;
-			}else cont += 1;
-
-			if(auxPostulacion.isLicencia() == auxVac.isLicencia()) {
-				cont += 1;
-			}
-
-			if(auxPostulacion.getPretensionSalarial() <= auxVac.getPretensionSalarial()) {
-				cont += 3;
-			}else cont += 1;
-
-			auxMatch = new PorcentajeMatch(auxPostulacion.getIdentificador(), cont);
-			porcentajeMatch.add(auxMatch);
-
-			cont = 0;
 		}
+		
+		misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+		String[] cedula = new String[3];
+		int[] puntos = new int[3];
+		float[] porcentaje = new float[3];
+		
+		for(int i = 0; i < 3; i++) {
+			if(i < misDatosMatch.size()) {
+				cedula[i] = misDatosMatch.get(i).getCedula();
+				puntos[i] = misDatosMatch.get(i).getPuntos();
+				porcentaje[i] = ((float) puntos[i] / 15f) * 100f;
+			} else {
+				cedula[i] = "";
+				puntos[i] = 0;
+				porcentaje[i] = 0.00f;
+			}
+		}
+		PorcentajeMatch newMatch = new PorcentajeMatch(aux, cedula, puntos, porcentaje);
+		eliminarMatchGuardadoVacante(aux.getIdentificador());
+		misPorcentajesMatches.add(newMatch);
+	}
+	
+	private void eliminarMatchGuardadoVacante(String identificador) {
+		PorcentajeMatch match = buscarMatchByVacante(identificador);
+		if (match != null) {
+			misPorcentajesMatches.remove(match);
+		}
+	}
+	
 
-		ordenarMatch(porcentajeMatch);
-		return porcentajeMatch;
+	public int contarPuntosMatch(Postulacion auxP, Vacante auxV) {
+		int totalPuntos = 0;
+		if(auxP.getNivelEstudio().equalsIgnoreCase(auxV.getNivelEstudio())) {
+			totalPuntos += 2;
+		} else {
+			totalPuntos += 1;
+		}
+		if(auxP.getTipoContrato().equalsIgnoreCase(auxV.getTipoContrato())) {
+			totalPuntos += 2;
+		} else {
+			totalPuntos += 1;
+		}
+		if(auxP.getPaisResidencia().equalsIgnoreCase(auxV.getPaisResidencia()))
+		{
+			totalPuntos += 1;
+		}
+		if(auxP.getCiudadResidencia().equalsIgnoreCase(auxV.getCiudadResidencia())) {
+			totalPuntos += 1;
+		}
+		if(auxP.isMudanza() == auxV.isMudanza()) {
+			totalPuntos += 2;
+		} else {
+			totalPuntos += 1;
+		}
+		if(auxP.isDisponibilidadVehiculo() == auxV.isDisponibilidadVehiculo()) {
+			totalPuntos += 2;
+		} else {
+			totalPuntos += 1;
+		}
+		if(auxP.isLicencia() == auxV.isLicencia()) {
+			totalPuntos += 1;
+		}
+		if(auxP.getPretensionSalarial() <= auxV.getPretensionSalarial()) {
+			totalPuntos += 3;
+		}
+		return totalPuntos;
 	}
 	
 	//Buscar postulacion
-	public Postulacion buscarPostulacionByCode(String cedula) {
+	public Postulacion buscarPostulacionByCode(String identificador) {
 		Postulacion aux = null;
 		boolean encontrado = false;
 		int i = 0;
 		while(!encontrado && i < misPostulaciones.size()) {
-			if(misPostulaciones.get(i).getIdentificador().equals(cedula)) {
+			if(misPostulaciones.get(i).getIdentificador().equals(identificador)) {
 				aux = misPostulaciones.get(i);
 				encontrado = true;
 			}
@@ -246,12 +337,12 @@ public class Bolsa implements Serializable {
 	}
 	
 	//Buscar vacantes
-	public Vacante buscarVacanteByCode(String rnc) {
+	public Vacante buscarVacanteByCode(String identificador) {
 		Vacante aux = null;
 		boolean encontrado = false;
 		int i = 0;
 		while(!encontrado && i < misVacantes.size()) {
-			if(misVacantes.get(i).getIdentificador().equals(rnc)) {
+			if(misVacantes.get(i).getIdentificador().equals(identificador)) {
 				aux = misVacantes.get(i);
 				encontrado = true;
 			}
@@ -431,6 +522,15 @@ public class Bolsa implements Serializable {
 	public void eliminarUser(User selected) {
 		misUsers.remove(selected);
 	}
+
+	//Registrar Vacante 
+	public void registrarVacante(Vacante vacante) {
+		// TODO Auto-generated method stub
+		misVacantes.add(vacante);
+		actualizarMatchPorVacante(vacante);
+		genCodVac++;
+	}
+	
 	
 
 }
