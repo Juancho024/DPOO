@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import Logico.Bolsa;
+import Logico.PorcentajeMatch;
+import Logico.Postulacion;
 import Logico.Vacante;
 
 import javax.swing.UIManager;
@@ -21,6 +23,8 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -98,8 +102,20 @@ public class RealizarMatch extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				cbxVacantes.removeAllItems();
 				cbxVacantes.addItem("Seleccione una Opción");
-				for(Vacante aux: Bolsa.getInstance().getMisVacantes()) {
-					cbxVacantes.addItem(aux.getNombreVacante() + " - " + aux.getRncEmpresa());
+				for (Postulacion p : Bolsa.getInstance().getMisPostulaciones()) {
+				    Bolsa.getInstance().actualizarMatchPorPostulacion(p);
+				}
+				ArrayList<PorcentajeMatch> porcentajes = Bolsa.getInstance().getMisPorcentajesMatches();
+
+				if (porcentajes != null) {
+				    for (PorcentajeMatch aux : porcentajes) {
+				        Vacante vacante = aux.getMisVacantes();
+				        if (vacante != null) {
+				            String nombre = vacante.getNombreVacante();
+				            String rnc = vacante.getRncEmpresa();
+				            cbxVacantes.addItem(nombre + " - " + rnc);
+				        }
+				    }
 				}
 			}
 		});
@@ -451,27 +467,7 @@ public class RealizarMatch extends JDialog {
 		label_27.setBounds(10, 154, 146, 22);
 		panel_Postulacion3.add(label_27);
 		
-		for(Vacante aux: Bolsa.getInstance().getMisVacantes()) {
-			JPanel panel_Info = new JPanel();
-			panel_Info.setBorder(null);
-			panel_Info.setBounds(10, 21, 1154, 596);
-			
-			Label lbInfo = new Label(aux.getNombreVacante() + "-" + aux.getIdentificador());
-			lbInfo.setFont(new Font("Tahoma", Font.BOLD, 12));
-			
-			Button btnConsultar = new Button("Consultar");
-			btnConsultar.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					
-				}
-			});
-			btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 12));
-            
-            panel_Info.add(lbInfo, BorderLayout.CENTER);
-            panel_Info.add(btnConsultar, BorderLayout.EAST);
-            panel.add(panel_Info);
-			
-		}
+		
+		
 	}
 }

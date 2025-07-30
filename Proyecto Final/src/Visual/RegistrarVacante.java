@@ -169,7 +169,7 @@ public class RegistrarVacante extends JDialog {
         panelVacante.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
-        txtIdentificador.setText(Bolsa.getInstance().generarCodigoVacante());
+        txtIdentificador.setText("Vac - 00"+(Bolsa.getInstance().genCodVac+5));
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 63, 440, 22);
         panelVacante.add(txtIdentificador);
@@ -584,7 +584,6 @@ public class RegistrarVacante extends JDialog {
                 throw new Exception("Complete todos los campos obligatorios");
             }
             
-            // Validar longitud de campos
             if (nombreVacante.length() > 100) {
                 throw new Exception("Nombre de vacante no puede exceder 100 caracteres");
             }
@@ -676,8 +675,7 @@ public class RegistrarVacante extends JDialog {
             );
             
             // Registrar vacante
-            Bolsa bolsa = Bolsa.getInstance();
-            bolsa.getMisVacantes().add(vacante);
+            Bolsa.getInstance().registrarVacante(vacante);
             
             // Asociar vacante a empresa
             empresa.getMisFormulariosEmpresa().add(vacante);
