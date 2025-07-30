@@ -345,12 +345,12 @@ public class ReportePostulacion extends JDialog {
 
             chkTecnicaPintura = new JCheckBox("Técnicas de pintura o albañilería");
             chkTecnicaPintura.setEnabled(false);
-            chkTecnicaPintura.setBounds(180, 40, 250, 23);
+            chkTecnicaPintura.setBounds(265, 40, 220, 23);
             panelDetalleEstudio.add(chkTecnicaPintura);
 
             chkTuberias = new JCheckBox("Instalación de tuberías");
             chkTuberias.setEnabled(false);
-            chkTuberias.setBounds(180, 65, 250, 23);
+            chkTuberias.setBounds(265, 65, 220, 23);
             panelDetalleEstudio.add(chkTuberias);
 
             chkMantenimiento = new JCheckBox("Mantenimiento básico de equipos");
@@ -360,7 +360,7 @@ public class ReportePostulacion extends JDialog {
             
             chkLecturaPlanos = new JCheckBox("Lectura de planos"); // Cambiado el nombre de la variable
             chkLecturaPlanos.setEnabled(false);
-            chkLecturaPlanos.setBounds(180, 90, 250, 23);
+            chkLecturaPlanos.setBounds(265, 90, 220, 23);
             panelDetalleEstudio.add(chkLecturaPlanos);
 
             // Marcar las habilidades según el detalleNivelEstudio
