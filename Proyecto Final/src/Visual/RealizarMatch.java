@@ -60,7 +60,7 @@ public class RealizarMatch extends JDialog {
 	private Button btnContratar2;
 	private Button btnContratar3;
 	private Button btnContratar1;
-	private JComboBox cbxVacantes;
+	private JComboBox<String> cbxVacantes;
 
 	/**
 	 * Launch the application.
@@ -96,26 +96,21 @@ public class RealizarMatch extends JDialog {
 		label.setBounds(23, 23, 123, 22);
 		panel.add(label);
 		
-		cbxVacantes = new JComboBox();
-		cbxVacantes.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cbxVacantes.removeAllItems();
-				cbxVacantes.addItem("Seleccione una Opción");
-				for (Postulacion p : Bolsa.getInstance().getMisPostulaciones()) {
-				    Bolsa.getInstance().actualizarMatchPorPostulacion(p);
-				}
-				ArrayList<PorcentajeMatch> porcentajes = Bolsa.getInstance().getMisPorcentajesMatches();
-
-				if (porcentajes != null) {
-				    for (PorcentajeMatch aux : porcentajes) {
-				        Vacante vacante = aux.getMisVacantes();
-				        if (vacante != null) {
-				            String nombre = vacante.getNombreVacante();
-				            String rnc = vacante.getRncEmpresa();
-				            cbxVacantes.addItem(nombre + " - " + rnc);
-				        }
-				    }
+		cbxVacantes = new JComboBox<String>();
+		cbxVacantes.removeAllItems();
+		cbxVacantes.addItem("Seleccione una Opción");
+		for(PorcentajeMatch aux: Bolsa.getInstance().getMisPorcentajesMatches()) {
+			cbxVacantes.addItem(aux.getMisVacantes().getNombreVacante()+ " - " + aux.getMisVacantes().getRncEmpresa());
+		}
+		cbxVacantes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String seleccion = (String) cbxVacantes.getSelectedItem();
+				System.out.println("Seleccionado: " + seleccion);
+				if (seleccion != null && !seleccion.equals("Seleccione una Opción")) {
+					PorcentajeMatch match = buscarAuxByInfo(seleccion);
+					if (match != null) {
+						llenarPostulacionesDesdeCedulas(match);
+					}
 				}
 			}
 		});
@@ -465,9 +460,50 @@ public class RealizarMatch extends JDialog {
 		Label label_27 = new Label("Nombre del Postulante:");
 		label_27.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_27.setBounds(10, 154, 146, 22);
-		panel_Postulacion3.add(label_27);
+		panel_Postulacion3.add(label_27);	
 		
+	}
+	private void llenarPostulacionesDesdeCedulas(PorcentajeMatch match) {
+		// TODO Auto-generated method stub
+		String[] cedulas = match.getMis3Postulaciones();
+		ArrayList<Postulacion> misPostulaciones = Bolsa.getInstance().getMisPostulaciones();
+		System.out.println("Cantidad de cédulas: " + (cedulas != null ? cedulas.length : "null"));
+		for (int i = 0; i < cedulas.length; i++) {
+		    System.out.println("Cédula [" + i + "]: " + cedulas[i]);
+		}
 		
-		
+		for(int i = 0; i < cedulas.length; i++) {
+			String cedula = cedulas[i];
+			Postulacion encontrada = null;
+			
+			for(Postulacion auxP: misPostulaciones) {
+				if(encontrada != null && auxP.getCedulaCliente().equals(cedula)) {
+					encontrada = auxP;
+				}
+			}
+			if(encontrada != null) {
+				switch(i) {
+				case 0: 
+					txtNombre1.setText(encontrada.getCedulaCliente());
+					break;
+					
+				}
+			}
+		}
+	}
+
+	private PorcentajeMatch buscarAuxByInfo(String seleccion) {
+		// TODO Auto-generated method stub
+		PorcentajeMatch aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < Bolsa.getInstance().getMisPorcentajesMatches().size()) {
+			String auxP = Bolsa.getInstance().getMisPorcentajesMatches().get(i).getMisVacantes().getNombreVacante() + " - " + Bolsa.getInstance().getMisPorcentajesMatches().get(i).getMisVacantes().getRncEmpresa();
+			if(auxP.equals(seleccion)) {
+				aux = Bolsa.getInstance().getMisPorcentajesMatches().get(i);
+				encontrado = true;
+			}
+		}
+		return aux;
 	}
 }
