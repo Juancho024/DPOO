@@ -13,8 +13,8 @@ public class Bolsa implements Serializable {
 	private ArrayList<Candidato> misCandidatos;
 	private ArrayList<Postulacion> misPostulaciones;
 	private ArrayList<Vacante> misVacantes;
-	public static int generadorCodVacantes = 0;
-	public static int generadorCodPostulaciones = 0;
+	public static int genCodVac = 0;
+	public static int genCodPost = 0;
 
 	private Bolsa() {
 		misUsers = new ArrayList<>();
@@ -22,6 +22,18 @@ public class Bolsa implements Serializable {
 		misCandidatos = new ArrayList<>();
 		misPostulaciones = new ArrayList<>();
 		misVacantes = new ArrayList<>();
+	}
+	
+	// Método para generar el código de Postulacion
+	public String generarCodigoPostulacion() {
+		genCodPost++;
+		return String.format("Post - %02d", genCodPost);
+	}
+
+	// Método para generar el código de Vacante
+	public String generarCodigoVacante() {
+		genCodVac++;
+		return String.format("Vac - %02d", genCodVac);
 	}
 	
 	//Validar correo, tengo que corregir
