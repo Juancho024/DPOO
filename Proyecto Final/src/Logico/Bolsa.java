@@ -151,55 +151,65 @@ public class Bolsa implements Serializable {
 	}
 	//Actualizar Match de las Postulaciones
 	public void actualizarMatchPorPostulacion(Postulacion aux) {
-		for(Vacante auxV: misVacantes) {
-			if(auxV.isStatus() == true) {
-				int puntos = contarPuntosMatch(aux, auxV);
-				
-				PorcentajeMatch VacMatch = buscarMatchByVacante(auxV.getIdentificador());
-				ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
-				if(VacMatch != null) { //si es diferente de null, ya estaba guarda en un match
-					for(int i = 0; i < 3; i++) {
-						if(!VacMatch.getMis3Postulaciones()[i].isEmpty()) { //saber si queda espacio
-							misDatosMatch.add(new DatosMatch(VacMatch.getMis3Postulaciones()[i], VacMatch.getPuntos()[i]));
-						}
-					}
-				}
-				
-				boolean encontrado = false;
-				int i = 0;
-				while(!encontrado && i < misDatosMatches.size()) {
-					if(misDatosMatches.get(i).getCedula().equals(aux.getCedulaCliente())) {
-						misDatosMatches.get(i).setPuntos(puntos);
-						encontrado = true;
-					}
-					i++;
-				}
-				
-				if(!encontrado) {
-					misDatosMatch.add(new DatosMatch(aux.getCedulaCliente(), puntos));
-				}
-				misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
-				String[] cedulaM = new String[3];
-				int[] puntosM = new int[3];
-				float[] porcentajeM = new float[3];
-				
-				for(int j = 0; j < 3; j++) {
-					if(j < misDatosMatch.size()) {
-						cedulaM[j] = misDatosMatch.get(j).getCedula();
-						puntosM[j] = misDatosMatch.get(j).getPuntos();
-						porcentajeM[j] = ((float) puntosM[j] / 15f) * 100f;
-					} else {
-						cedulaM[j] = "";
-						puntosM[j] = 0;
-						porcentajeM[j] = 0.00f;
-					}
-				}
-				PorcentajeMatch newMatch = new PorcentajeMatch(auxV, cedulaM, puntosM, porcentajeM);
-				eliminarMatchGuardadoVacante(auxV.getIdentificador());
-				misPorcentajesMatches.add(newMatch);
-				
-			}
-		}
+	    for (Vacante auxV : misVacantes) {
+	        if (auxV.isStatus()) {
+	            int puntos = contarPuntosMatch(aux, auxV);
+
+	            PorcentajeMatch VacMatch = buscarMatchByVacante(auxV.getIdentificador());
+	            ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
+
+	         // Si ya existía un match para esta vacante, cargamos sus postulaciones previas
+	            if (VacMatch != null) {
+	                for (int i = 0; i < 3; i++) {
+	                    if (!VacMatch.getMis3Postulaciones()[i].isEmpty()) {
+	                        misDatosMatch.add(new DatosMatch(VacMatch.getMis3Postulaciones()[i], VacMatch.getPuntos()[i]));
+	                    }
+	                }
+	            }
+
+	            boolean encontrado = false;
+	            int i = 0;
+	            while (!encontrado && i < misDatosMatch.size()) {
+	                if (misDatosMatch.get(i).getCedula().equals(aux.getCedulaCliente())) {
+	                    misDatosMatch.get(i).setPuntos(puntos);
+	                    encontrado = true;
+	                }
+	                i++;
+	            }
+
+	         // Si la cédula no estaba, la agregamos a la lista local
+	            if (!encontrado) {
+	                System.out.println("Agregando cédula nueva: " + aux.getCedulaCliente() + " con puntos: " + puntos);
+	                misDatosMatch.add(new DatosMatch(aux.getCedulaCliente(), puntos));
+	            }
+
+	         // Ordenamos de mayor a menor puntos
+	            misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+
+	         // Preparamos los arreglos para guardar en PorcentajeMatch
+	            String[] cedulaM = new String[3];
+	            int[] puntosM = new int[3];
+	            float[] porcentajeM = new float[3];
+
+	            for (int j = 0; j < 3; j++) {
+	                if (j < misDatosMatch.size()) {
+	                    cedulaM[j] = misDatosMatch.get(j).getCedula();
+	                    puntosM[j] = misDatosMatch.get(j).getPuntos();
+	                    porcentajeM[j] = ((float) puntosM[j] / 15f) * 100f;
+	                } else {
+	                    cedulaM[j] = "";
+	                    puntosM[j] = 0;
+	                    porcentajeM[j] = 0.00f;
+	                }
+	            }
+	            // Creamos nuevo match con los datos actualizados
+	            PorcentajeMatch newMatch = new PorcentajeMatch(auxV, cedulaM, puntosM, porcentajeM);
+	         // Eliminamos el match anterior para esta vacante para no duplicar
+	            eliminarMatchGuardadoVacante(auxV.getIdentificador());
+	         // Guardamos el nuevo match actualizado
+	            misPorcentajesMatches.add(newMatch);
+	        }
+	    }
 	}
 	public ArrayList<PorcentajeMatch> getMisPorcentajesMatches() {
 		return misPorcentajesMatches;

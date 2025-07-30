@@ -47,7 +47,7 @@ public class RealizarMatch extends JDialog {
 	private JTextField txtCuidad2;
 	private JTextField txtPais2;
 	private JTextField txtSalario2;
-	private JTextField txtContrato2;
+	private JTextField txtTipoContrato2;
 	private JTextField txtNombre2;
 	private JTextField txtMudarse3;
 	private JTextField txtLicencia3;
@@ -55,7 +55,7 @@ public class RealizarMatch extends JDialog {
 	private JTextField txtCiudad3;
 	private JTextField txtPais3;
 	private JTextField txtSalario3;
-	private JTextField txtContrato3;
+	private JTextField txtTipoContrato3;
 	private JTextField txtNombre3;
 	private Button btnContratar2;
 	private Button btnContratar3;
@@ -318,12 +318,12 @@ public class RealizarMatch extends JDialog {
 		txtSalario2.setBounds(201, 237, 165, 20);
 		panel_Postulacion2.add(txtSalario2);
 		
-		txtContrato2 = new JTextField();
-		txtContrato2.setEnabled(false);
-		txtContrato2.setEditable(false);
-		txtContrato2.setColumns(10);
-		txtContrato2.setBounds(18, 237, 162, 20);
-		panel_Postulacion2.add(txtContrato2);
+		txtTipoContrato2 = new JTextField();
+		txtTipoContrato2.setEnabled(false);
+		txtTipoContrato2.setEditable(false);
+		txtTipoContrato2.setColumns(10);
+		txtTipoContrato2.setBounds(18, 237, 162, 20);
+		panel_Postulacion2.add(txtTipoContrato2);
 		
 		txtNombre2 = new JTextField();
 		txtNombre2.setEnabled(false);
@@ -433,12 +433,12 @@ public class RealizarMatch extends JDialog {
 		txtSalario3.setBounds(193, 236, 165, 20);
 		panel_Postulacion3.add(txtSalario3);
 		
-		txtContrato3 = new JTextField();
-		txtContrato3.setEnabled(false);
-		txtContrato3.setEditable(false);
-		txtContrato3.setColumns(10);
-		txtContrato3.setBounds(10, 236, 162, 20);
-		panel_Postulacion3.add(txtContrato3);
+		txtTipoContrato3 = new JTextField();
+		txtTipoContrato3.setEnabled(false);
+		txtTipoContrato3.setEditable(false);
+		txtTipoContrato3.setColumns(10);
+		txtTipoContrato3.setBounds(10, 236, 162, 20);
+		panel_Postulacion3.add(txtTipoContrato3);
 		
 		txtNombre3 = new JTextField();
 		txtNombre3.setEnabled(false);
@@ -477,15 +477,79 @@ public class RealizarMatch extends JDialog {
 			Postulacion encontrada = null;
 			
 			for(Postulacion auxP: misPostulaciones) {
-				if(encontrada != null && auxP.getCedulaCliente().equals(cedula)) {
+				if(auxP.getCedulaCliente().equals(cedula)) {
 					encontrada = auxP;
+					break;
 				}
 			}
 			if(encontrada != null) {
 				switch(i) {
-				case 0: 
-					txtNombre1.setText(encontrada.getCedulaCliente());
-					break;
+				case 0:
+                    txtNombre1.setText(encontrada.getCedulaCliente());
+                    txtTipoContrato1.setText(encontrada.getTipoContrato());
+                    txtSalario1.setText(String.valueOf(encontrada.getPretensionSalarial()));
+                    txtPais1.setText(encontrada.getPaisResidencia());
+                    txtCuidad1.setText(encontrada.getCiudadResidencia());
+                    if(encontrada.isDisponibilidadVehiculo() == true) {
+                    	txtVehiculo1.setText("SI");
+                    } else {
+                    	txtVehiculo1.setText("NO");
+                    }
+                    if(encontrada.isLicencia() == true) {
+                    	txtLicencia1.setText("SI");
+                    } else {
+                    	txtLicencia1.setText("NO");
+                    }
+                    if(encontrada.isMudanza() == true) {
+                    	txtMudarse1.setText("SI");
+                    } else {
+                    	txtMudarse1.setText("NO");
+                    }
+                    break;
+                case 1:
+                	txtNombre2.setText(encontrada.getCedulaCliente());
+                    txtTipoContrato2.setText(encontrada.getTipoContrato());
+                    txtSalario2.setText(String.valueOf(encontrada.getPretensionSalarial()));
+                    txtPais2.setText(encontrada.getPaisResidencia());
+                    txtCuidad2.setText(encontrada.getCiudadResidencia());
+                    if(encontrada.isDisponibilidadVehiculo() == true) {
+                    	txtVehiculo2.setText("SI");
+                    } else {
+                    	txtVehiculo2.setText("NO");
+                    }
+                    if(encontrada.isLicencia() == true) {
+                    	txtLicencia2.setText("SI");
+                    } else {
+                    	txtLicencia2.setText("NO");
+                    }
+                    if(encontrada.isMudanza() == true) {
+                    	txtMudarse2.setText("SI");
+                    } else {
+                    	txtMudarse2.setText("NO");
+                    }
+                    break;
+                case 2:
+                	txtNombre3.setText(encontrada.getCedulaCliente());
+                    txtTipoContrato3.setText(encontrada.getTipoContrato());
+                    txtSalario3.setText(String.valueOf(encontrada.getPretensionSalarial()));
+                    txtPais3.setText(encontrada.getPaisResidencia());
+                    txtCiudad3.setText(encontrada.getCiudadResidencia());
+                    if(encontrada.isDisponibilidadVehiculo() == true) {
+                    	txtVehiculo3.setText("SI");
+                    } else {
+                    	txtVehiculo3.setText("NO");
+                    }
+                    if(encontrada.isLicencia() == true) {
+                    	txtLicencia3.setText("SI");
+                    } else {
+                    	txtLicencia3.setText("NO");
+                    }
+                    if(encontrada.isMudanza() == true) {
+                    	txtMudarse3.setText("SI");
+                    } else {
+                    	txtMudarse3.setText("NO");
+                    }
+                    break;
 					
 				}
 			}

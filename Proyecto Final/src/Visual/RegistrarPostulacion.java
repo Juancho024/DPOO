@@ -528,6 +528,7 @@ public class RegistrarPostulacion extends JDialog {
 
             // Registrar en bolsa y agregar al candidato
             Bolsa.getInstance().getMisPostulaciones().add(postulacion);
+            Bolsa.getInstance().actualizarMatchPorPostulacion(postulacion);
             candidato.getMisPostulaciones().add(postulacion);
 
             JOptionPane.showMessageDialog(this, "¡Postulación registrada con éxito!");
