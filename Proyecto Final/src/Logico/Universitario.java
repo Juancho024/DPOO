@@ -11,8 +11,8 @@ public class Universitario extends Candidato implements Serializable{
 	private String carreraGraduada;
 
 	public Universitario(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
-			String telefono, String correo, String nacionalidad, String carreraGraduada) {
-		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad);
+			String telefono, String correo, String nacionalidad, byte[] imagen, String carreraGraduada) {
+		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad, imagen);
 		this.carreraGraduada = carreraGraduada;
 	}
 

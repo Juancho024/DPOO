@@ -5,9 +5,12 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Logico.Bolsa;
 import Logico.Candidato;
@@ -19,15 +22,24 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Label;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.FocusAdapter;
@@ -38,6 +50,8 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+
 import java.awt.Canvas;
 import java.awt.Button;
 import java.awt.SystemColor;
@@ -77,6 +91,9 @@ public class ModCandidato extends JDialog {
 	private Button btnFoto;
 	private Label label_11;
 	private JComboBox cbxNacionalidad;
+	private JLabel lbImagen;
+	private byte[] imagenActual;
+	
 
 	/**
 	 * Launch the application.
@@ -246,12 +263,61 @@ public class ModCandidato extends JDialog {
 		txtNombre.setBounds(76, 70, 170, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
+		
+		lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+		lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen.setBounds(378, 23, 117, 99);
 
-		Canvas canvas = new Canvas();
-		canvas.setBounds(377, 22, 117, 100);
-		panel.add(canvas);
+		byte[] imgBytes = selected.getImagen();
+		if (imgBytes != null) {
+		    ImageIcon icono = new ImageIcon(imgBytes);
+		    Image imagenEscalada = icono.getImage().getScaledInstance(117, 99, Image.SCALE_SMOOTH);
+		    lbImagen.setIcon(new ImageIcon(imagenEscalada));
+		    lbImagen.setText("");
+		} else {
+		    lbImagen.setIcon(null);
+		    lbImagen.setText("Sin imagen");
+		}
+		panel.add(lbImagen);
 
 		btnFoto = new Button("Colocar Foto");
+		btnFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 JFileChooser chooser = new JFileChooser();
+			        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes (.png, .jpg, .jpeg)", "png", "jpg", "jpeg");
+			        chooser.setFileFilter(filtro);
+
+			        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			            File archivo = chooser.getSelectedFile();
+			            String nombreArchivo = archivo.getName().toLowerCase();
+
+			            if (!(nombreArchivo.endsWith(".png") || nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg"))) {
+			                JOptionPane.showMessageDialog(null, "Solo se permiten imágenes JPG o PNG", "Formato de Imagen no Valido", JOptionPane.ERROR_MESSAGE);
+			                return;
+			            }
+
+			            try (FileInputStream fis = new FileInputStream(archivo);
+			                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+
+			                byte[] buffer = new byte[1024];
+			                int bytesRead;
+			                while ((bytesRead = fis.read(buffer)) != -1) {
+			                    bos.write(buffer, 0, bytesRead);
+			                }
+
+			                imagenActual = bos.toByteArray();
+
+			                ImageIcon iconoOriginal = new ImageIcon(imagenActual);
+			                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			                lbImagen.setIcon(new ImageIcon(imagenEscalada));
+			                lbImagen.setText("");
+
+			            } catch (IOException ex) {
+			                JOptionPane.showMessageDialog(null, "Error al cargar la imagen");
+			            }
+			        }
+			}
+		});
 		btnFoto.setBackground(Color.LIGHT_GRAY);
 		btnFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnFoto.setBounds(392, 128, 90, 22);
@@ -459,6 +525,9 @@ public class ModCandidato extends JDialog {
 						selected.setSexo(genero);
 						selected.setTelefono(telefono);
 						selected.setNacionalidad(nacionalidad);
+						if(imagenActual != null) {
+							selected.setImagen(imagenActual);
+						}
 						if(rdbtnUniversitario.isSelected()) {
 							if(genero != 'M' && genero != 'F'|| cedula.isEmpty() || 
 									nombre.isEmpty() || 

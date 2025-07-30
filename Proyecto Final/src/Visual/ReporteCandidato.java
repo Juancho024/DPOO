@@ -1,10 +1,14 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -17,7 +21,10 @@ import Logico.Universitario;
 import java.awt.Label;
 import java.text.SimpleDateFormat;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
 
 public class ReporteCandidato extends JDialog {
@@ -40,7 +47,8 @@ public class ReporteCandidato extends JDialog {
 	private JTextField txtCarerra;
 	private JTextField txtTecnico;
 	private JTextField txtAnyo;
-
+	private JLabel lbImagen;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -84,6 +92,22 @@ public class ReporteCandidato extends JDialog {
 		txtCedula.setBounds(10, 48, 145, 20);
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);
+		
+		lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+		lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen.setBounds(254, 23, 220, 162);
+
+		byte[] imgBytes = selected.getImagen();
+		if (imgBytes != null) {
+		    ImageIcon icono = new ImageIcon(imgBytes);
+		    Image imagenEscalada = icono.getImage().getScaledInstance(117, 99, Image.SCALE_SMOOTH);
+		    lbImagen.setIcon(new ImageIcon(imagenEscalada));
+		    lbImagen.setText("");
+		} else {
+		    lbImagen.setIcon(null);
+		    lbImagen.setText("Sin imagen");
+		}
+		panel.add(lbImagen);
 
 		Label label_1 = new Label("Nombre Completo: ");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -182,6 +206,16 @@ public class ReporteCandidato extends JDialog {
 		txtNivel.setBounds(162, 27, 220, 20);
 		panel_1.add(txtNivel);
 		
+		JTextField[] campos = { txtCedula, txtNombre, txtCorreo, txtTelefono, txtFecha, txtNacionalidad, txtGenero };
+		for (JTextField campo : campos) {
+		    campo.setEditable(false);
+		    campo.setBackground(Color.WHITE);
+		    campo.setForeground(Color.BLACK);
+		    campo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		    campo.setDisabledTextColor(Color.BLACK); 
+		}
+
+		
 		if(selected instanceof Universitario) {
 			txtNivel.setText("Universitario");
 			Label label_8 = new Label("Carrera: ");
@@ -237,31 +271,37 @@ public class ReporteCandidato extends JDialog {
 
 			chkElectricidad = new JCheckBox("Electricidad B\u00E1sica");
 			chkElectricidad.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkElectricidad.setEnabled(false);
 			chkElectricidad.setBounds(10, 86, 166, 23);
 			panel_1.add(chkElectricidad);
 
 			chkSoldadura = new JCheckBox("Soldadura");
 			chkSoldadura.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkSoldadura.setEnabled(false);
 			chkSoldadura.setBounds(10, 112, 166, 23);
 			panel_1.add(chkSoldadura);
 
 			chkPintura = new JCheckBox("T\u00E9cnica de pintura o Alba\u00F1iler\u00EDa");
 			chkPintura.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkPintura.setEnabled(false);
 			chkPintura.setBounds(10, 138, 220, 23);
 			panel_1.add(chkPintura);
 
 			chkPlanos = new JCheckBox("Lectura de Planos");
 			chkPlanos.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkPlanos.setEnabled(false);
 			chkPlanos.setBounds(254, 138, 220, 23);
 			panel_1.add(chkPlanos);
 
 			chkMantenimiento = new JCheckBox("Mantenimiento B\u00E1sico de Equipos");
 			chkMantenimiento.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkMantenimiento.setEnabled(false);
 			chkMantenimiento.setBounds(254, 112, 234, 23);
 			panel_1.add(chkMantenimiento);
 
 			chkTuberia = new JCheckBox("Instalaci\u00F3n de Tuber\u00EDas");
 			chkTuberia.setFont(new Font("Tahoma", Font.BOLD, 12));
+			chkTuberia.setEnabled(false);
 			chkTuberia.setBounds(254, 86, 166, 23);
 			panel_1.add(chkTuberia);
 			

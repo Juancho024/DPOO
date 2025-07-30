@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Candidato implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5229150145884640197L;
 	protected String cedula;
 	protected String nombre;
@@ -17,10 +14,11 @@ public abstract class Candidato implements Serializable{
 	protected String correo;
 	protected String nacionalidad;
 	protected boolean status;
+	protected byte[] imagen;
 	private ArrayList<Postulacion> misPostulaciones;
 	
 	public Candidato(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
-			String telefono, String correo, String nacionalidad) {
+			String telefono, String correo, String nacionalidad, byte[] imagen) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -30,6 +28,7 @@ public abstract class Candidato implements Serializable{
 		this.telefono = telefono;
 		this.correo = correo;
 		this.nacionalidad = nacionalidad;
+		this.imagen = imagen;
 		this.misPostulaciones = new ArrayList<>();
 	}
 
@@ -104,5 +103,12 @@ public abstract class Candidato implements Serializable{
 	public void setMisPostulaciones(ArrayList<Postulacion> misPostulaciones) {
 		this.misPostulaciones = misPostulaciones;
 	}
-	
+
+	public byte[] getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
 }

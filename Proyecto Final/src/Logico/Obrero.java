@@ -11,8 +11,8 @@ public class Obrero extends Candidato implements Serializable {
 	private String[] misHabilidades;
 
 	public Obrero(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento, String telefono,
-			String correo, String nacionalidad, String[] misHabilidades) {
-		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad);
+			String correo, String nacionalidad, byte[] imagen, String[] misHabilidades) {
+		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad, imagen);
 		this.misHabilidades = misHabilidades;
 	}
 

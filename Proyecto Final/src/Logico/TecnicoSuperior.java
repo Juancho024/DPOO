@@ -12,8 +12,9 @@ public class TecnicoSuperior extends Candidato implements Serializable{
 	private int anyoExperiencia;
 
 	public TecnicoSuperior(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
-			String telefono, String correo, String nacionalidad, String areaEspecialidad, int anyoExperiencia) {
-		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad);
+			String telefono, String correo, String nacionalidad, byte[] imagen, String areaEspecialidad,
+			int anyoExperiencia) {
+		super(cedula, nombre, apellido, sexo, fechaNacimiento, telefono, correo, nacionalidad, imagen);
 		this.areaEspecialidad = areaEspecialidad;
 		this.anyoExperiencia = anyoExperiencia;
 	}

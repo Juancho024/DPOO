@@ -26,10 +26,16 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Principal extends JFrame {
 
@@ -52,6 +58,12 @@ public class Principal extends JFrame {
 	private Label lbMatch;
 	private Label lbUsuario;
 	private JPopupMenu menuUsuario;
+	private Label lbRespaldo;
+	private JMenuItem mntmNewMenuItem_10;
+	private JPopupMenu menuRespaldo;
+	static Socket sfd = null;
+	static DataInputStream EntradaSocket;
+	static DataOutputStream SalidaSocket;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,7 +88,6 @@ public class Principal extends JFrame {
 					bolsa2 = new FileOutputStream("Bolsa.dat");
 					bolsaWrite = new ObjectOutputStream(bolsa2);
 					bolsaWrite.writeObject(Bolsa.getInstance());
-					bolsaWrite.flush(); // Extra: asegurarse
 					System.out.println("Datos guardados correctamente.");
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
@@ -110,7 +121,7 @@ public class Principal extends JFrame {
 				if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
 					JOptionPane.showMessageDialog(
 						    null,
-						    "Solo los Administradores tienen acceso a esa opci髇.",
+						    "Solo los Administradores tienen acceso a esa opci贸n.",
 						    "Acceso denegado",
 						    JOptionPane.WARNING_MESSAGE
 						);
@@ -123,7 +134,7 @@ public class Principal extends JFrame {
 		});
 		lbMatch.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbMatch.setAlignment(Label.CENTER);
-		lbMatch.setBounds(1257, 10, 62, 22); // Posici髇 ajustada
+		lbMatch.setBounds(1257, 10, 62, 22); // Posici贸n ajustada
 		panel.add(lbMatch);
 
 		lbCandidatos = new Label("Candidatos");
@@ -195,7 +206,7 @@ public class Principal extends JFrame {
 			}
 		});
 		menuEmpresa.add(mntmNewMenuItem_1);
-		// FIN DE MEN赟 A袮DIDOS
+		// FIN DE MEN脷S A脩ADIDOS
 
 		lbListado = new Label("Listados y Reportes");
 		lbListado.addMouseListener(new MouseAdapter() {
@@ -206,7 +217,7 @@ public class Principal extends JFrame {
 		});
 		lbListado.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbListado.setAlignment(Label.CENTER);
-		lbListado.setBounds(1080, 10, 127, 22); // Posici髇 ajustada
+		lbListado.setBounds(1080, 10, 127, 22); // Posici贸n ajustada
 		panel.add(lbListado);
 
 		MenuListados = new JPopupMenu();
@@ -289,6 +300,56 @@ public class Principal extends JFrame {
 			}
 		});
 		menuUsuario.add(mntmNewMenuItem_9);
+		
+		lbRespaldo = new Label("Respaldo");
+		lbRespaldo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				menuRespaldo.show(lbRespaldo, 0, lbRespaldo.getHeight());
+			}
+		});
+		lbRespaldo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbRespaldo.setAlignment(Label.CENTER);
+		lbRespaldo.setBounds(598, 10, 78, 22);
+		panel.add(lbRespaldo);
+		
+		menuRespaldo = new JPopupMenu();
+		addPopup(lbRespaldo, menuRespaldo);
+		
+		mntmNewMenuItem_10 = new JMenuItem("Realizar Respaldo");
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+			    {
+			      sfd = new Socket("127.0.0.1",7000);
+			      DataInputStream aux = new DataInputStream(new FileInputStream(new File("Bolsa.dat")));
+			      SalidaSocket = new DataOutputStream((sfd.getOutputStream()));
+			      int unByte;
+			      try
+			      {
+			    	while ((unByte = aux.read()) != -1){
+			    		SalidaSocket.write(unByte);
+						SalidaSocket.flush();
+			    	}
+			      }
+			      catch (IOException ioe)
+			      {
+			        System.out.println("Error: "+ioe);
+			      }
+			    }
+			    catch (UnknownHostException uhe)
+			    {
+			      System.out.println("No se puede acceder al servidor.");
+			      System.exit(1);
+			    }
+			    catch (IOException ioe)
+			    {
+			      System.out.println("Comunicaci贸n rechazada.");
+			      System.exit(1);
+			    }
+			}
+		});
+		menuRespaldo.add(mntmNewMenuItem_10);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

@@ -5,9 +5,11 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Logico.Bolsa;
 import Logico.Candidato;
@@ -17,17 +19,27 @@ import Logico.Universitario;
 
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Label;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.FocusAdapter;
@@ -38,9 +50,13 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+
 import java.awt.Canvas;
 import java.awt.Button;
 import java.awt.SystemColor;
+import javax.swing.JLabel;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class RegistrarCandidato extends JDialog {
 
@@ -77,6 +93,8 @@ public class RegistrarCandidato extends JDialog {
 	private Button btnFoto;
 	private Label label_11;
 	private JComboBox cbxNacionalidad;
+	private JLabel lbImagen;
+	private byte[] imagenActual;
 
 	/**
 	 * Launch the application.
@@ -238,11 +256,44 @@ public class RegistrarCandidato extends JDialog {
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
-		Canvas canvas = new Canvas();
-		canvas.setBounds(377, 22, 117, 100);
-		panel.add(canvas);
-
 		btnFoto = new Button("Colocar Foto");
+		btnFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        JFileChooser chooser = new JFileChooser();
+		        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes (.png, .jpg, .jpeg)", "png", "jpg", "jpeg");
+		        chooser.setFileFilter(filtro);
+
+		        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		            File archivo = chooser.getSelectedFile();
+		            String nombreArchivo = archivo.getName().toLowerCase();
+
+		            if (!(nombreArchivo.endsWith(".png") || nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg"))) {
+		                JOptionPane.showMessageDialog(null, "Solo se permiten imágenes JPG o PNG", "Formato de Imagen no Valido", JOptionPane.ERROR_MESSAGE);
+		                return;
+		            }
+
+		            try (FileInputStream fis = new FileInputStream(archivo);
+		                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+
+		                byte[] buffer = new byte[1024];
+		                int bytesRead;
+		                while ((bytesRead = fis.read(buffer)) != -1) {
+		                    bos.write(buffer, 0, bytesRead);
+		                }
+
+		                imagenActual = bos.toByteArray();
+
+		                ImageIcon iconoOriginal = new ImageIcon(imagenActual);
+		                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		                lbImagen.setIcon(new ImageIcon(imagenEscalada));
+		                lbImagen.setText("");
+
+		            } catch (IOException ex) {
+		                JOptionPane.showMessageDialog(null, "Error al cargar la imagen");
+		            }
+		        }
+			}
+		});
 		btnFoto.setBackground(Color.LIGHT_GRAY);
 		btnFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnFoto.setBounds(392, 128, 90, 22);
@@ -257,6 +308,11 @@ public class RegistrarCandidato extends JDialog {
 		cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Per\u00FA", "M\u00E9xico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panam\u00E1", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "Rep\u00FAblica Dominicana", "Puerto Rico", "Espa\u00F1a", "Estados Unidos", "Canad\u00E1", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Jap\u00F3n", "Corea del Sur", "China", "India", "Australia", "Sud\u00E1frica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turqu\u00EDa", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "B\u00E9lgica", "Pa\u00EDses Bajos", "Nueva Zelanda"}));
 		cbxNacionalidad.setBounds(215, 224, 170, 20);
 		panel.add(cbxNacionalidad);
+		
+		lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+        lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen.setBounds(378, 23, 117, 99);
+		panel.add(lbImagen);
 
 
 		JPanel panel_1 = new JPanel();
@@ -418,7 +474,7 @@ public class RegistrarCandidato extends JDialog {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxUniversitario.getSelectedItem().toString());
+							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, cbxUniversitario.getSelectedItem().toString());
 						}
 						if(rdbtnTecnicoSuperior.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -433,7 +489,7 @@ public class RegistrarCandidato extends JDialog {
 								return;
 							}
 							int anyoExperiencia = (int) spnExperiencia.getValue();
-							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
+							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
 						}
 						if(rdbtnObrero.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -472,7 +528,7 @@ public class RegistrarCandidato extends JDialog {
 				            }
 
 				            String[] habilidades = habilidadesList.toArray(new String[0]);
-							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, habilidades);
+							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, habilidades);
 						}
 						if (!Bolsa.getInstance().validarCorreo(correo) && !txtCorreo.getText().trim().isEmpty()) {
 							JOptionPane.showMessageDialog(null, "Correo inválido", "Error", JOptionPane.INFORMATION_MESSAGE);
