@@ -24,13 +24,13 @@ public class Bolsa implements Serializable {
 		misVacantes = new ArrayList<>();
 	}
 	
-	// MÃ©todo para generar el cÃ³digo de Postulacion
+	// Método para generar el código de Postulacion
 	public String generarCodigoPostulacion() {
 		genCodPost++;
 		return String.format("Post - %02d", genCodPost);
 	}
 
-	// MÃ©todo para generar el cÃ³digo de Vacante
+	// Método para generar el código de Vacante
 	public String generarCodigoVacante() {
 		genCodVac++;
 		return String.format("Vac - %02d", genCodVac);
@@ -53,7 +53,7 @@ public class Bolsa implements Serializable {
 			}
 		}
 
-		// No encontrÃ³ @ o .
+		// No encontró @ o .
 		if (posArroba == -1 || posPunto == -1)
 			return false;
 
@@ -245,6 +245,11 @@ public class Bolsa implements Serializable {
 	    misPostulaciones.remove(p);
 	}
 	
+	public void eliminarVacante(Vacante p) {
+		genCodVac--;
+	    misVacantes.remove(p);
+	}
+	
 	//Buscar vacantes
 	public Vacante buscarVacanteByCode(String rnc) {
 		Vacante aux = null;
@@ -258,6 +263,22 @@ public class Bolsa implements Serializable {
 			i++;
 		}
 		return aux;
+	}
+	
+	public void modificarVacante(Vacante selected) {
+	    int index = buscarIndexVacanteById(selected.getIdentificador());
+	    if (index != -1) {
+	        misVacantes.set(index, selected);
+	    }
+	}
+	
+	private int buscarIndexVacanteById(String identificador) {
+	    for (int i = 0; i < misVacantes.size(); i++) {
+	        if (misVacantes.get(i).getIdentificador().equalsIgnoreCase(identificador)) {
+	            return i;
+	        }
+	    }
+	    return -1; 
 	}
 	
 	// Buscar si una Candidato tiene una postulacion 

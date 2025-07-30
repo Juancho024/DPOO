@@ -26,6 +26,9 @@ public class ListadoPostulacion extends JDialog {
     private DefaultTableModel model;
     private Object[] fila;
     private Postulacion selectedPostulacion; // Para almacenar la postulación seleccionada
+    private JButton btnModificar;
+    private JButton btnEliminar;
+    private JButton btnVerReporte; // Nuevo botón para el reporte
 
     public ListadoPostulacion() {
         setTitle("Listado de Postulaciones");
@@ -44,8 +47,15 @@ public class ListadoPostulacion extends JDialog {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(table);
 
-        String[] headers = {"Identificador", "Cédula Candidato", "Nivel Estudio", "Detalle Estudio", "Años Exp.", "Tipo Contrato", "País", "Ciudad", "Mudanza", "Vehículo", "Licencia", "Salario", "Status"};
-        model = new DefaultTableModel();
+        // SOLO se muestran las columnas solicitadas
+        String[] headers = {"Identificador", "Tipo de Contrato", "País Residencia", "Pretensión Salarial", "Nivel de Estudio"};
+        model = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int intColumn) {
+                // Nunca permitir edición de celdas
+                return false;
+            }
+        };
         model.setColumnIdentifiers(headers);
         table.setModel(model);
 
@@ -59,9 +69,14 @@ public class ListadoPostulacion extends JDialog {
                 if (row >= 0) {
                     String id = (String) table.getValueAt(row, 0); // Obtener el ID de la primera columna
                     selectedPostulacion = Bolsa.getInstance().buscarPostulacionById(id);
-                    // Aquí podrías habilitar/deshabilitar botones de "Modificar" o "Eliminar"
+                    btnModificar.setEnabled(true);
+                    btnEliminar.setEnabled(true);
+                    btnVerReporte.setEnabled(true); // Habilitar el botón de reporte
                 } else {
                     selectedPostulacion = null; // No hay nada seleccionado
+                    btnModificar.setEnabled(false);
+                    btnEliminar.setEnabled(false);
+                    btnVerReporte.setEnabled(false); // Deshabilitar el botón de reporte
                 }
             }
         });
@@ -70,7 +85,8 @@ public class ListadoPostulacion extends JDialog {
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-        JButton btnModificar = new JButton("Modificar");
+        btnModificar = new JButton("Modificar");
+        btnModificar.setEnabled(false); // Deshabilitado inicialmente
         btnModificar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (selectedPostulacion != null) {
@@ -78,6 +94,12 @@ public class ListadoPostulacion extends JDialog {
                     modDialog.setVisible(true);
                     // Cuando la ventana de modificación se cierra, refrescamos la tabla
                     loadPostulacionesTable();
+                    // Después de modificar y refrescar, limpiar la selección y deshabilitar botones
+                    table.clearSelection();
+                    selectedPostulacion = null;
+                    btnModificar.setEnabled(false);
+                    btnEliminar.setEnabled(false);
+                    btnVerReporte.setEnabled(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione una postulación para modificar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
@@ -85,7 +107,8 @@ public class ListadoPostulacion extends JDialog {
         });
         buttonPane.add(btnModificar);
 
-        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setEnabled(false); // Deshabilitado inicialmente
         btnEliminar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (selectedPostulacion != null) {
@@ -95,6 +118,10 @@ public class ListadoPostulacion extends JDialog {
                         JOptionPane.showMessageDialog(null, "Postulación eliminada con éxito.", "Eliminar Postulación", JOptionPane.INFORMATION_MESSAGE);
                         loadPostulacionesTable(); // Refrescar la tabla
                         selectedPostulacion = null; // Limpiar selección
+                        table.clearSelection();
+                        btnModificar.setEnabled(false);
+                        btnEliminar.setEnabled(false);
+                        btnVerReporte.setEnabled(false);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione una postulación para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -102,6 +129,22 @@ public class ListadoPostulacion extends JDialog {
             }
         });
         buttonPane.add(btnEliminar);
+
+        // Nuevo botón "Ver Reporte"
+        btnVerReporte = new JButton("Ver Reporte");
+        btnVerReporte.setEnabled(false); // Deshabilitado inicialmente
+        btnVerReporte.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (selectedPostulacion != null) {
+                    ReportePostulacion repPost = new ReportePostulacion(selectedPostulacion);
+                    repPost.setModal(true);
+                    repPost.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione una postulación para ver su reporte.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        buttonPane.add(btnVerReporte);
 
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
@@ -116,20 +159,14 @@ public class ListadoPostulacion extends JDialog {
         model.setRowCount(0); // Limpiar todas las filas existentes
 
         for (Postulacion p : Bolsa.getInstance().getMisPostulaciones()) {
-            fila = new Object[13]; // Ajustar el tamaño del array a 13 (nuevos campos)
+            fila = new Object[5]; // Ahora son solo 5 columnas
+
             fila[0] = p.getIdentificador();
-            fila[1] = p.getCedulaCliente();
-            fila[2] = p.getNivelEstudio();
-            fila[3] = p.getDetalleNivelEstudio(); // Nuevo campo
-            fila[4] = p.getAniosExperiencia();   // Nuevo campo
-            fila[5] = p.getTipoContrato();
-            fila[6] = p.getPaisResidencia();
-            fila[7] = p.getCiudadResidencia();
-            fila[8] = p.isMudanza() ? "Sí" : "No";
-            fila[9] = p.isDisponibilidadVehiculo() ? "Sí" : "No";
-            fila[10] = p.isLicencia() ? "Sí" : "No";
-            fila[11] = p.getPretensionSalarial();
-            fila[12] = p.isStatus() ? "Activa" : "Inactiva"; // Mostrar el estado
+            fila[1] = p.getTipoContrato();
+            fila[2] = p.getPaisResidencia();
+            fila[3] = String.format("%,.2f", p.getPretensionSalarial()); // Formato de moneda
+            fila[4] = p.getNivelEstudio();
+            
             model.addRow(fila);
         }
     }
