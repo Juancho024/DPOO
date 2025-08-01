@@ -50,6 +50,7 @@ public class ListadoVacante extends JDialog {
         setTitle("Listado de Vacantes");
         setBounds(100, 100, 1200, 677);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);

@@ -56,14 +56,12 @@ public class Principal extends JFrame {
 	private JMenuItem mntmNewMenuItem_6;
 	private JMenuItem mntmNewMenuItem_7;
 	private Label lbMatch;
-	private Label lbUsuario;
+	private Label lbAdministracion;
 	private JPopupMenu menuUsuario;
-	private Label lbRespaldo;
-	private JMenuItem mntmNewMenuItem_10;
-	private JPopupMenu menuRespaldo;
 	static Socket sfd = null;
 	static DataInputStream EntradaSocket;
 	static DataOutputStream SalidaSocket;
+	private JMenuItem mntmNewMenuItem_11;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -263,22 +261,22 @@ public class Principal extends JFrame {
 		});
 		MenuListados.add(mntmNewMenuItem_7);
 		
-		lbUsuario = new Label("Usuarios");
-		lbUsuario.addMouseListener(new MouseAdapter() {
+		lbAdministracion = new Label("Administración");
+		lbAdministracion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menuUsuario.show(lbUsuario, 0, lbUsuario.getHeight());
+				menuUsuario.show(lbAdministracion, 0, lbAdministracion.getHeight());
 			}
 		});
-		lbUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbUsuario.setAlignment(Label.CENTER);
-		lbUsuario.setBounds(716, 10, 78, 22);
-		panel.add(lbUsuario);
+		lbAdministracion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lbAdministracion.setAlignment(Label.CENTER);
+		lbAdministracion.setBounds(694, 10, 100, 22);
+		panel.add(lbAdministracion);
 		
 		menuUsuario = new JPopupMenu();
-		addPopup(lbUsuario, menuUsuario);
+		addPopup(lbAdministracion, menuUsuario);
 		
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registros");
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Usuario");
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarUser regUser = new RegistrarUser();
@@ -288,7 +286,7 @@ public class Principal extends JFrame {
 		});
 		menuUsuario.add(mntmNewMenuItem_8);
 		
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Listados");
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Listado de Usuarios");
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListadoUser lisUser = new ListadoUser();
@@ -298,27 +296,8 @@ public class Principal extends JFrame {
 		});
 		menuUsuario.add(mntmNewMenuItem_9);
 		
-		lbRespaldo = new Label("Respaldo");
-		lbRespaldo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				menuRespaldo.show(lbRespaldo, 0, lbRespaldo.getHeight());
-			}
-		});
-		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
-			lbUsuario.setVisible(false);
-			lbRespaldo.setVisible(false);
-		}
-		lbRespaldo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbRespaldo.setAlignment(Label.CENTER);
-		lbRespaldo.setBounds(598, 10, 78, 22);
-		panel.add(lbRespaldo);
-		
-		menuRespaldo = new JPopupMenu();
-		addPopup(lbRespaldo, menuRespaldo);
-		
-		mntmNewMenuItem_10 = new JMenuItem("Realizar Respaldo");
-		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+		mntmNewMenuItem_11 = new JMenuItem("Realizar Respaldo");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
 			    {
@@ -350,7 +329,10 @@ public class Principal extends JFrame {
 			    }
 			}
 		});
-		menuRespaldo.add(mntmNewMenuItem_10);
+		menuUsuario.add(mntmNewMenuItem_11);
+		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
+			lbAdministracion.setVisible(false);
+		}
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

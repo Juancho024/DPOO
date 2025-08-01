@@ -116,6 +116,7 @@ public class ModCandidato extends JDialog {
 		setTitle("Modificar Candidato");
 		setBounds(100, 100, 600, 575);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);

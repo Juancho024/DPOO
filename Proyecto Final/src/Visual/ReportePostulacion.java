@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -29,6 +30,7 @@ public class ReportePostulacion extends JDialog {
     private JTextField txtCiudadResidencia;
     private JTextField txtPretensionSalarial;
     private JTextField txtNivelEstudio;
+    private JLabel lbImagen;
 
     private JRadioButton rdbtnMudanzaSi;
     private JRadioButton rdbtnMudanzaNo;
@@ -55,11 +57,9 @@ public class ReportePostulacion extends JDialog {
      */
     public static void main(String[] args) {
         try {
-            // Ejemplo de uso (necesitarías una Postulacion real)
-            // Postulacion dummyPostulacion = new Postulacion("P001", "123-456-7890", "Universitario", "Ingeniería en Sistemas", 0, "Tiempo Completo", "México", "Ciudad de México", true, true, false, 50000.0f, true);
-            // ReportePostulacion dialog = new ReportePostulacion(dummyPostulacion);
-            // dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            // dialog.setVisible(true);
+            ReportePostulacion dialog = new ReportePostulacion(null);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,6 +72,7 @@ public class ReportePostulacion extends JDialog {
         setTitle("Reporte de Postulación");
         setBounds(100, 100, 550, 680); // Ajustar tamaño de la ventana
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);

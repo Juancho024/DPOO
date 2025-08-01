@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,8 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class RegistrarVacante extends JDialog {
 
@@ -68,6 +73,7 @@ public class RegistrarVacante extends JDialog {
     private JTextField txtSector;
     private JSpinner spnAniosExperienciaTecnico;
     private JLabel lbLogoEmpresa;
+    private JLabel lbLogo;
 
     public static void main(String[] args) {
         try {
@@ -81,8 +87,9 @@ public class RegistrarVacante extends JDialog {
 
     public RegistrarVacante() {
         setTitle("Registrar Vacante");
-        setBounds(100, 100, 1001, 813);
+        setBounds(100, 100, 1001, 760);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
@@ -149,10 +156,16 @@ public class RegistrarVacante extends JDialog {
         panelInfoEmpresa.add(txtSector);
         txtSector.setColumns(10);
         
-        lbLogoEmpresa = new JLabel("Logo de la empresa:");
+        lbLogoEmpresa = new JLabel("Logo de la Empresa");
+        lbLogoEmpresa.setHorizontalAlignment(SwingConstants.CENTER);
         lbLogoEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lbLogoEmpresa.setBounds(174, 30, 119, 22);
+        lbLogoEmpresa.setBounds(200, 161, 159, 22);
         panelInfoEmpresa.add(lbLogoEmpresa);
+        
+        lbLogo = new JLabel("Sin imagen", SwingConstants.CENTER);
+        lbLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        lbLogo.setBounds(193, 34, 166, 116);
+        panelInfoEmpresa.add(lbLogo);
 
 
         // --- Panel Principal de Vacante (Izquierda) ---
@@ -335,31 +348,6 @@ public class RegistrarVacante extends JDialog {
         grupoNivelEstudio.add(rdbtnObrero);
         panelEstudios.add(rdbtnObrero);
 
-        panelUniversitario = new JPanel();
-        panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelUniversitario.setBounds(10, 581, 965, 70);  // Cambiado de 496 a 581
-        contentPanel.add(panelUniversitario);
-        panelUniversitario.setLayout(null);
-
-        JLabel lblCarrera = new JLabel("Carrera Requerida:");
-        lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblCarrera.setBounds(20, 30, 150, 22);
-        panelUniversitario.add(lblCarrera);
-
-        cbxCarreraUniversitario = new JComboBox<>();
-        cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",
-            "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Finanzas",
-            "Psicología", "Derecho", "Educación / Pedagogía", "Trabajo Social",
-            "Comunicación Social / Periodismo", "Relaciones Internacionales",
-            "Ingeniería en Sistemas / Informática", "Ingeniería Civil", "Ingeniería Industrial",
-            "Ingeniería Eléctrica / Electrónica", "Medicina", "Enfermería", "Odontología",
-            "Farmacia", "Nutrición", "Fisioterapia", "Veterinaria", "Ciencias de la Computación",
-            "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Diseño Gráfico",
-            "Diseño Industrial", "Turismo y Hotelería", "Gastronomía / Artes Culinarias"
-        }));
-        cbxCarreraUniversitario.setBounds(180, 30, 770, 22);
-        panelUniversitario.add(cbxCarreraUniversitario);
-
         panelTecnicoSuperior = new JPanel();
         panelTecnicoSuperior.setBorder(new TitledBorder(null, "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panelTecnicoSuperior.setBounds(10, 581, 965, 70);  // Cambiado de 496 a 581
@@ -391,17 +379,17 @@ public class RegistrarVacante extends JDialog {
         
         JLabel lblAniosExperiencia = new JLabel("Años de experiencia:");
         lblAniosExperiencia.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblAniosExperiencia.setBounds(520, 30, 120, 22);
+        lblAniosExperiencia.setBounds(531, 30, 146, 22);
         panelTecnicoSuperior.add(lblAniosExperiencia);
         
         spnAniosExperienciaTecnico = new JSpinner();
         spnAniosExperienciaTecnico.setModel(new SpinnerNumberModel(0, 0, 50, 1));
-        spnAniosExperienciaTecnico.setBounds(650, 30, 80, 22);
+        spnAniosExperienciaTecnico.setBounds(698, 31, 80, 22);
         panelTecnicoSuperior.add(spnAniosExperienciaTecnico);
 
         panelObrero = new JPanel();
         panelObrero.setBorder(new TitledBorder(null, "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelObrero.setBounds(10, 581, 965, 130);  // Cambiado de 496 a 581
+        panelObrero.setBounds(10, 581, 965, 105);  // Cambiado de 496 a 581
         contentPanel.add(panelObrero);
         panelObrero.setLayout(null);
 
@@ -436,7 +424,32 @@ public class RegistrarVacante extends JDialog {
 
         // Estado Inicial
         rdbtnUniversitario.setSelected(true);
-        mostrarPanelEstudio(panelUniversitario);
+        
+                panelUniversitario = new JPanel();
+                panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+                panelUniversitario.setBounds(10, 581, 965, 70);  // Cambiado de 496 a 581
+                contentPanel.add(panelUniversitario);
+                panelUniversitario.setLayout(null);
+                
+                        JLabel lblCarrera = new JLabel("Carrera Requerida:");
+                        lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
+                        lblCarrera.setBounds(20, 30, 150, 22);
+                        panelUniversitario.add(lblCarrera);
+                        
+                                cbxCarreraUniversitario = new JComboBox<>();
+                                cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",
+                                    "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Finanzas",
+                                    "Psicología", "Derecho", "Educación / Pedagogía", "Trabajo Social",
+                                    "Comunicación Social / Periodismo", "Relaciones Internacionales",
+                                    "Ingeniería en Sistemas / Informática", "Ingeniería Civil", "Ingeniería Industrial",
+                                    "Ingeniería Eléctrica / Electrónica", "Medicina", "Enfermería", "Odontología",
+                                    "Farmacia", "Nutrición", "Fisioterapia", "Veterinaria", "Ciencias de la Computación",
+                                    "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Diseño Gráfico",
+                                    "Diseño Industrial", "Turismo y Hotelería", "Gastronomía / Artes Culinarias"
+                                }));
+                                cbxCarreraUniversitario.setBounds(180, 30, 770, 22);
+                                panelUniversitario.add(cbxCarreraUniversitario);
+                                mostrarPanelEstudio(panelUniversitario);
         cargarEmpresas();
 
         // Botones
@@ -542,6 +555,16 @@ public class RegistrarVacante extends JDialog {
                     txtRNC.setText(empresa.getIdentificador());
                     txtUbicacion.setText(empresa.getPais());
                     txtSector.setText(empresa.getSector());
+                    byte[] imgBytes = empresa.getImagen();
+            		if (imgBytes != null) {
+            		    ImageIcon icono = new ImageIcon(imgBytes);
+            		    Image imagenEscalada = icono.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+            		    lbLogo.setIcon(new ImageIcon(imagenEscalada));
+            		    lbLogo.setText("");
+            		} else {
+            			lbLogo.setIcon(null);
+            			lbLogo.setText("Sin imagen");
+            		}
                 }
             }
         } catch (Exception e) {

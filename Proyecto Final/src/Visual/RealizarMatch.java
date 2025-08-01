@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import Logico.Bolsa;
+import Logico.Candidato;
 import Logico.PorcentajeMatch;
 import Logico.Postulacion;
 import Logico.Vacante;
@@ -20,6 +22,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Button;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,8 +30,12 @@ import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class RealizarMatch extends JDialog {
 
@@ -61,6 +68,12 @@ public class RealizarMatch extends JDialog {
 	private Button btnContratar3;
 	private Button btnContratar1;
 	private JComboBox<String> cbxVacantes;
+	private JLabel lbImagen1;
+	private JLabel lbImagen2;
+	private JLabel lbImagen3;
+	private JLabel lbPorcentaje1;
+	private JLabel lbPorcentaje3;
+	private JLabel lbPorcentaje2;
 
 	/**
 	 * Launch the application.
@@ -82,6 +95,7 @@ public class RealizarMatch extends JDialog {
 		setTitle("Realizar Match");
 		setBounds(100, 100, 1200, 677);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -232,6 +246,17 @@ public class RealizarMatch extends JDialog {
 		txtMudarse1.setBounds(181, 453, 177, 20);
 		panel_Postulacion1.add(txtMudarse1);
 		
+		lbImagen1 = new JLabel("Sin imagen", SwingConstants.CENTER);
+		lbImagen1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen1.setBounds(200, 34, 123, 117);
+		panel_Postulacion1.add(lbImagen1);
+		
+		lbPorcentaje1 = new JLabel("", SwingConstants.CENTER);
+		lbPorcentaje1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbPorcentaje1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbPorcentaje1.setBounds(35, 53, 90, 40);
+		panel_Postulacion1.add(lbPorcentaje1);
+		
 		JPanel panel_Postulacion2 = new JPanel();
 		panel_Postulacion2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Informaci\u00F3n Postulaci\u00F3n 2 ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_Postulacion2.setBounds(398, 68, 376, 549);
@@ -346,6 +371,17 @@ public class RealizarMatch extends JDialog {
 		label_18.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_18.setBounds(18, 155, 146, 22);
 		panel_Postulacion2.add(label_18);
+		
+		lbImagen2 = new JLabel("Sin imagen", SwingConstants.CENTER);
+		lbImagen2.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen2.setBounds(218, 34, 123, 117);
+		panel_Postulacion2.add(lbImagen2);
+		
+		lbPorcentaje2 = new JLabel("", SwingConstants.CENTER);
+		lbPorcentaje2.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbPorcentaje2.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbPorcentaje2.setBounds(37, 53, 90, 40);
+		panel_Postulacion2.add(lbPorcentaje2);
 		
 		JPanel panel_Postulacion3 = new JPanel();
 		panel_Postulacion3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Postulaci\u00F3n 3 ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -462,6 +498,17 @@ public class RealizarMatch extends JDialog {
 		label_27.setBounds(10, 154, 146, 22);
 		panel_Postulacion3.add(label_27);	
 		
+		lbImagen3 = new JLabel("Sin imagen", SwingConstants.CENTER);
+		lbImagen3.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbImagen3.setBounds(214, 33, 123, 117);
+		panel_Postulacion3.add(lbImagen3);
+		
+		lbPorcentaje3 = new JLabel("", SwingConstants.CENTER);
+		lbPorcentaje3.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lbPorcentaje3.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbPorcentaje3.setBounds(35, 53, 90, 40);
+		panel_Postulacion3.add(lbPorcentaje3);
+		
 	}
 	private void llenarPostulacionesDesdeCedulas(PorcentajeMatch match) {
 		// TODO Auto-generated method stub
@@ -485,6 +532,7 @@ public class RealizarMatch extends JDialog {
 			if(encontrada != null) {
 				switch(i) {
 				case 0:
+					lbPorcentaje1.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
                     txtNombre1.setText(encontrada.getCedulaCliente());
                     txtTipoContrato1.setText(encontrada.getTipoContrato());
                     txtSalario1.setText(String.valueOf(encontrada.getPretensionSalarial()));
@@ -505,8 +553,20 @@ public class RealizarMatch extends JDialog {
                     } else {
                     	txtMudarse1.setText("NO");
                     }
+                    Candidato aux = Bolsa.getInstance().buscarCandidatoByCod(encontrada.getCedulaCliente());
+                    byte[] imgBytes =  aux.getImagen();
+            		if (imgBytes != null) {
+            		    ImageIcon icono = new ImageIcon(imgBytes);
+            		    Image imagenEscalada = icono.getImage().getScaledInstance(117, 99, Image.SCALE_SMOOTH);
+            		    lbImagen1.setIcon(new ImageIcon(imagenEscalada));
+            		    lbImagen1.setText("");
+            		} else {
+            		    lbImagen1.setIcon(null);
+            		    lbImagen1.setText("Sin imagen");
+            		}
                     break;
                 case 1:
+                	lbPorcentaje2.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
                 	txtNombre2.setText(encontrada.getCedulaCliente());
                     txtTipoContrato2.setText(encontrada.getTipoContrato());
                     txtSalario2.setText(String.valueOf(encontrada.getPretensionSalarial()));
@@ -527,8 +587,20 @@ public class RealizarMatch extends JDialog {
                     } else {
                     	txtMudarse2.setText("NO");
                     }
+                    Candidato aux2 = Bolsa.getInstance().buscarCandidatoByCod(encontrada.getCedulaCliente());
+                    byte[] imgBytes2 =  aux2.getImagen();
+            		if (imgBytes2 != null) {
+            		    ImageIcon icono = new ImageIcon(imgBytes2);
+            		    Image imagenEscalada = icono.getImage().getScaledInstance(117, 99, Image.SCALE_SMOOTH);
+            		    lbImagen2.setIcon(new ImageIcon(imagenEscalada));
+            		    lbImagen2.setText("");
+            		} else {
+            		    lbImagen2.setIcon(null);
+            		    lbImagen2.setText("Sin imagen");
+            		}
                     break;
                 case 2:
+                	lbPorcentaje3.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
                 	txtNombre3.setText(encontrada.getCedulaCliente());
                     txtTipoContrato3.setText(encontrada.getTipoContrato());
                     txtSalario3.setText(String.valueOf(encontrada.getPretensionSalarial()));
@@ -549,6 +621,17 @@ public class RealizarMatch extends JDialog {
                     } else {
                     	txtMudarse3.setText("NO");
                     }
+                    Candidato aux3 = Bolsa.getInstance().buscarCandidatoByCod(encontrada.getCedulaCliente());
+                    byte[] imgBytes3 =  aux3.getImagen();
+            		if (imgBytes3 != null) {
+            		    ImageIcon icono = new ImageIcon(imgBytes3);
+            		    Image imagenEscalada = icono.getImage().getScaledInstance(117, 99, Image.SCALE_SMOOTH);
+            		    lbImagen3.setIcon(new ImageIcon(imagenEscalada));
+            		    lbImagen3.setText("");
+            		} else {
+            		    lbImagen3.setIcon(null);
+            		    lbImagen3.setText("Sin imagen");
+            		}
                     break;
 					
 				}

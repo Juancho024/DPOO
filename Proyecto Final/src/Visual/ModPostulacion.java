@@ -4,18 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -30,6 +35,7 @@ import Logico.TecnicoSuperior; // Necesario si usas sus campos directamente para
 import Logico.Universitario; // Necesario si usas sus campos directamente para pre-cargar
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
@@ -52,6 +58,7 @@ public class ModPostulacion extends JDialog {
     private Map<String, String[]> ciudadesPorPais = new HashMap<>();
     private JSpinner spnPretensionSalarial;
     private JTextField txtIdentificador;
+    private JLabel lbImagen;
 
     // Componentes específicos para Nivel de Estudio
     private JRadioButton rdbtnTecnicoSuperior;
@@ -77,6 +84,7 @@ public class ModPostulacion extends JDialog {
         setTitle("Modificar Postulación");
         setBounds(100, 100, 750, 700);
         setLocationRelativeTo(null);
+        setResizable(false);
         setModal(true); // Asegura que la ventana sea modal
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -252,17 +260,6 @@ public class ModPostulacion extends JDialog {
         panelLicencia.add(rdbtnLicenciaSi);
         panelLicencia.add(rdbtnLicenciaNo);
 
-        JPanel panelFoto = new JPanel();
-        panelFoto.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelFoto.setBounds(353, 65, 328, 258);
-        panelDatos.add(panelFoto);
-        panelFoto.setLayout(null);
-        
-        Label lbFoto = new Label("Imagen de Candidato: ");
-        lbFoto.setBounds(94, 5, 139, 23);
-        panelFoto.add(lbFoto);
-        lbFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
-
         // --- Botones ---
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -278,6 +275,36 @@ public class ModPostulacion extends JDialog {
 
         // --- Llamada al método para pre-cargar los datos ---
         preCargarDatosPostulacion();
+        lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+        lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        lbImagen.setBounds(361, 66, 320, 257);
+        panelDatos.add(lbImagen);
+        
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (cbxCandidatos.getSelectedIndex() > 0) { 
+        	        String seleccion = (String) cbxCandidatos.getSelectedItem();
+        	        String[] partes = seleccion.split(" - ");
+        	        if (partes.length == 2) {
+        	            String cedula = partes[1];
+        	            Candidato candidato = Bolsa.getInstance().buscarCandidatoByCod(cedula);
+        	            if (candidato != null && candidato.getImagen() != null) {
+        	                byte[] imgBytes = candidato.getImagen();
+        	                ImageIcon icono = new ImageIcon(imgBytes);
+        	                Image imagenEscalada = icono.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+        	                lbImagen.setIcon(new ImageIcon(imagenEscalada));
+        	                lbImagen.setText("");
+        	            } else {
+        	                lbImagen.setIcon(null);
+        	                lbImagen.setText("Sin imagen");
+        	            }
+        	        }
+        	    } else {
+        	        lbImagen.setIcon(null);
+        	        lbImagen.setText("Sin imagen");
+        	    }
+			}
+		});
     }
 
     private void inicializarCiudadesPorPais() {

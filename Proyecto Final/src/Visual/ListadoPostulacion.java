@@ -34,6 +34,7 @@ public class ListadoPostulacion extends JDialog {
         setTitle("Listado de Postulaciones");
         setBounds(100, 100, 800, 500);
         setLocationRelativeTo(null);
+        setResizable(false);
         setModal(true); // Asegura que la ventana sea modal
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -44,6 +45,25 @@ public class ListadoPostulacion extends JDialog {
         contentPanel.add(scrollPane, BorderLayout.CENTER);
 
         table = new JTable();
+        // Listener para seleccionar una fila en la tabla
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table.getSelectedRow();
+                if (row >= 0) {
+                	// Obtener el ID de la primera columna
+                    selectedPostulacion = Bolsa.getInstance().buscarPostulacionById(table.getValueAt(row, 0).toString());
+                    btnModificar.setEnabled(true);
+                    btnEliminar.setEnabled(true);
+                    btnVerReporte.setEnabled(true); // Habilitar el botón de reporte
+                } else {
+                    selectedPostulacion = null; // No hay nada seleccionado
+                    btnModificar.setEnabled(false);
+                    btnEliminar.setEnabled(false);
+                    btnVerReporte.setEnabled(false); // Deshabilitar el botón de reporte
+                }
+            }
+        });
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(table);
 
@@ -60,26 +80,6 @@ public class ListadoPostulacion extends JDialog {
         table.setModel(model);
 
         loadPostulacionesTable(); // Cargar datos iniciales
-
-        // Listener para seleccionar una fila en la tabla
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = table.getSelectedRow();
-                if (row >= 0) {
-                    String id = (String) table.getValueAt(row, 0); // Obtener el ID de la primera columna
-                    selectedPostulacion = Bolsa.getInstance().buscarPostulacionById(id);
-                    btnModificar.setEnabled(true);
-                    btnEliminar.setEnabled(true);
-                    btnVerReporte.setEnabled(true); // Habilitar el botón de reporte
-                } else {
-                    selectedPostulacion = null; // No hay nada seleccionado
-                    btnModificar.setEnabled(false);
-                    btnEliminar.setEnabled(false);
-                    btnVerReporte.setEnabled(false); // Deshabilitar el botón de reporte
-                }
-            }
-        });
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

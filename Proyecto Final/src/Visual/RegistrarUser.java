@@ -54,6 +54,7 @@ public class RegistrarUser extends JDialog {
 		setTitle("Registrar Usuario");
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Datos ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

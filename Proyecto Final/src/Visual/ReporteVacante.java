@@ -37,6 +37,7 @@ public class ReporteVacante extends JDialog {
         setTitle("Reporte de Vacante");
         setBounds(100, 100, 530, 580);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -59,6 +60,7 @@ public class ReporteVacante extends JDialog {
         panelGeneral.add(lblId);
 
         txtIdentificador = new JTextField();
+        txtIdentificador.setEnabled(false);
         txtIdentificador.setEditable(false);
         txtIdentificador.setText(selected.getIdentificador());
         txtIdentificador.setBounds(120, 23, 150, 20);
@@ -71,6 +73,7 @@ public class ReporteVacante extends JDialog {
         panelGeneral.add(lblNombre);
 
         txtNombreVacante = new JTextField();
+        txtNombreVacante.setEnabled(false);
         txtNombreVacante.setEditable(false);
         txtNombreVacante.setText(selected.getNombreVacante());
         txtNombreVacante.setBounds(120, 53, 360, 20);
@@ -83,6 +86,7 @@ public class ReporteVacante extends JDialog {
         panelGeneral.add(lblContrato);
 
         txtTipoContrato = new JTextField();
+        txtTipoContrato.setEnabled(false);
         txtTipoContrato.setEditable(false);
         txtTipoContrato.setText(selected.getTipoContrato());
         txtTipoContrato.setBounds(120, 83, 150, 20);
@@ -95,6 +99,7 @@ public class ReporteVacante extends JDialog {
         panelGeneral.add(lblNivel);
 
         txtNivelEstudio = new JTextField();
+        txtNivelEstudio.setEnabled(false);
         txtNivelEstudio.setEditable(false);
         txtNivelEstudio.setText(selected.getNivelEstudio());
         txtNivelEstudio.setBounds(120, 113, 150, 20);
@@ -107,6 +112,7 @@ public class ReporteVacante extends JDialog {
         panelGeneral.add(lblSalario);
 
         txtSalario = new JTextField();
+        txtSalario.setEnabled(false);
         txtSalario.setEditable(false);
         txtSalario.setText(String.valueOf(selected.getPretensionSalarial()));
         txtSalario.setBounds(340, 23, 140, 20);
@@ -138,6 +144,7 @@ public class ReporteVacante extends JDialog {
         panelUbicacion.add(lblPais);
 
         txtPais = new JTextField();
+        txtPais.setEnabled(false);
         txtPais.setEditable(false);
         txtPais.setText(selected.getPaisResidencia());
         txtPais.setBounds(120, 30, 360, 20);
@@ -150,6 +157,7 @@ public class ReporteVacante extends JDialog {
         panelUbicacion.add(lblCiudad);
 
         txtCiudad = new JTextField();
+        txtCiudad.setEnabled(false);
         txtCiudad.setEditable(false);
         txtCiudad.setText(selected.getCiudadResidencia());
         txtCiudad.setBounds(120, 60, 360, 20);
@@ -169,6 +177,7 @@ public class ReporteVacante extends JDialog {
         panelRequisitos.add(lblMudanza);
 
         txtMudanza = new JTextField();
+        txtMudanza.setEnabled(false);
         txtMudanza.setEditable(false);
         txtMudanza.setText(selected.isMudanza() ? "Sí" : "No");
         txtMudanza.setBounds(120, 30, 100, 20);
@@ -181,6 +190,7 @@ public class ReporteVacante extends JDialog {
         panelRequisitos.add(lblVehiculo);
 
         txtVehiculo = new JTextField();
+        txtVehiculo.setEnabled(false);
         txtVehiculo.setEditable(false);
         txtVehiculo.setText(selected.isDisponibilidadVehiculo() ? "Sí" : "No");
         txtVehiculo.setBounds(330, 30, 100, 20);
@@ -193,6 +203,7 @@ public class ReporteVacante extends JDialog {
         panelRequisitos.add(lblLicencia);
 
         txtLicencia = new JTextField();
+        txtLicencia.setEnabled(false);
         txtLicencia.setEditable(false);
         txtLicencia.setText(selected.isLicencia() ? "Sí" : "No");
         txtLicencia.setBounds(120, 60, 100, 20);
@@ -212,6 +223,7 @@ public class ReporteVacante extends JDialog {
         panelEmpresa.add(lblRNC);
 
         txtRNC = new JTextField();
+        txtRNC.setEnabled(false);
         txtRNC.setEditable(false);
         txtRNC.setText(selected.getRncEmpresa());
         txtRNC.setBounds(120, 30, 150, 20);
@@ -224,6 +236,7 @@ public class ReporteVacante extends JDialog {
         panelEmpresa.add(lblNombreEmpresa);
 
         txtNombreEmpresa = new JTextField();
+        txtNombreEmpresa.setEnabled(false);
         txtNombreEmpresa.setEditable(false);
         txtNombreEmpresa.setText(nombreEmpresa);
         txtNombreEmpresa.setBounds(120, 60, 360, 20);

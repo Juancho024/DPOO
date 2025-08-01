@@ -116,6 +116,7 @@ public class RegistrarCandidato extends JDialog {
 		setTitle("Registrar Candidato");
 		setBounds(100, 100, 600, 575);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -474,7 +475,7 @@ public class RegistrarCandidato extends JDialog {
 								JOptionPane.showMessageDialog(null, "Debe completar todos los campos para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 								return;
 							}
-							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, cbxUniversitario.getSelectedItem().toString());
+							aux = new Universitario(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, true, cbxUniversitario.getSelectedItem().toString());
 						}
 						if(rdbtnTecnicoSuperior.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -489,7 +490,7 @@ public class RegistrarCandidato extends JDialog {
 								return;
 							}
 							int anyoExperiencia = (int) spnExperiencia.getValue();
-							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
+							aux = new TecnicoSuperior(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, true, cbxTecnicoSuperior.getSelectedItem().toString(), anyoExperiencia);
 						}
 						if(rdbtnObrero.isSelected()) {
 							if(genero != 'M' && genero != 'F' || cedula.isEmpty() || 
@@ -528,7 +529,7 @@ public class RegistrarCandidato extends JDialog {
 				            }
 
 				            String[] habilidades = habilidadesList.toArray(new String[0]);
-							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, habilidades);
+							aux = new Obrero(cedula, nombre, apellido, genero, fechaNacimiento, telefono, correo, nacionalidad, imagenActual, true, habilidades);
 						}
 						if (!Bolsa.getInstance().validarCorreo(correo) && !txtCorreo.getText().trim().isEmpty()) {
 							JOptionPane.showMessageDialog(null, "Correo inválido", "Error", JOptionPane.INFORMATION_MESSAGE);

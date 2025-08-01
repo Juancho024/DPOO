@@ -32,6 +32,7 @@ public class ListadoEmpresa extends JDialog {
 	private JButton btnCancelar;
 	private JButton btnEliminar;
 	private Empresa selected = null;
+	private JButton btnReporte;
 
 	/**
 	 * Launch the application.
@@ -53,7 +54,7 @@ public class ListadoEmpresa extends JDialog {
 		setTitle("Listados de Empresas");
 		setBounds(100, 100, 941, 677);
 		setLocationRelativeTo(null);
-		
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -76,6 +77,8 @@ public class ListadoEmpresa extends JDialog {
 								selected = Bolsa.getInstance().buscarEmpresaByCod(table.getValueAt(index, 0).toString());
 								btnEliminar.setEnabled(true);
 								btnModificar.setEnabled(true);
+								btnReporte.setEnabled(true);
+								
 							}
 						}
 					});
@@ -114,25 +117,49 @@ public class ListadoEmpresa extends JDialog {
 								table.clearSelection();
 								btnModificar.setEnabled(false);
 								btnEliminar.setEnabled(false);
+								btnReporte.setEnabled(false);
 								selected = null;
 							}
 						}
 					}
 				});
+				{
+					btnReporte = new JButton("Ver Reporte");
+					btnReporte.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ReporteEmpresa repEmp = new ReporteEmpresa(selected);
+							repEmp.setModal(true);
+							repEmp.setVisible(true);
+							table.clearSelection();
+							btnModificar.setEnabled(false);
+							btnEliminar.setEnabled(false);
+							btnReporte.setEnabled(false);
+							selected = null;
+						}
+					});
+					btnReporte.setEnabled(false);
+					btnReporte.setActionCommand("OK");
+					buttonPane.add(btnReporte);
+				}
 				btnEliminar.setEnabled(false);
 				btnEliminar.setActionCommand("OK");
 				buttonPane.add(btnEliminar);
 			}
 			{
 				btnModificar = new JButton("Modificar");
+				btnModificar.setEnabled(false);
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ModEmpresa modEmp = new ModEmpresa(selected);
 						modEmp.setModal(true);
 						modEmp.setVisible(true);
+						table.clearSelection();
+						btnModificar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnReporte.setEnabled(false);
+						selected = null;
 					}
 				});
-				btnModificar.setEnabled(false);
 				btnModificar.setActionCommand("OK");
 				buttonPane.add(btnModificar);
 				getRootPane().setDefaultButton(btnModificar);

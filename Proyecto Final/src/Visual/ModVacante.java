@@ -71,6 +71,7 @@ public class ModVacante extends JDialog {
         setTitle("Modificar Vacante");
         setBounds(100, 100, 1001, 785);
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);

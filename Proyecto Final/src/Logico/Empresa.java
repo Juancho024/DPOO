@@ -8,14 +8,16 @@ public class Empresa implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String identificador; //RNC
+	private byte[] imagen;
 	private String nombre;
 	private String pais;
 	private String sector;
 	private ArrayList <Vacante> misFormulariosEmpresa;
 	
-	public Empresa(String identificador, String nombre, String pais, String sector) {
+	public Empresa(String identificador, byte[] imagen, String nombre, String pais, String sector) {
 		super();
 		this.identificador = identificador;
+		this.setImagen(imagen);
 		this.nombre = nombre;
 		this.pais = pais;
 		this.sector = sector;
@@ -60,6 +62,14 @@ public class Empresa implements Serializable{
 
 	public void setMisFormulariosEmpresa(ArrayList<Vacante> misFormulariosEmpresa) {
 		this.misFormulariosEmpresa = misFormulariosEmpresa;
+	}
+
+	public byte[] getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
 	}
 	
 	

@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -29,6 +33,11 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.JLabel;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegistrarPostulacion extends JDialog {
 
@@ -65,9 +74,9 @@ public class RegistrarPostulacion extends JDialog {
     private JCheckBox chkTuberias;
     private JCheckBox chkMantenimiento;
     private JCheckBox chkMaquinaria;
-    private Label lbFoto;
     private Label lbIdentificador;
     private JTextField txtIdentificador;
+    private JLabel lbImagen;
 
 
     public static void main(String[] args) {
@@ -84,6 +93,7 @@ public class RegistrarPostulacion extends JDialog {
         setTitle("Registrar Postulación");
         setBounds(100, 100, 750, 700); // Ajustado para nuevo contenido
         setLocationRelativeTo(null);
+        setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
@@ -104,6 +114,32 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblCandidato);
 
         cbxCandidatos = new JComboBox<>();
+        cbxCandidatos.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		if (cbxCandidatos.getSelectedIndex() > 0) { 
+        	        String seleccion = (String) cbxCandidatos.getSelectedItem();
+        	        String[] partes = seleccion.split(" - ");
+        	        if (partes.length == 2) {
+        	            cedula = partes[1];
+        	            Candidato candidato = Bolsa.getInstance().buscarCandidatoByCod(cedula);
+        	            if (candidato != null && candidato.getImagen() != null) {
+        	                byte[] imgBytes = candidato.getImagen();
+        	                ImageIcon icono = new ImageIcon(imgBytes);
+        	                Image imagenEscalada = icono.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+        	                lbImagen.setIcon(new ImageIcon(imagenEscalada));
+        	                lbImagen.setText("");
+        	            } else {
+        	                lbImagen.setIcon(null);
+        	                lbImagen.setText("Sin imagen");
+        	            }
+        	        }
+        	    } else {
+        	        lbImagen.setIcon(null);
+        	        lbImagen.setText("Sin imagen");
+        	    }
+        	}
+        });
         cbxCandidatos.setBounds(112, 30, 569, 22);
         panelDatos.add(cbxCandidatos);
 
@@ -255,17 +291,6 @@ public class RegistrarPostulacion extends JDialog {
         toggleNivelEstudioPanels(true, false, false); // Estado inicial
         rdbtnUniversitario.setSelected(true);
         
-        JPanel panel = new JPanel();
-        panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panel.setBounds(353, 65, 328, 258);
-        panelDatos.add(panel);
-        panel.setLayout(null);
-        
-        lbFoto = new Label("Imagen de Candidato: ");
-        lbFoto.setBounds(94, 5, 139, 23);
-        panel.add(lbFoto);
-        lbFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
-        
         lbIdentificador = new Label("Identificador:");
         lbIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
         lbIdentificador.setBounds(10, 58, 80, 22);
@@ -277,6 +302,11 @@ public class RegistrarPostulacion extends JDialog {
         txtIdentificador.setBounds(10, 80, 331, 22);
         panelDatos.add(txtIdentificador);
         txtIdentificador.setColumns(10);
+        
+        lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
+        lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        lbImagen.setBounds(361, 66, 320, 257);
+        panelDatos.add(lbImagen);
 
         // --- Botones ---
         JPanel buttonPane = new JPanel();
@@ -443,7 +473,7 @@ public class RegistrarPostulacion extends JDialog {
             if (cbxCandidatos.getSelectedIndex() <= 0) {
                 throw new Exception("Seleccione un candidato");
             }
-            
+
             String seleccion = cbxCandidatos.getSelectedItem().toString();
             String[] partes = seleccion.split(" - ");
             if (partes.length == 2) {
@@ -456,7 +486,6 @@ public class RegistrarPostulacion extends JDialog {
             if (candidato == null) {
                 throw new Exception("No se pudo encontrar el candidato.");
             }
-
             // Validar país y ciudad
             if (cbxPaisResidencia.getSelectedIndex() == 0) throw new Exception("Seleccione un país");
             if (cbxCiudades.getSelectedIndex() == -1 || cbxCiudades.getSelectedItem().toString().isEmpty()) throw new Exception("Seleccione una ciudad");

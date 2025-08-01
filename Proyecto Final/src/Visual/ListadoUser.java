@@ -55,6 +55,7 @@ public class ListadoUser extends JDialog {
 		setTitle("Listado de Usuarios");
 		setBounds(100, 100, 941, 677);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

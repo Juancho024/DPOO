@@ -48,6 +48,7 @@ public class ReporteCandidato extends JDialog {
 	private JTextField txtTecnico;
 	private JTextField txtAnyo;
 	private JLabel lbImagen;
+	private JTextField txtEstado;
 	
 	/**
 	 * Launch the application.
@@ -69,6 +70,7 @@ public class ReporteCandidato extends JDialog {
 		setTitle("Reporte de Candidato");
 		setBounds(100, 100, 530, 580);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -177,7 +179,7 @@ public class ReporteCandidato extends JDialog {
 
 		Label label_6 = new Label("Genero: ");
 		label_6.setFont(new Font("Tahoma", Font.BOLD, 12));
-		label_6.setBounds(254, 259, 145, 22);
+		label_6.setBounds(254, 259, 51, 22);
 		panel.add(label_6);
 
 		txtGenero = new JTextField();
@@ -185,8 +187,25 @@ public class ReporteCandidato extends JDialog {
 		txtGenero.setEditable(false);
 		txtGenero.setColumns(10);
 		txtGenero.setText(String.valueOf(selected.getSexo()));
-		txtGenero.setBounds(254, 287, 220, 20);
+		txtGenero.setBounds(254, 287, 84, 20);
 		panel.add(txtGenero);
+		
+		Label label_10 = new Label("Estado:");
+		label_10.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_10.setBounds(348, 259, 51, 22);
+		panel.add(label_10);
+		
+		txtEstado = new JTextField();
+		txtEstado.setEnabled(false);
+		txtEstado.setEditable(false);
+		if(selected.isStatus() == true) {
+			txtEstado.setText("Desempleado");
+		} else {
+			txtEstado.setText("Empleado");
+		}
+		txtEstado.setColumns(10);
+		txtEstado.setBounds(348, 287, 126, 20);
+		panel.add(txtEstado);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, " Datos Academicos ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -200,21 +219,13 @@ public class ReporteCandidato extends JDialog {
 		panel_1.add(label_7);
 
 		txtNivel = new JTextField();
+		txtNivel.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNivel.setEnabled(false);
 		txtNivel.setEditable(false);
 		txtNivel.setColumns(10);
 		txtNivel.setBounds(162, 27, 220, 20);
 		panel_1.add(txtNivel);
 		
-		JTextField[] campos = { txtCedula, txtNombre, txtCorreo, txtTelefono, txtFecha, txtNacionalidad, txtGenero };
-		for (JTextField campo : campos) {
-		    campo.setEditable(false);
-		    campo.setBackground(Color.WHITE);
-		    campo.setForeground(Color.BLACK);
-		    campo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		    campo.setDisabledTextColor(Color.BLACK); 
-		}
-
 		
 		if(selected instanceof Universitario) {
 			txtNivel.setText("Universitario");
@@ -226,6 +237,7 @@ public class ReporteCandidato extends JDialog {
 			txtCarerra = new JTextField();
 			txtCarerra.setEnabled(false);
 			txtCarerra.setEditable(false);
+			txtCarerra.setHorizontalAlignment(SwingConstants.CENTER);
 			txtCarerra.setColumns(10);
 			txtCarerra.setText(((Universitario) selected).getCarreraGraduada());
 			txtCarerra.setBounds(162, 74, 220, 20);
@@ -249,6 +261,7 @@ public class ReporteCandidato extends JDialog {
 			txtTecnico.setEnabled(false);
 			txtTecnico.setEditable(false);
 			txtTecnico.setColumns(10);
+			txtTecnico.setHorizontalAlignment(SwingConstants.CENTER);
 			txtTecnico.setText(((TecnicoSuperior) selected).getAreaEspecialidad());
 			txtTecnico.setBounds(20, 116, 220, 20);
 			panel_1.add(txtTecnico);
@@ -257,7 +270,8 @@ public class ReporteCandidato extends JDialog {
 			txtAnyo.setEnabled(false);
 			txtAnyo.setEditable(false);
 			txtAnyo.setColumns(10);
-			txtAnyo.setText(String.valueOf(((TecnicoSuperior) selected).getAnyoExperiencia()));
+			txtAnyo.setHorizontalAlignment(SwingConstants.CENTER);
+			txtAnyo.setText(String.valueOf(((TecnicoSuperior) selected).getAnyoExperiencia()) + " Años");
 			txtAnyo.setBounds(264, 116, 220, 20);
 			panel_1.add(txtAnyo);
 		} 
@@ -328,6 +342,26 @@ public class ReporteCandidato extends JDialog {
 		                break;
 		        }
 		    }
+		}
+		JTextField[] campos = { txtCedula, txtNombre, txtCorreo, txtTelefono, txtFecha, txtNacionalidad, txtEstado, txtGenero, txtCarerra, txtAnyo, txtTecnico, txtNivel};
+		for (JTextField campo : campos) {
+		    if(campo != null) {
+		    	campo.setEditable(false);
+			    campo.setBackground(Color.WHITE);
+			    campo.setForeground(Color.BLACK);
+			    campo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+			    campo.setDisabledTextColor(Color.BLACK); 
+		    }
+		}
+		JCheckBox[] check = {chkTuberia, chkMantenimiento, chkPlanos, chkPintura, chkSoldadura, chkElectricidad};
+		for(JCheckBox checks : check) {
+			if(checks != null) {
+		        checks.setForeground(Color.BLACK); 
+		        checks.setBackground(new Color(245, 245, 245)); 
+		        checks.setFont(new Font("Tahoma", Font.BOLD, 12)); 
+		        checks.setOpaque(true); 
+		        checks.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); 
+			}
 		}
 	}
 }

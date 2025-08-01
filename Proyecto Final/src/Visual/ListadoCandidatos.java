@@ -66,6 +66,7 @@ public class ListadoCandidatos extends JDialog {
 		setTitle("Listado de Candidatos");
 		setBounds(100, 100, 1200, 677);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -162,6 +163,11 @@ public class ListadoCandidatos extends JDialog {
 					ReporteCandidato repCan = new ReporteCandidato(selected);
 					repCan.setModal(true);
 					repCan.setVisible(true);
+					table.clearSelection();
+					btnModificar.setEnabled(false);
+					btnEliminar.setEnabled(false);
+					btnReportes.setEnabled(false);
+					selected = null;
 				}
 			});
 			btnReportes.setEnabled(false);
@@ -177,6 +183,11 @@ public class ListadoCandidatos extends JDialog {
 						ModCandidato modCan = new ModCandidato(selected);
 						modCan.setModal(true);
 						modCan.setVisible(true);
+						table.clearSelection();
+						btnModificar.setEnabled(false);
+						btnEliminar.setEnabled(false);
+						btnReportes.setEnabled(false);
+						selected = null;
 					}
 				});
 				btnModificar.setEnabled(false);
@@ -242,6 +253,18 @@ public class ListadoCandidatos extends JDialog {
 					row [7] = "Obrero";
 				}
 				modelo.addRow(row);
+				table.setModel(modelo);
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				table.getTableHeader().setReorderingAllowed(false);
+				TableColumnModel columnModel = table.getColumnModel();
+				columnModel.getColumn(0).setPreferredWidth(100);
+				columnModel.getColumn(1).setPreferredWidth(150);
+				columnModel.getColumn(2).setPreferredWidth(150);
+				columnModel.getColumn(3).setPreferredWidth(150);
+				columnModel.getColumn(4).setPreferredWidth(150);
+				columnModel.getColumn(5).setPreferredWidth(50);
+				columnModel.getColumn(6).setPreferredWidth(100);
+				columnModel.getColumn(7).setPreferredWidth(302);
 			}
 			break;
 		case 1:
@@ -257,6 +280,18 @@ public class ListadoCandidatos extends JDialog {
 					row [6] = aux.getTelefono();
 					row [7] = ((Universitario) aux).getCarreraGraduada();
 					modelo.addRow(row);
+					table.setModel(modelo);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table.getTableHeader().setReorderingAllowed(false);
+					TableColumnModel columnModel = table.getColumnModel();
+					columnModel.getColumn(0).setPreferredWidth(100);
+					columnModel.getColumn(1).setPreferredWidth(150);
+					columnModel.getColumn(2).setPreferredWidth(150);
+					columnModel.getColumn(3).setPreferredWidth(150);
+					columnModel.getColumn(4).setPreferredWidth(150);
+					columnModel.getColumn(5).setPreferredWidth(50);
+					columnModel.getColumn(6).setPreferredWidth(100);
+					columnModel.getColumn(7).setPreferredWidth(302);
 				}
 			}
 			break;
@@ -273,6 +308,18 @@ public class ListadoCandidatos extends JDialog {
 					row [6] = aux.getTelefono();
 					row [7] = ((TecnicoSuperior) aux).getAreaEspecialidad();
 					modelo.addRow(row);
+					table.setModel(modelo);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table.getTableHeader().setReorderingAllowed(false);
+					TableColumnModel columnModel = table.getColumnModel();
+					columnModel.getColumn(0).setPreferredWidth(100);
+					columnModel.getColumn(1).setPreferredWidth(150);
+					columnModel.getColumn(2).setPreferredWidth(150);
+					columnModel.getColumn(3).setPreferredWidth(150);
+					columnModel.getColumn(4).setPreferredWidth(150);
+					columnModel.getColumn(5).setPreferredWidth(50);
+					columnModel.getColumn(6).setPreferredWidth(100);
+					columnModel.getColumn(7).setPreferredWidth(302);
 				}
 			}
 			break;
@@ -290,21 +337,21 @@ public class ListadoCandidatos extends JDialog {
 					String[] habilidades = ((Obrero) aux).getMisHabilidades();
 			        row[7] = String.join(", ", habilidades);
 					modelo.addRow(row);
+					table.setModel(modelo);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table.getTableHeader().setReorderingAllowed(false);
+					TableColumnModel columnModel = table.getColumnModel();
+					columnModel.getColumn(0).setPreferredWidth(100);
+					columnModel.getColumn(1).setPreferredWidth(150);
+					columnModel.getColumn(2).setPreferredWidth(150);
+					columnModel.getColumn(3).setPreferredWidth(150);
+					columnModel.getColumn(4).setPreferredWidth(150);
+					columnModel.getColumn(5).setPreferredWidth(50);
+					columnModel.getColumn(6).setPreferredWidth(100);
+					columnModel.getColumn(7).setPreferredWidth(550);
 				}
 			}
 			break;
 		}
-		table.setModel(modelo);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setReorderingAllowed(false);
-		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(100);
-		columnModel.getColumn(1).setPreferredWidth(150);
-		columnModel.getColumn(2).setPreferredWidth(150);
-		columnModel.getColumn(3).setPreferredWidth(150);
-		columnModel.getColumn(4).setPreferredWidth(150);
-		columnModel.getColumn(5).setPreferredWidth(50);
-		columnModel.getColumn(6).setPreferredWidth(100);
-		columnModel.getColumn(7).setPreferredWidth(350);
 	}
 }

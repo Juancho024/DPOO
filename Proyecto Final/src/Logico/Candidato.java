@@ -18,7 +18,7 @@ public abstract class Candidato implements Serializable{
 	private ArrayList<Postulacion> misPostulaciones;
 	
 	public Candidato(String cedula, String nombre, String apellido, char sexo, Date fechaNacimiento,
-			String telefono, String correo, String nacionalidad, byte[] imagen) {
+			String telefono, String correo, String nacionalidad, byte[] imagen, boolean status) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -29,6 +29,7 @@ public abstract class Candidato implements Serializable{
 		this.correo = correo;
 		this.nacionalidad = nacionalidad;
 		this.imagen = imagen;
+		this.status = status;
 		this.misPostulaciones = new ArrayList<>();
 	}
 
@@ -110,5 +111,12 @@ public abstract class Candidato implements Serializable{
 
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 }
