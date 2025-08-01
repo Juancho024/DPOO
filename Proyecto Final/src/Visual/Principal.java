@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -23,6 +24,8 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
+
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -36,14 +39,15 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.awt.Color;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private Dimension dim;
-	private Label lbCandidatos;
-	private Label lbEmpresa;
-	private Label lbListado;
+	private JLabel lbCandidatos;
+	private JLabel lbEmpresa;
+	private JLabel lbListado;
 	private JPopupMenu menuCandidatos;
 	private JPopupMenu menuEmpresa;
 	private JMenuItem mntmNewMenuItem;
@@ -55,8 +59,8 @@ public class Principal extends JFrame {
 	private JMenuItem mntmNewMenuItem_5;
 	private JMenuItem mntmNewMenuItem_6;
 	private JMenuItem mntmNewMenuItem_7;
-	private Label lbMatch;
-	private Label lbAdministracion;
+	private JLabel lbMatch;
+	private JLabel lbAdministracion;
 	private JPopupMenu menuUsuario;
 	static Socket sfd = null;
 	static DataInputStream EntradaSocket;
@@ -101,7 +105,6 @@ public class Principal extends JFrame {
 		setSize(dim.width, dim.height-40);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
-		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -109,42 +112,39 @@ public class Principal extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel = new PanelConFondo("/Recursos/fondov2.png");
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		lbMatch = new Label("Match");
+		lbMatch = new RoundedLabel("MATCH", new Color(0, 102, 153), new Font("Arial", Font.BOLD, 14), Color.WHITE);
+		lbMatch.setBounds(1230, 11, 100, 26); // Tamaño y posición más amplios
 		lbMatch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
-					JOptionPane.showMessageDialog(
-						    null,
-						    "Solo los Administradores tienen acceso a esa opción.",
-						    "Acceso denegado",
-						    JOptionPane.WARNING_MESSAGE
-						);
-				} else {
-					RealizarMatch reaMat = new RealizarMatch();
-					reaMat.setModal(true);
-					reaMat.setVisible(true);
-				}
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
+		            JOptionPane.showMessageDialog(
+		                null,
+		                "Solo los Administradores tienen acceso a esa opción.",
+		                "Acceso denegado",
+		                JOptionPane.WARNING_MESSAGE
+		            );
+		        } else {
+		            RealizarMatch reaMat = new RealizarMatch();
+		            reaMat.setModal(true);
+		            reaMat.setVisible(true);
+		        }
+		    }
 		});
-		lbMatch.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbMatch.setAlignment(Label.CENTER);
-		lbMatch.setBounds(1257, 10, 62, 22); // Posición ajustada
 		panel.add(lbMatch);
 
-		lbCandidatos = new Label("Candidatos");
+		lbCandidatos = new RoundedLabel("Candidato", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
+		lbCandidatos.setBounds(805, 11, 100, 26);
 		lbCandidatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuCandidatos.show(lbCandidatos, 0, lbCandidatos.getHeight());
 			}
 		});
-		lbCandidatos.setAlignment(Label.CENTER);
-		lbCandidatos.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbCandidatos.setBounds(828, 10, 78, 22);
 		panel.add(lbCandidatos);
 
 		menuCandidatos = new JPopupMenu();
@@ -170,16 +170,14 @@ public class Principal extends JFrame {
 		});
 		menuCandidatos.add(mntmNewMenuItem_3);
 
-		lbEmpresa = new Label("Empresas");
+		lbEmpresa = new RoundedLabel("Empresa", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbEmpresa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuEmpresa.show(lbEmpresa, 0, lbEmpresa.getHeight());
 			}
 		});
-		lbEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbEmpresa.setAlignment(Label.CENTER);
-		lbEmpresa.setBounds(959, 10, 78, 22);
+		lbEmpresa.setBounds(928, 11, 100, 26);
 		panel.add(lbEmpresa);
 
 		menuEmpresa = new JPopupMenu();
@@ -206,16 +204,14 @@ public class Principal extends JFrame {
 		menuEmpresa.add(mntmNewMenuItem_1);
 		// FIN DE MENÚS AÑADIDOS
 
-		lbListado = new Label("Listados y Reportes");
+		lbListado = new RoundedLabel("Listados y Reportes", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbListado.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				MenuListados.show(lbListado, 0, lbListado.getHeight());
 			}
 		});
-		lbListado.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbListado.setAlignment(Label.CENTER);
-		lbListado.setBounds(1080, 10, 127, 22); // Posición ajustada
+		lbListado.setBounds(1058, 11, 139, 26); // Posición ajustada
 		panel.add(lbListado);
 
 		MenuListados = new JPopupMenu();
@@ -261,16 +257,14 @@ public class Principal extends JFrame {
 		});
 		MenuListados.add(mntmNewMenuItem_7);
 		
-		lbAdministracion = new Label("Administración");
+		lbAdministracion = new RoundedLabel("Administración", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbAdministracion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				menuUsuario.show(lbAdministracion, 0, lbAdministracion.getHeight());
 			}
 		});
-		lbAdministracion.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbAdministracion.setAlignment(Label.CENTER);
-		lbAdministracion.setBounds(694, 10, 100, 22);
+		lbAdministracion.setBounds(673, 11, 110, 26);
 		panel.add(lbAdministracion);
 		
 		menuUsuario = new JPopupMenu();
