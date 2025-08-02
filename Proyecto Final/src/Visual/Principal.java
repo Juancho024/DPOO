@@ -66,6 +66,7 @@ public class Principal extends JFrame {
 	static DataInputStream EntradaSocket;
 	static DataOutputStream SalidaSocket;
 	private JMenuItem mntmNewMenuItem_11;
+	private JMenuItem mntmNewMenuItem_10;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -106,15 +107,10 @@ public class Principal extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane = new PanelConFondo("/Recursos/fondov2.png");
+		contentPane.setLayout(null);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel = new PanelConFondo("/Recursos/fondov2.png");
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
 
 		lbMatch = new RoundedLabel("MATCH", new Color(0, 102, 153), new Font("Arial", Font.BOLD, 14), Color.WHITE);
 		lbMatch.setBounds(1230, 11, 100, 26); // Tamaño y posición más amplios
@@ -135,7 +131,8 @@ public class Principal extends JFrame {
 		        }
 		    }
 		});
-		panel.add(lbMatch);
+		contentPane.setLayout(null);
+		contentPane.add(lbMatch);
 
 		lbCandidatos = new RoundedLabel("Candidato", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbCandidatos.setBounds(805, 11, 100, 26);
@@ -145,7 +142,7 @@ public class Principal extends JFrame {
 				menuCandidatos.show(lbCandidatos, 0, lbCandidatos.getHeight());
 			}
 		});
-		panel.add(lbCandidatos);
+		contentPane.add(lbCandidatos);
 
 		menuCandidatos = new JPopupMenu();
 		addPopup(lbCandidatos, menuCandidatos);
@@ -177,8 +174,8 @@ public class Principal extends JFrame {
 				menuEmpresa.show(lbEmpresa, 0, lbEmpresa.getHeight());
 			}
 		});
-		lbEmpresa.setBounds(928, 11, 100, 26);
-		panel.add(lbEmpresa);
+		lbEmpresa.setBounds(929, 11, 100, 26);
+		contentPane.add(lbEmpresa);
 
 		menuEmpresa = new JPopupMenu();
 		addPopup(lbEmpresa, menuEmpresa);
@@ -211,8 +208,8 @@ public class Principal extends JFrame {
 				MenuListados.show(lbListado, 0, lbListado.getHeight());
 			}
 		});
-		lbListado.setBounds(1058, 11, 139, 26); // Posición ajustada
-		panel.add(lbListado);
+		lbListado.setBounds(1051, 11, 154, 26); // Posición ajustada
+		contentPane.add(lbListado);
 
 		MenuListados = new JPopupMenu();
 		addPopup(lbListado, MenuListados);
@@ -274,8 +271,8 @@ public class Principal extends JFrame {
 				menuUsuario.show(lbAdministracion, 0, lbAdministracion.getHeight());
 			}
 		});
-		lbAdministracion.setBounds(673, 11, 110, 26);
-		panel.add(lbAdministracion);
+		lbAdministracion.setBounds(671, 11, 113, 26);
+		contentPane.add(lbAdministracion);
 		
 		menuUsuario = new JPopupMenu();
 		addPopup(lbAdministracion, menuUsuario);
@@ -334,6 +331,16 @@ public class Principal extends JFrame {
 			}
 		});
 		menuUsuario.add(mntmNewMenuItem_11);
+		
+		mntmNewMenuItem_10 = new JMenuItem("Porcentaje Match");
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PorcentajeMatch newPor = new PorcentajeMatch();
+				newPor.setModal(true);
+				newPor.setVisible(true);
+			}
+		});
+		menuUsuario.add(mntmNewMenuItem_10);
 		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
 			lbAdministracion.setVisible(false);
 		}

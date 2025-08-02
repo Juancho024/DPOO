@@ -19,7 +19,10 @@ import Logico.Bolsa;
 import Logico.User;
 import javax.swing.border.TitledBorder;
 import java.awt.Label;
+import java.awt.RenderingHints;
 import java.awt.Font;
+import java.awt.Graphics2D;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Button;
@@ -27,15 +30,28 @@ import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
+import javax.swing.JLabel;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
+	private JPanel panel;
 	private JTextField txtUser;
-	private JButton btnCancelar;
-	private JButton btnRegistrar;
-	private JPasswordField txtpasssword;
+	private JPasswordField txtpassword;
+	private JLabel logo;
+	private boolean passwordVisible = false;
+	private JLabel ojoCerrado;
+	private JLabel ojoAbierto;
 
 	/**
 	 * Launch the application.
@@ -64,18 +80,18 @@ public class Login extends JFrame {
 						bolsa2.close();
 						bolsaWrite.close();
 					} catch(FileNotFoundException e1) {
-						
+
 					} catch (IOException e1) { 
-						
+
 					}
 				} catch (IOException e) {
-					
-					
+
+
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
@@ -92,38 +108,51 @@ public class Login extends JFrame {
 	public Login() {
 		setTitle("Iniciar Secci\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 323, 415);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 102, 153));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, " Ingresar sus Datos ", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		contentPane.setLayout(new BorderLayout(0, 0));
+
+		panel = new JPanel();
+		panel.setBackground(new Color(0, 102, 153));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
+		logo = DefaultComponentFactory.getInstance().createLabel("");
+		logo.setIcon(RoundedImageIcon.fromResource("/Recursos/perfilv2.jpg", 120)); 
+		logo.setBounds(88, 11, 120, 120);
+		panel.add(logo);
+
+		JPanel panel_1 = new JPanelRedondeado(60);
+		panel_1.setBackground(SystemColor.activeCaption);
+		panel_1.setLayout(null);
+		panel_1.setBounds(10, 101, 279, 251);
+		panel.add(panel_1);
+
 		Label label = new Label("Ingresar su Usuario: ");
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label.setBounds(28, 47, 134, 22);
-		panel.add(label);
-		
+		panel_1.add(label);
+
 		txtUser = new JTextField();
-		txtUser.setBounds(164, 47, 180, 20);
-		panel.add(txtUser);
+		txtUser.setBackground(SystemColor.inactiveCaptionBorder);
 		txtUser.setColumns(10);
-		
+		txtUser.setBounds(28, 76, 233, 20);
+		panel_1.add(txtUser);
+
 		Label label_1 = new Label("Ingresar su Contrase\u00F1a:");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_1.setBounds(28, 102, 151, 22);
-		panel.add(label_1);
-		
-		btnRegistrar = new JButton("Entrar");
-		btnRegistrar.addActionListener(new ActionListener() {
+		panel_1.add(label_1);
+
+		JButton button = new JButton("Entrar");
+		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String user = txtUser.getText();
-				String clave = new String(txtpasssword.getPassword());
+				String clave = new String(txtpassword.getPassword());
 				if (Bolsa.getInstance().confirmUser(user, clave)) {
 					Principal frame = new Principal();
 					dispose();
@@ -132,30 +161,46 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
-			//fuap
 		});
-		btnRegistrar.setBackground(new Color(0, 120, 215));
-		btnRegistrar.setForeground(Color.WHITE);
-		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnRegistrar.setBounds(91, 173, 100, 30);
-		panel.add(btnRegistrar);
-		
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Tahoma", Font.BOLD, 12));
+		button.setBackground(SystemColor.textHighlight);
+		button.setBounds(89, 173, 100, 30);
+		panel_1.add(button);
+
+		txtpassword = new JPasswordField();
+		txtpassword.setBackground(SystemColor.inactiveCaptionBorder);
+		txtpassword.setBounds(28, 130, 188, 20);
+		panel_1.add(txtpassword);
+
+		ojoCerrado = DefaultComponentFactory.getInstance().createLabel("");
+		ojoCerrado.setVisible(false);
+		ojoCerrado.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtpassword.setEchoChar('•'); 
+				ojoCerrado.setVisible(false);
+				ojoAbierto.setVisible(true);
 			}
 		});
-		btnCancelar.setBackground(new Color(220, 53, 69)); // Rojo claro tipo Bootstrap
-		btnCancelar.setForeground(Color.WHITE); // Texto blanco
-		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnCancelar.setBounds(229, 173, 100, 30);
-		panel.add(btnCancelar);
-		
-		txtpasssword = new JPasswordField();
-		txtpasssword.setBounds(185, 102, 159, 20);
-		panel.add(txtpasssword);
+		ojoCerrado.setHorizontalAlignment(SwingConstants.CENTER);
+		ojoCerrado.setIcon(new ImageIcon(Login.class.getResource("/Recursos/ojoCerrado.png")));
+		ojoCerrado.setBounds(226, 130, 35, 20);
+		panel_1.add(ojoCerrado);
+
+		ojoAbierto = DefaultComponentFactory.getInstance().createLabel("");
+		ojoAbierto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtpassword.setEchoChar((char) 0);
+				ojoCerrado.setVisible(true);
+				ojoAbierto.setVisible(false);
+			}
+		});
+		ojoAbierto.setHorizontalAlignment(SwingConstants.CENTER);
+		ojoAbierto.setIcon(new ImageIcon(Login.class.getResource("/Recursos/ojoAbierto.png")));
+		ojoAbierto.setBounds(226, 130, 35, 20);
+		panel_1.add(ojoAbierto);
+
 	}
 }

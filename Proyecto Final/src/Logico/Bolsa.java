@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Bolsa implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	private static Bolsa instance = null;
 	private ArrayList<User> misUsers;
@@ -15,9 +15,10 @@ public class Bolsa implements Serializable {
 	private ArrayList<Vacante> misVacantes;
 	private ArrayList<PorcentajeMatch> misPorcentajesMatches;
 	private ArrayList<DatosMatch> misDatosMatches;
-	private ArrayList<HistorialMatch>misContrataciones;
+	private ArrayList<HistorialMatch> misContrataciones;
 	public static int genCodVac = 0;
 	public static int genCodPost = 0;
+	private static float porcentajeMinMatcheo = 0;
 
 	private Bolsa() {
 		misUsers = new ArrayList<>();
@@ -29,13 +30,13 @@ public class Bolsa implements Serializable {
 		misDatosMatches = new ArrayList<>();
 		misContrataciones = new ArrayList<>();
 	}
-	
+
 	// Método para generar el código de Postulacion
 	public String generarCodigoPostulacion() {
 		genCodPost++;
 		return String.format("Post - %02d", genCodPost);
 	}
-	
+
 	//Validar correo, tengo que corregir
 	public boolean validarCorreo(String correo) {
 		int contArroba = 0, contPunto = 0;
@@ -85,7 +86,7 @@ public class Bolsa implements Serializable {
 	public void registrarEmpresa(Empresa empresa) {
 		misEmpresas.add(empresa);
 	}
-	
+
 	public void registrarCandidato(Candidato candidato) {
 		misCandidatos.add(candidato);
 	}
@@ -122,8 +123,8 @@ public class Bolsa implements Serializable {
 	public void setMisVacantes(ArrayList<Vacante> misVacantes) {
 		this.misVacantes = misVacantes;
 	}
-	
-	
+
+
 	public Empresa buscarEmpresaByCod(String rnc) {
 		Empresa aux = null;
 		int i = 0;
@@ -153,65 +154,68 @@ public class Bolsa implements Serializable {
 	}
 	//Actualizar Match de las Postulaciones
 	public void actualizarMatchPorPostulacion(Postulacion aux) {
-	    for (Vacante auxV : misVacantes) {
-	        if (auxV.isStatus()) {
-	            int puntos = contarPuntosMatch(aux, auxV);
+		for (Vacante auxV : misVacantes) {
+			if (auxV.isStatus()) {
+				int puntos = contarPuntosMatch(aux, auxV);
+				float porcentaje = ((float) puntos / 15f) * 100f;
 
-	            PorcentajeMatch VacMatch = buscarMatchByVacante(auxV.getIdentificador());
-	            ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
+				if(porcentaje >= getPorcentajeMinMatcheo()) {
+					PorcentajeMatch VacMatch = buscarMatchByVacante(auxV.getIdentificador());
+					ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
 
-	         // Si ya existía un match para esta vacante, cargamos sus postulaciones previas
-	            if (VacMatch != null) {
-	                for (int i = 0; i < 3; i++) {
-	                    if (!VacMatch.getMis3Postulaciones()[i].isEmpty()) {
-	                        misDatosMatch.add(new DatosMatch(VacMatch.getMis3Postulaciones()[i], VacMatch.getPuntos()[i]));
-	                    }
-	                }
-	            }
+					// Si ya existía un match para esta vacante, cargamos sus postulaciones previas
+					if (VacMatch != null) {
+						for (int i = 0; i < 3; i++) {
+							if (!VacMatch.getMis3Postulaciones()[i].isEmpty()) {
+								misDatosMatch.add(new DatosMatch(VacMatch.getMis3Postulaciones()[i], VacMatch.getPuntos()[i]));
+							}
+						}
+					}
 
-	            boolean encontrado = false;
-	            int i = 0;
-	            while (!encontrado && i < misDatosMatch.size()) {
-	                if (misDatosMatch.get(i).getCedula().equals(aux.getCedulaCliente())) {
-	                    misDatosMatch.get(i).setPuntos(puntos);
-	                    encontrado = true;
-	                }
-	                i++;
-	            }
+					boolean encontrado = false;
+					int i = 0;
+					while (!encontrado && i < misDatosMatch.size()) {
+						if (misDatosMatch.get(i).getCedula().equals(aux.getCedulaCliente())) {
+							misDatosMatch.get(i).setPuntos(puntos);
+							encontrado = true;
+						}
+						i++;
+					}
 
-	         // Si la cédula no estaba, la agregamos a la lista local
-	            if (!encontrado) {
-	                System.out.println("Agregando cédula nueva: " + aux.getCedulaCliente() + " con puntos: " + puntos);
-	                misDatosMatch.add(new DatosMatch(aux.getCedulaCliente(), puntos));
-	            }
+					// Si la cédula no estaba, la agregamos a la lista local
+					if (!encontrado) {
+						System.out.println("Agregando cédula nueva: " + aux.getCedulaCliente() + " con puntos: " + puntos);
+						misDatosMatch.add(new DatosMatch(aux.getCedulaCliente(), puntos));
+					}
 
-	         // Ordenamos de mayor a menor puntos
-	            misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
+					// Ordenamos de mayor a menor puntos
+					misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
 
-	         // Preparamos los arreglos para guardar en PorcentajeMatch
-	            String[] cedulaM = new String[3];
-	            int[] puntosM = new int[3];
-	            float[] porcentajeM = new float[3];
+					// Preparamos los arreglos para guardar en PorcentajeMatch
+					String[] cedulaM = new String[3];
+					int[] puntosM = new int[3];
+					float[] porcentajeM = new float[3];
 
-	            for (int j = 0; j < 3; j++) {
-	                if (j < misDatosMatch.size()) {
-	                    cedulaM[j] = misDatosMatch.get(j).getCedula();
-	                    puntosM[j] = misDatosMatch.get(j).getPuntos();
-	                    porcentajeM[j] = ((float) puntosM[j] / 15f) * 100f;
-	                } else {
-	                    cedulaM[j] = "";
-	                    puntosM[j] = 0;
-	                    porcentajeM[j] = 0.00f;
-	                }
-	            }
-	            // Creamos nuevo match con los datos actualizados
-	            PorcentajeMatch newMatch = new PorcentajeMatch(auxV, cedulaM, puntosM, porcentajeM);
-	         // Eliminamos el match anterior para esta vacante para no duplicar
-	            eliminarMatchGuardadoVacante(auxV.getIdentificador());
-	         // Guardamos el nuevo match actualizado
-	            misPorcentajesMatches.add(newMatch);
-	        }
-	    }
+					for (int j = 0; j < 3; j++) {
+						if (j < misDatosMatch.size()) {
+							cedulaM[j] = misDatosMatch.get(j).getCedula();
+							puntosM[j] = misDatosMatch.get(j).getPuntos();
+							porcentajeM[j] = ((float) puntosM[j] / 15f) * 100f;
+						} else {
+							cedulaM[j] = "";
+							puntosM[j] = 0;
+							porcentajeM[j] = 0.00f;
+						}
+					}
+					// Creamos nuevo match con los datos actualizados
+					PorcentajeMatch newMatch = new PorcentajeMatch(auxV, cedulaM, puntosM, porcentajeM);
+					// Eliminamos el match anterior para esta vacante para no duplicar
+					eliminarMatchGuardadoVacante(auxV.getIdentificador());
+					// Guardamos el nuevo match actualizado
+					misPorcentajesMatches.add(newMatch);
+				}
+			}
+		}
 	}
 	public ArrayList<PorcentajeMatch> getMisPorcentajesMatches() {
 		return misPorcentajesMatches;
@@ -220,25 +224,25 @@ public class Bolsa implements Serializable {
 	public void setMisPorcentajesMatches(ArrayList<PorcentajeMatch> misPorcentajesMatches) {
 		this.misPorcentajesMatches = misPorcentajesMatches;
 	}
-	
+
 	//Revisar
 	private PorcentajeMatch buscarMatchByVacante(String identificador) {
-	    PorcentajeMatch aux = null;
-	    boolean encontrado = false;
-	    int i = 0;
+		PorcentajeMatch aux = null;
+		boolean encontrado = false;
+		int i = 0;
 
-	    while (!encontrado && i < misPorcentajesMatches.size()) {
-	        PorcentajeMatch match = misPorcentajesMatches.get(i);
-	        if (match != null && match.getMisVacantes() != null && match.getMisVacantes().getIdentificador() != null) {
-	            if (match.getMisVacantes().getIdentificador().equals(identificador)) {
-	                aux = match;
-	                encontrado = true;
-	            }
-	        }
-	        i++;
-	    }
+		while (!encontrado && i < misPorcentajesMatches.size()) {
+			PorcentajeMatch match = misPorcentajesMatches.get(i);
+			if (match != null && match.getMisVacantes() != null && match.getMisVacantes().getIdentificador() != null) {
+				if (match.getMisVacantes().getIdentificador().equals(identificador)) {
+					aux = match;
+					encontrado = true;
+				}
+			}
+			i++;
+		}
 
-	    return aux;
+		return aux;
 	}
 
 	//Actualizar Match de las Vacantes 
@@ -247,15 +251,18 @@ public class Bolsa implements Serializable {
 		for(Postulacion auxP: misPostulaciones) {
 			if(auxP.isStatus() == true) {
 				int puntos = contarPuntosMatch(auxP, aux);
-				misDatosMatch.add(new DatosMatch(auxP.getCedulaCliente(), puntos));
+				float porcentaje = ((float) puntos / 15f) * 100f;
+				if(porcentaje >= getPorcentajeMinMatcheo()) {
+					misDatosMatch.add(new DatosMatch(auxP.getCedulaCliente(), puntos));
+				}
 			}
 		}
-		
+
 		misDatosMatch.sort((a, b) -> Integer.compare(b.getPuntos(), a.getPuntos()));
 		String[] cedula = new String[3];
 		int[] puntos = new int[3];
 		float[] porcentaje = new float[3];
-		
+
 		for(int i = 0; i < 3; i++) {
 			if(i < misDatosMatch.size()) {
 				cedula[i] = misDatosMatch.get(i).getCedula();
@@ -271,14 +278,14 @@ public class Bolsa implements Serializable {
 		eliminarMatchGuardadoVacante(aux.getIdentificador());
 		misPorcentajesMatches.add(newMatch);
 	}
-	
+
 	private void eliminarMatchGuardadoVacante(String identificador) {
 		PorcentajeMatch match = buscarMatchByVacante(identificador);
 		if (match != null) {
 			misPorcentajesMatches.remove(match);
 		}
 	}
-	
+
 
 	public int contarPuntosMatch(Postulacion auxP, Vacante auxV) {
 		int totalPuntos = 0;
@@ -317,7 +324,7 @@ public class Bolsa implements Serializable {
 		}
 		return totalPuntos;
 	}
-	
+
 	//Buscar postulacion
 	public Postulacion buscarPostulacionByCode(String identificador) {
 		Postulacion aux = null;
@@ -332,22 +339,22 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-	
+
 	public Postulacion buscarPostulacionById(String id) {
-	    for (Postulacion p : misPostulaciones) {
-	        if (p.getIdentificador().equalsIgnoreCase(id)) {
-	            return p;
-	        }
-	    }
-	    return null;
+		for (Postulacion p : misPostulaciones) {
+			if (p.getIdentificador().equalsIgnoreCase(id)) {
+				return p;
+			}
+		}
+		return null;
 	}
-	
+
 	// En la clase Bolsa.java
 	public void eliminarPostulacion(Postulacion p) {
 		genCodPost--;
-	    misPostulaciones.remove(p);
+		misPostulaciones.remove(p);
 	}
-	
+
 	//Buscar vacantes
 	public Vacante buscarVacanteByCode(String identificador) {
 		Vacante aux = null;
@@ -362,7 +369,7 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-	
+
 	// Buscar si una Candidato tiene una postulacion 
 	public boolean buscarCandidatoInPostulacion(String cedula) {
 		boolean encontrado = false;
@@ -375,7 +382,7 @@ public class Bolsa implements Serializable {
 		}
 		return encontrado;
 	}
-	
+
 	// Buscar si una empresa tiene una vacante abierta
 	public boolean buscarEmpresaInVacante(String rnc) {
 		boolean encontrado = false;
@@ -388,7 +395,7 @@ public class Bolsa implements Serializable {
 		}
 		return encontrado;
 	}
-	
+
 	//Modificar Empresa
 	public void modificarEmpresa(Empresa selected) {
 		// TODO Auto-generated method stub
@@ -408,7 +415,7 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-	
+
 	//Modificar Candidatos
 	public void modificarCandidatos(Candidato selected) {
 		// TODO Auto-generated method stub
@@ -431,7 +438,7 @@ public class Bolsa implements Serializable {
 	public static void setControl(Bolsa temp) {
 		instance = temp;
 	}
-	
+
 	//Registrar Usuario
 	public void registrarUser(User aux) {
 		misUsers.add(aux);
@@ -442,7 +449,7 @@ public class Bolsa implements Serializable {
 	public void setMisUsers(ArrayList<User> misUsers) {
 		this.misUsers = misUsers;
 	}
-	
+
 	//Confirmar la existencia del Usuario
 	public boolean confirmUser(String text, String password) {
 		// TODO Auto-generated method stub
@@ -455,14 +462,14 @@ public class Bolsa implements Serializable {
 		}
 		return login;
 	}
-	
+
 	public static User getLoginUser() {
 		return loginUser;
 	}
 	public static void setLoginUser(User loginUser) {
 		Bolsa.loginUser = loginUser;
 	}
-	
+
 	//Buscar Usuario
 	public User buscarUserByUser(String user) {
 		User aux = null;
@@ -477,7 +484,7 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-	
+
 	//Funciones para modificar Usuarios
 	public void modificarUser(User selected) {
 		// TODO Auto-generated method stub
@@ -507,35 +514,35 @@ public class Bolsa implements Serializable {
 		// TODO Auto-generated method stub
 		misEmpresas.remove(selected);
 	}
-	
+
 	public void eliminar(Empresa selected) {
 		// TODO Auto-generated method stub
 		misEmpresas.remove(selected);
 	}
-	
+
 	public void eliminarVacante(Vacante vacante) {
-	    if (vacante != null) {
-	    	genCodVac--;
-	        misVacantes.remove(vacante);
-	    }
+		if (vacante != null) {
+			genCodVac--;
+			misVacantes.remove(vacante);
+		}
 	}
-	
+
 	public void modificarVacante(Vacante selected) {
-	    int index = buscarIndexVacanteById(selected.getIdentificador());
-	    if (index != -1) {
-	        misVacantes.set(index, selected);
-	    }
+		int index = buscarIndexVacanteById(selected.getIdentificador());
+		if (index != -1) {
+			misVacantes.set(index, selected);
+		}
 	}
-	
+
 	private int buscarIndexVacanteById(String identificador) {
-	    for (int i = 0; i < misVacantes.size(); i++) {
-	        if (misVacantes.get(i).getIdentificador().equalsIgnoreCase(identificador)) {
-	            return i;
-	        }
-	    }
-	    return -1; 
+		for (int i = 0; i < misVacantes.size(); i++) {
+			if (misVacantes.get(i).getIdentificador().equalsIgnoreCase(identificador)) {
+				return i;
+			}
+		}
+		return -1; 
 	}
-	
+
 	//Eliminar Users y su validacion de existir por lo menos uno
 	public boolean validarEliminarUser(String userName) {
 		int admin = contarAdmins();
@@ -550,7 +557,7 @@ public class Bolsa implements Serializable {
 		}
 		return encontrado;
 	}
-	
+
 	public int contarAdmins() {
 		int cont = 0;
 		for(User aux: misUsers) {
@@ -579,6 +586,21 @@ public class Bolsa implements Serializable {
 	public void setMisContrataciones(ArrayList<HistorialMatch> misContrataciones) {
 		this.misContrataciones = misContrataciones;
 	}
-	
+
+	public static float getPorcentajeMinMatcheo() {
+		return porcentajeMinMatcheo;
+	}
+
+	public static void setPorcentajeMinMatcheo(float porcentajeMinMatcheo) {
+		Bolsa.porcentajeMinMatcheo = porcentajeMinMatcheo;
+	}
+
+	public void registrarHistorialMatch(Vacante vacante, Postulacion postulacion) {
+		if (misContrataciones == null)
+			misContrataciones = new ArrayList<>();
+
+		HistorialMatch nuevo = new HistorialMatch(vacante, postulacion);
+		misContrataciones.add(nuevo);
+	}
 
 }

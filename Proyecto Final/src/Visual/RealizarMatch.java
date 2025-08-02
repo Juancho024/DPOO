@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import Logico.Bolsa;
 import Logico.Candidato;
+import Logico.HistorialMatch;
 import Logico.PorcentajeMatch;
 import Logico.Postulacion;
 import Logico.Vacante;
@@ -24,6 +25,7 @@ import java.awt.Button;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -74,6 +76,12 @@ public class RealizarMatch extends JDialog {
 	private JLabel lbPorcentaje1;
 	private JLabel lbPorcentaje3;
 	private JLabel lbPorcentaje2;
+	private Label label_28;
+	private Label label_29;
+	private Label label_30;
+	private String cedula1;
+	private String cedula2;
+	private String cedula3;
 
 	/**
 	 * Launch the application.
@@ -97,11 +105,12 @@ public class RealizarMatch extends JDialog {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPanel.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
@@ -131,18 +140,25 @@ public class RealizarMatch extends JDialog {
 		cbxVacantes.setBounds(152, 25, 499, 20);
 		panel.add(cbxVacantes);
 		
-		JPanel panel_Postulacion1 = new JPanel();
-		panel_Postulacion1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Informaci\u00F3n Postulaci\u00F3n 1 ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		JPanel panel_Postulacion1 = new JPanelRedondeado(60);
+		panel_Postulacion1.setBackground(SystemColor.inactiveCaption);
 		panel_Postulacion1.setBounds(15, 68, 368, 549);
 		panel.add(panel_Postulacion1);
 		panel_Postulacion1.setLayout(null);
 		
 		btnContratar1 = new Button("Contratar");
+		btnContratar1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
+				Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCode(cedula1);
+				Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
+			}
+		});
 		btnContratar1.setBackground(new Color(220, 53, 69)); 
 		btnContratar1.setForeground(Color.WHITE);
 		btnContratar1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnContratar1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnContratar1.setBounds(140, 492, 70, 22);
+		btnContratar1.setBounds(139, 492, 90, 30);
 		panel_Postulacion1.add(btnContratar1);
 		
 		Label label_1 = new Label("Nombre del Postulante:");
@@ -257,8 +273,13 @@ public class RealizarMatch extends JDialog {
 		lbPorcentaje1.setBounds(35, 53, 90, 40);
 		panel_Postulacion1.add(lbPorcentaje1);
 		
-		JPanel panel_Postulacion2 = new JPanel();
-		panel_Postulacion2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Informaci\u00F3n Postulaci\u00F3n 2 ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		label_30 = new Label("Informaci\u00F3n Postulaci\u00F3n 1");
+		label_30.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_30.setBounds(10, 10, 162, 22);
+		panel_Postulacion1.add(label_30);
+		
+		JPanel panel_Postulacion2 = new JPanelRedondeado(60);
+		panel_Postulacion2.setBackground(SystemColor.inactiveCaption);
 		panel_Postulacion2.setBounds(398, 68, 376, 549);
 		panel.add(panel_Postulacion2);
 		panel_Postulacion2.setLayout(null);
@@ -268,7 +289,7 @@ public class RealizarMatch extends JDialog {
 		btnContratar2.setForeground(Color.WHITE);
 		btnContratar2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnContratar2.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnContratar2.setBounds(140, 492, 70, 22);
+		btnContratar2.setBounds(143, 492, 90, 30);
 		panel_Postulacion2.add(btnContratar2);
 		
 		txtMudarse2 = new JTextField();
@@ -383,8 +404,13 @@ public class RealizarMatch extends JDialog {
 		lbPorcentaje2.setBounds(37, 53, 90, 40);
 		panel_Postulacion2.add(lbPorcentaje2);
 		
-		JPanel panel_Postulacion3 = new JPanel();
-		panel_Postulacion3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Postulaci\u00F3n 3 ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		label_29 = new Label("Informaci\u00F3n Postulaci\u00F3n 2");
+		label_29.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_29.setBounds(10, 10, 162, 22);
+		panel_Postulacion2.add(label_29);
+		
+		JPanel panel_Postulacion3 = new JPanelRedondeado(60);
+		panel_Postulacion3.setBackground(SystemColor.inactiveCaption);
 		panel_Postulacion3.setBounds(789, 68, 368, 549);
 		panel.add(panel_Postulacion3);
 		panel_Postulacion3.setLayout(null);
@@ -394,7 +420,7 @@ public class RealizarMatch extends JDialog {
 		btnContratar3.setForeground(Color.WHITE);
 		btnContratar3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnContratar3.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btnContratar3.setBounds(140, 492, 70, 22);
+		btnContratar3.setBounds(139, 492, 90, 30);
 		panel_Postulacion3.add(btnContratar3);
 		
 		txtMudarse3 = new JTextField();
@@ -509,13 +535,29 @@ public class RealizarMatch extends JDialog {
 		lbPorcentaje3.setBounds(35, 53, 90, 40);
 		panel_Postulacion3.add(lbPorcentaje3);
 		
+		label_28 = new Label("Informaci\u00F3n Postulaci\u00F3n 3 ");
+		label_28.setFont(new Font("Tahoma", Font.BOLD, 12));
+		label_28.setBounds(10, 10, 162, 22);
+		panel_Postulacion3.add(label_28);
+		
+		JTextField[] campos = { txtNombre1, txtTipoContrato1, txtSalario1, txtPais1, txtCuidad1, txtVehiculo1, txtLicencia1, txtMudarse1, txtNombre2, txtTipoContrato2, txtSalario2, txtPais2, txtCuidad2, txtVehiculo2, txtLicencia2, txtMudarse2, txtNombre3, txtTipoContrato3, txtSalario3, txtPais3, txtCiudad3, txtVehiculo3, txtLicencia3, txtMudarse3};
+		for (JTextField campo : campos) {
+		    if(campo != null) {
+		    	campo.setEditable(false);
+			    campo.setBackground(SystemColor.inactiveCaptionBorder);
+			    campo.setForeground(Color.BLACK);
+			    campo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+			    campo.setDisabledTextColor(Color.BLACK); 
+		    }
+		}
+		
 	}
 	private void llenarPostulacionesDesdeCedulas(PorcentajeMatch match) {
 		// TODO Auto-generated method stub
 		String[] cedulas = match.getMis3Postulaciones();
 		ArrayList<Postulacion> misPostulaciones = Bolsa.getInstance().getMisPostulaciones();
 		System.out.println("Cantidad de cédulas: " + (cedulas != null ? cedulas.length : "null"));
-		for (int i = 0; i < cedulas.length; i++) {
+		for (int i = 0; i < cedulas.length; i++) { //Borrar
 		    System.out.println("Cédula [" + i + "]: " + cedulas[i]);
 		}
 		
@@ -533,7 +575,8 @@ public class RealizarMatch extends JDialog {
 				switch(i) {
 				case 0:
 					lbPorcentaje1.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
-                    txtNombre1.setText(encontrada.getCedulaCliente());
+                    cedula1 = encontrada.getCedulaCliente();
+					txtNombre1.setText(encontrada.getCedulaCliente());
                     txtTipoContrato1.setText(encontrada.getTipoContrato());
                     txtSalario1.setText(String.valueOf(encontrada.getPretensionSalarial()));
                     txtPais1.setText(encontrada.getPaisResidencia());
@@ -567,6 +610,7 @@ public class RealizarMatch extends JDialog {
                     break;
                 case 1:
                 	lbPorcentaje2.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
+                	cedula2 = encontrada.getCedulaCliente();
                 	txtNombre2.setText(encontrada.getCedulaCliente());
                     txtTipoContrato2.setText(encontrada.getTipoContrato());
                     txtSalario2.setText(String.valueOf(encontrada.getPretensionSalarial()));
@@ -601,6 +645,7 @@ public class RealizarMatch extends JDialog {
                     break;
                 case 2:
                 	lbPorcentaje3.setText(String.format("%.2f", match.getPorcentaje()[i])+"%");
+                	cedula3 = encontrada.getCedulaCliente();
                 	txtNombre3.setText(encontrada.getCedulaCliente());
                     txtTipoContrato3.setText(encontrada.getTipoContrato());
                     txtSalario3.setText(String.valueOf(encontrada.getPretensionSalarial()));
@@ -633,9 +678,9 @@ public class RealizarMatch extends JDialog {
             		    lbImagen3.setText("Sin imagen");
             		}
                     break;
-					
 				}
 			}
+			System.out.println(cedula1 + " " + cedula2 + " "+ cedula3); //Borrar
 		}
 	}
 
@@ -650,6 +695,22 @@ public class RealizarMatch extends JDialog {
 				aux = Bolsa.getInstance().getMisPorcentajesMatches().get(i);
 				encontrado = true;
 			}
+			i++;
+		}
+		return aux;
+	}
+	private Vacante buscarAuxVacanteByInfo(String seleccion) {
+		// TODO Auto-generated method stub
+		Vacante aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < Bolsa.getInstance().getMisVacantes().size()) {
+			String auxV = Bolsa.getInstance().getMisVacantes().get(i).getNombreVacante() + " - " + Bolsa.getInstance().getMisVacantes().get(i).getRncEmpresa();
+			if(auxV.equals(seleccion)) {
+				aux = Bolsa.getInstance().getMisVacantes().get(i);
+				encontrado = true;
+			}
+			i++;
 		}
 		return aux;
 	}
