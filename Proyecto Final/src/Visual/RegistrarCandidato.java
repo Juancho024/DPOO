@@ -332,7 +332,7 @@ public class RegistrarCandidato extends JDialog {
 		panel.add(lbImagen);
 
 		label_13 = new Label("Datos Personales");
-		label_13.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		label_13.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_13.setAlignment(Label.CENTER);
 		label_13.setBounds(216, 0, 132, 21);
 		panel.add(label_13);
@@ -396,7 +396,7 @@ public class RegistrarCandidato extends JDialog {
 
 		label_12 = new Label("Nivel de Estudio");
 		label_12.setAlignment(Label.CENTER);
-		label_12.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		label_12.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_12.setBounds(216, 0, 132, 21);
 		panel_1.add(label_12);
 
@@ -418,7 +418,7 @@ public class RegistrarCandidato extends JDialog {
 		panel_Universitario.add(cbxUniversitario);
 
 		label_16 = new Label("Universitario");
-		label_16.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		label_16.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_16.setAlignment(Label.CENTER);
 		label_16.setBounds(216, 0, 132, 21);
 		panel_Universitario.add(label_16);
@@ -562,12 +562,12 @@ public class RegistrarCandidato extends JDialog {
 
 		spnExperiencia = new JSpinner();
 		spnExperiencia.setBackground(SystemColor.inactiveCaptionBorder);
-		spnExperiencia.setModel(new SpinnerNumberModel(1, 0, 50, 1));
+		spnExperiencia.setModel(new SpinnerNumberModel(0, 0, 50, 1));
 		spnExperiencia.setBounds(359, 56, 103, 20);
 		panel_TecnicoSuperior.add(spnExperiencia);
 
 		label_14 = new Label("T\u00E9cnico Superior");
-		label_14.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		label_14.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_14.setAlignment(Label.CENTER);
 		label_14.setBounds(216, 0, 132, 21);
 		panel_TecnicoSuperior.add(label_14);
@@ -614,7 +614,7 @@ public class RegistrarCandidato extends JDialog {
 		panel_Obrero.add(chkMaquinaria);
 
 		label_15 = new Label("Obrero");
-		label_15.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		label_15.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_15.setAlignment(Label.CENTER);
 		label_15.setBounds(216, 0, 132, 21);
 		panel_Obrero.add(label_15);
@@ -652,7 +652,7 @@ public class RegistrarCandidato extends JDialog {
 		panel_Obrero.setVisible(false);
 		cbxUniversitario.setSelectedIndex(0);
 		cbxTecnicoSuperior.setSelectedIndex(0);
-		spnExperiencia.setValue(1);
+		spnExperiencia.setValue(0);
 		chkElectricidad.setSelected(false);
 		chkSoldadura.setSelected(false);
 		chkTecnicaPintura.setSelected(false);

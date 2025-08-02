@@ -128,7 +128,7 @@ public class RealizarMatch extends JDialog {
 		cbxVacantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String seleccion = (String) cbxVacantes.getSelectedItem();
-				System.out.println("Seleccionado: " + seleccion);
+				System.out.println("Seleccionado: " + seleccion); //Borrar
 				if (seleccion != null && !seleccion.equals("Seleccione una Opción")) {
 					PorcentajeMatch match = buscarAuxByInfo(seleccion);
 					if (match != null) {
@@ -150,7 +150,13 @@ public class RealizarMatch extends JDialog {
 		btnContratar1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
-				Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCode(cedula1);
+				Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCedula(cedula1);
+				auxPos.setStatus(false);
+				auxVa.setStatus(false);
+				Candidato auxCan = Bolsa.getInstance().buscarCandidatoByCod(cedula1);
+				auxCan.setStatus(false);
+				Bolsa.getInstance().actualizarMatchPorPostulacion(auxPos);
+				Bolsa.getInstance().actualizarMatchPorVacante(auxVa);
 				Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
 			}
 		});

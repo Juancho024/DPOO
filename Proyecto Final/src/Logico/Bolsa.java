@@ -155,7 +155,7 @@ public class Bolsa implements Serializable {
 	//Actualizar Match de las Postulaciones
 	public void actualizarMatchPorPostulacion(Postulacion aux) {
 		for (Vacante auxV : misVacantes) {
-			if (auxV.isStatus()) {
+			if (auxV.isStatus() == true) {
 				int puntos = contarPuntosMatch(aux, auxV);
 				float porcentaje = ((float) puntos / 15f) * 100f;
 
@@ -246,7 +246,7 @@ public class Bolsa implements Serializable {
 	}
 
 	//Actualizar Match de las Vacantes 
-	private void actualizarMatchPorVacante(Vacante aux) {
+	public void actualizarMatchPorVacante(Vacante aux) {
 		ArrayList<DatosMatch> misDatosMatch = new ArrayList<>();
 		for(Postulacion auxP: misPostulaciones) {
 			if(auxP.isStatus() == true) {
@@ -339,16 +339,6 @@ public class Bolsa implements Serializable {
 		}
 		return aux;
 	}
-
-	public Postulacion buscarPostulacionById(String id) {
-		for (Postulacion p : misPostulaciones) {
-			if (p.getIdentificador().equalsIgnoreCase(id)) {
-				return p;
-			}
-		}
-		return null;
-	}
-
 	// En la clase Bolsa.java
 	public void eliminarPostulacion(Postulacion p) {
 		genCodPost--;
@@ -388,7 +378,7 @@ public class Bolsa implements Serializable {
 		boolean encontrado = false;
 		int i = 0;
 		while(!encontrado && i < misVacantes.size()) {
-			if(misVacantes.get(i).getRncEmpresa().equals(rnc) && misVacantes.get(i).isStatus() == true) {
+			if(misVacantes.get(i).getRncEmpresa().equals(rnc)) {
 				encontrado = true;
 			}
 			i++;
@@ -601,6 +591,20 @@ public class Bolsa implements Serializable {
 
 		HistorialMatch nuevo = new HistorialMatch(vacante, postulacion);
 		misContrataciones.add(nuevo);
+	}
+
+	public Postulacion buscarPostulacionByCedula(String cedula1) {
+		Postulacion aux = null;
+		boolean encontrado = false;
+		int i = 0;
+		while(!encontrado && i < misPostulaciones.size()) {
+			if(misPostulaciones.get(i).getCedulaCliente().equals(cedula1)) {
+				aux = misPostulaciones.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return aux;
 	}
 
 }

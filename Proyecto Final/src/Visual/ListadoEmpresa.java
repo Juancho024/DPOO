@@ -107,7 +107,7 @@ public class ListadoEmpresa extends JDialog {
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(Bolsa.getInstance().buscarEmpresaInVacante(selected.getIdentificador()) == true) {
-							JOptionPane.showMessageDialog(null, "La empresa " + selected.getIdentificador() + " todavia tiene una vacante abierta.", "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "La empresa " + selected.getIdentificador() + " todavia tiene una vacante.\nDebe eliminar dicha vacante para continuar.", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						} else {
 							int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar esa empresa?", "Información", JOptionPane.WARNING_MESSAGE);

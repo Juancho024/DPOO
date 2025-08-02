@@ -52,7 +52,7 @@ public class ListadoPostulacion extends JDialog {
                 int row = table.getSelectedRow();
                 if (row >= 0) {
                 	// Obtener el ID de la primera columna
-                    selectedPostulacion = Bolsa.getInstance().buscarPostulacionById(table.getValueAt(row, 0).toString());
+                    selectedPostulacion = Bolsa.getInstance().buscarPostulacionByCode(table.getValueAt(row, 0).toString());
                     btnModificar.setEnabled(true);
                     btnEliminar.setEnabled(true);
                     btnVerReporte.setEnabled(true); // Habilitar el botón de reporte

@@ -140,7 +140,7 @@ public class ListadoCandidatos extends JDialog {
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(Bolsa.getInstance().buscarCandidatoInPostulacion(selected.getCedula()) == true) {
-						JOptionPane.showMessageDialog(null, "El candidato " + selected.getCedula()+ " todavia tiene una postulación abierta.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "El candidato " + selected.getCedula()+ " todavia tiene una postulación.\nDebe eliminar dicha postulación primero.", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					} else {
 						int opcion = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar ese Candidato?", "Información", JOptionPane.WARNING_MESSAGE);
@@ -212,7 +212,7 @@ public class ListadoCandidatos extends JDialog {
 		String [] header = null;
 		switch(selection) {
 		case 0: 
-			header  = new String[] {"Cedula", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Sexo", "Telefono", "Nivel Académico"};
+			header  = new String[] {"Cedula", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Sexo", "Telefono", "Nivel Académico", "Estado"};
 			break;
 		case 1:
 			header  = new String[] {"Cedula", "Nombre", "Apellido", "Fecha de Nacimiento", "Nacionalidad", "Sexo", "Telefono", "Carrera graduada"};
@@ -252,6 +252,11 @@ public class ListadoCandidatos extends JDialog {
 				if(aux instanceof Obrero) {
 					row [7] = "Obrero";
 				}
+				if(aux.isStatus() == true) {
+					row[8] = "Desempleado";
+				} else {
+					row[8] = "Empleado";
+				}
 				modelo.addRow(row);
 				table.setModel(modelo);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -264,7 +269,8 @@ public class ListadoCandidatos extends JDialog {
 				columnModel.getColumn(4).setPreferredWidth(150);
 				columnModel.getColumn(5).setPreferredWidth(50);
 				columnModel.getColumn(6).setPreferredWidth(100);
-				columnModel.getColumn(7).setPreferredWidth(302);
+				columnModel.getColumn(7).setPreferredWidth(151);
+				columnModel.getColumn(8).setPreferredWidth(151);
 			}
 			break;
 		case 1:

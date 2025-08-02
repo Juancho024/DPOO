@@ -169,6 +169,20 @@ public class Login extends JFrame {
 		panel_1.add(button);
 
 		txtpassword = new JPasswordField();
+		txtpassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String user = txtUser.getText();
+				String clave = new String(txtpassword.getPassword());
+				if (Bolsa.getInstance().confirmUser(user, clave)) {
+					Principal frame = new Principal();
+					dispose();
+					frame.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
 		txtpassword.setBackground(SystemColor.inactiveCaptionBorder);
 		txtpassword.setBounds(28, 130, 188, 20);
 		panel_1.add(txtpassword);
