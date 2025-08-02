@@ -15,6 +15,7 @@ public class Bolsa implements Serializable {
 	private ArrayList<Vacante> misVacantes;
 	private ArrayList<PorcentajeMatch> misPorcentajesMatches;
 	private ArrayList<DatosMatch> misDatosMatches;
+	private ArrayList<HistorialMatch>misContrataciones;
 	public static int genCodVac = 0;
 	public static int genCodPost = 0;
 
@@ -569,7 +570,14 @@ public class Bolsa implements Serializable {
 		actualizarMatchPorVacante(vacante);
 		genCodVac++;
 	}
-	
+
+	public ArrayList<HistorialMatch> getMisContrataciones() {
+		return misContrataciones;
+	}
+
+	public void setMisContrataciones(ArrayList<HistorialMatch> misContrataciones) {
+		this.misContrataciones = misContrataciones;
+	}
 	
 
 }

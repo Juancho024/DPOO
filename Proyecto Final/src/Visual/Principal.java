@@ -250,12 +250,22 @@ public class Principal extends JFrame {
 		mntmNewMenuItem_7 = new JMenuItem("Listados de Postulaci\u00F3nes");
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListadoPostulacion listPos = new ListadoPostulacion();
-				listPos.setModal(true);
+				ListadoContratacionesActivas listPos = new ListadoContratacionesActivas();
+				listPos.setVisible(true);
 				listPos.setVisible(true);
 			}
 		});
 		MenuListados.add(mntmNewMenuItem_7);
+		
+		JMenuItem mntmListadoContrataciones = new JMenuItem("Listado de Contrataciones");
+		mntmListadoContrataciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoContratacionesActivas listCont = new ListadoContratacionesActivas();
+				listCont.setModal(true);
+				listCont.setVisible(true);
+			}
+		});
+		MenuListados.add(mntmListadoContrataciones);
 		
 		lbAdministracion = new RoundedLabel("Administración", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbAdministracion.addMouseListener(new MouseAdapter() {
