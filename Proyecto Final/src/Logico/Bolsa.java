@@ -15,7 +15,7 @@ public class Bolsa implements Serializable {
 	private ArrayList<Vacante> misVacantes;
 	private ArrayList<PorcentajeMatch> misPorcentajesMatches;
 	private ArrayList<DatosMatch> misDatosMatches;
-	private ArrayList<HistorialMatch> misContrataciones;
+	private ArrayList<HistorialMatch> misContrataciones; //Esta fallando no quiere registrar
 	public static int genCodVac = 0;
 	public static int genCodPost = 0;
 	private static float porcentajeMinMatcheo = 0;
