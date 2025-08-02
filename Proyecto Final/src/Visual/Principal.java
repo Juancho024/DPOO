@@ -250,9 +250,9 @@ public class Principal extends JFrame {
 		mntmNewMenuItem_7 = new JMenuItem("Listados de Postulaci\u00F3nes");
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListadoContratacionesActivas listPos = new ListadoContratacionesActivas();
-				listPos.setVisible(true);
-				listPos.setVisible(true);
+				   ListadoPostulacion listPos = new ListadoPostulacion();
+			        listPos.setModal(true);
+			        listPos.setVisible(true);
 			}
 		});
 		MenuListados.add(mntmNewMenuItem_7);
@@ -260,9 +260,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmListadoContrataciones = new JMenuItem("Listado de Contrataciones");
 		mntmListadoContrataciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListadoContratacionesActivas listCont = new ListadoContratacionesActivas();
-				listCont.setModal(true);
-				listCont.setVisible(true);
+				 ListadoContratacionesActivas listCont = new ListadoContratacionesActivas();
+			     listCont.setModal(true);
+			     listCont.setVisible(true);
 			}
 		});
 		MenuListados.add(mntmListadoContrataciones);

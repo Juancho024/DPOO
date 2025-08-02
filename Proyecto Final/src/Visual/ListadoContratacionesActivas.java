@@ -21,7 +21,6 @@ public class ListadoContratacionesActivas extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JTable table;
     private DefaultTableModel model;
-    private Object[] fila;
 
     public ListadoContratacionesActivas() {
         setTitle("Historial de Contrataciones");
@@ -75,23 +74,37 @@ public class ListadoContratacionesActivas extends JDialog {
     private void loadHistorialTable() {
         model.setRowCount(0); // Limpiar tabla
         
+        // Verificar que la lista de contrataciones existe
+        if (Bolsa.getInstance().getMisContrataciones() == null) {
+            return;
+        }
+        
         for (HistorialMatch hm : Bolsa.getInstance().getMisContrataciones()) {
-            fila = new Object[5];
+            // Verificar que el objeto HistorialMatch y sus componentes no son nulos
+            if (hm == null || hm.getVacanteEmpleada() == null || hm.getPostulacionEmpleada() == null) {
+                continue;
+            }
             
+            Object[] fila = new Object[5];
+            
+            // Obtener datos de la vacante
             fila[0] = hm.getVacanteEmpleada().getIdentificador();
             fila[1] = hm.getVacanteEmpleada().getRncEmpresa();
+            
+            // Obtener datos de la postulación
             fila[2] = hm.getPostulacionEmpleada().getIdentificador();
             fila[3] = hm.getPostulacionEmpleada().getCedulaCliente();
             
-            // Obtener nombre del candidato
+            // Buscar candidato de forma segura
             Candidato cand = Bolsa.getInstance().buscarCandidatoByCod(
                 hm.getPostulacionEmpleada().getCedulaCliente()
             );
-            String nombreCompleto = "No encontrado";
+            
             if (cand != null) {
-                nombreCompleto = cand.getNombre() + " " + cand.getApellido();
+                fila[4] = cand.getNombre() + " " + cand.getApellido();
+            } else {
+                fila[4] = "Candidato no encontrado (" + hm.getPostulacionEmpleada().getCedulaCliente() + ")";
             }
-            fila[4] = nombreCompleto;
             
             model.addRow(fila);
         }

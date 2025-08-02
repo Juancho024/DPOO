@@ -27,6 +27,7 @@ public class Bolsa implements Serializable {
 		misVacantes = new ArrayList<>();
 		misPorcentajesMatches = new ArrayList<>();
 		misDatosMatches = new ArrayList<>();
+		misContrataciones = new ArrayList<>();
 	}
 	
 	// Método para generar el código de Postulacion
