@@ -23,8 +23,8 @@ public class ListadoContratacionesActivas extends JDialog {
     private DefaultTableModel model;
 
     public ListadoContratacionesActivas() {
-        setTitle("Historial de Contrataciones");
-        setBounds(100, 100, 900, 400);
+        setTitle("Contrataciones Activas");
+        setBounds(100, 100, 1000, 400); // Aumentamos el ancho para la nueva columna
         setLocationRelativeTo(null);
         setResizable(true);
         setModal(true);
@@ -39,12 +39,14 @@ public class ListadoContratacionesActivas extends JDialog {
         table = new JTable();
         scrollPane.setViewportView(table);
 
+        // Añadimos la nueva columna "Estatus"
         String[] headers = {
             "ID Vacante", 
             "RNC Empresa", 
             "ID Postulación", 
             "Cédula Candidato", 
-            "Nombre Candidato"
+            "Nombre Candidato",
+            "Estatus"  // Nueva columna
         };
         
         model = new DefaultTableModel() {
@@ -74,18 +76,16 @@ public class ListadoContratacionesActivas extends JDialog {
     private void loadHistorialTable() {
         model.setRowCount(0); // Limpiar tabla
         
-        // Verificar que la lista de contrataciones existe
         if (Bolsa.getInstance().getMisContrataciones() == null) {
             return;
         }
         
         for (HistorialMatch hm : Bolsa.getInstance().getMisContrataciones()) {
-            // Verificar que el objeto HistorialMatch y sus componentes no son nulos
             if (hm == null || hm.getVacanteEmpleada() == null || hm.getPostulacionEmpleada() == null) {
                 continue;
             }
             
-            Object[] fila = new Object[5];
+            Object[] fila = new Object[6]; // Ahora 6 columnas
             
             // Obtener datos de la vacante
             fila[0] = hm.getVacanteEmpleada().getIdentificador();
@@ -95,15 +95,21 @@ public class ListadoContratacionesActivas extends JDialog {
             fila[2] = hm.getPostulacionEmpleada().getIdentificador();
             fila[3] = hm.getPostulacionEmpleada().getCedulaCliente();
             
-            // Buscar candidato de forma segura
+            // Buscar candidato
             Candidato cand = Bolsa.getInstance().buscarCandidatoByCod(
                 hm.getPostulacionEmpleada().getCedulaCliente()
             );
             
             if (cand != null) {
                 fila[4] = cand.getNombre() + " " + cand.getApellido();
+                
+                // Determinar el estatus basado en el campo 'status' del candidato
+                // status = false -> contratado (activo)
+                // status = true -> disponible (contratación inactiva)
+                fila[5] = cand.isStatus() ? "Inactiva" : "Activa";
             } else {
                 fila[4] = "Candidato no encontrado (" + hm.getPostulacionEmpleada().getCedulaCliente() + ")";
+                fila[5] = "N/A";
             }
             
             model.addRow(fila);
