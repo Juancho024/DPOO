@@ -607,4 +607,28 @@ public class Bolsa implements Serializable {
 		return aux;
 	}
 
+	public void desemplearCandidato(HistorialMatch selectedContratacion) {
+	    // Validar entrada
+	    if (selectedContratacion == null || 
+	        selectedContratacion.getPostulacionEmpleada() == null) {
+	        throw new IllegalArgumentException("Contratación inválida");
+	    }
+	    
+	    String cedulaCliente = selectedContratacion.getPostulacionEmpleada().getCedulaCliente();
+	    if (cedulaCliente == null || cedulaCliente.isEmpty()) {
+	        throw new IllegalArgumentException("Cédula de cliente inválida");
+	    }
+	    
+	    Candidato candidato = buscarCandidatoByCod(cedulaCliente);
+	    
+	    if (candidato != null) {
+	        // 1. Cambiar estado del candidato
+	        candidato.setStatus(true);  // true = disponible para trabajar
+
+	    } else {
+	        // Manejar candidato no encontrado
+	        throw new IllegalStateException("Candidato con cédula " + cedulaCliente + " no encontrado");
+	    }
+	}
+
 }
