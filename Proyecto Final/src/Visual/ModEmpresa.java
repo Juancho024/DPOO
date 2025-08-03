@@ -2,10 +2,12 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,11 +46,11 @@ public class ModEmpresa extends JDialog {
     private JTextField txtNombre;
     private JComboBox cbxPais;
     private JComboBox cbxSector;
-    private JButton btnCancelar;
     private JButton btnRegistrar;
     private JLabel lbLogo;
     private JButton btnLogo;
     private byte[] imagenActual;
+    private JPanel panel_1;
 
     public static void main(String[] args) {
         try {
@@ -62,16 +64,16 @@ public class ModEmpresa extends JDialog {
 
     public ModEmpresa(Empresa selected) {
         setTitle("Modificar Empresa");
-        setBounds(100, 100, 450, 414);
+        setBounds(100, 100, 450, 475);
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
-        contentPanel.setLayout(new BorderLayout(0, 0));
+        contentPanel.setLayout(null);
 
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
-            "Datos de la Empresa", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel.setBackground(SystemColor.inactiveCaption);
+        panel.setBounds(0, 61, 444, 385);
         contentPanel.add(panel);
         panel.setLayout(null);
 
@@ -79,13 +81,14 @@ public class ModEmpresa extends JDialog {
         label.setFont(new Font("Tahoma", Font.BOLD, 12));
         label.setBounds(21, 185, 138, 22);
         panel.add(label);
+        
         lbLogo = new JLabel("Sin imagen", SwingConstants.CENTER);
         lbLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        lbLogo.setBounds(131, 21, 179, 123);
+        lbLogo.setBounds(131, 11, 179, 123);
         byte[] imgBytes = selected.getImagen();
 		if (imgBytes != null) {
 		    ImageIcon icono = new ImageIcon(imgBytes);
-		    Image imagenEscalada = icono.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+		    Image imagenEscalada = icono.getImage().getScaledInstance(169, 113, Image.SCALE_SMOOTH);
 		    lbLogo.setIcon(new ImageIcon(imagenEscalada));
 		    lbLogo.setText("");
 		} else {
@@ -133,6 +136,9 @@ public class ModEmpresa extends JDialog {
 		        }
         	}
         });
+        btnLogo.setForeground(Color.WHITE);
+        btnLogo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnLogo.setBackground(Color.LIGHT_GRAY);
         btnLogo.setBounds(159, 144, 123, 22);
         panel.add(btnLogo);
 
@@ -140,6 +146,10 @@ public class ModEmpresa extends JDialog {
         txtIdentificador = new JTextField();
         txtIdentificador.setEditable(false);
         txtIdentificador.setEnabled(false);
+        txtIdentificador.setBackground(SystemColor.inactiveCaptionBorder);
+        txtIdentificador.setForeground(Color.BLACK);
+        txtIdentificador.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        txtIdentificador.setDisabledTextColor(Color.BLACK); 
         txtIdentificador.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyTyped(KeyEvent e) {
@@ -166,6 +176,7 @@ public class ModEmpresa extends JDialog {
         txtNombre = new JTextField();
         txtNombre.setColumns(10);
         txtNombre.setText(selected.getNombre());
+        txtNombre.setBackground(SystemColor.inactiveCaptionBorder);
         txtNombre.setBounds(131, 225, 280, 22);
         panel.add(txtNombre);
 
@@ -182,21 +193,26 @@ public class ModEmpresa extends JDialog {
         cbxPais = new JComboBox();
         cbxPais.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Per\u00FA", "M\u00E9xico", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panam\u00E1", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "Rep\u00FAblica Dominicana", "Puerto Rico", "Espa\u00F1a", "Estados Unidos", "Canad\u00E1", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Jap\u00F3n", "Corea del Sur", "China", "India", "Australia", "Sud\u00E1frica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turqu\u00EDa", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "B\u00E9lgica", "Pa\u00EDses Bajos", "Nueva Zelanda"}));
         cbxPais.setSelectedItem(selected.getPais());
+        cbxPais.setBackground(SystemColor.inactiveCaptionBorder);
+        cbxPais.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         cbxPais.setBounds(131, 267, 280, 20);
         panel.add(cbxPais);
         
         cbxSector = new JComboBox();
         cbxSector.setModel(new DefaultComboBoxModel(new String[] {"Seleccione una Opci\u00F3n", "Comercio", "Servicios", "Manufactura", "Tecnolog\u00EDa", "Construcci\u00F3n", "Salud", "Educaci\u00F3n", "Transporte", "Turismo", "Agricultura", "Finanzas", "Energ\u00EDa", "Telecomunicaciones", "Alimentos y Bebidas", "Textil", "Inmobiliaria", "Log\u00EDstica", "Publicidad", "Automotriz", "Seguros", "Consultor\u00EDa", "Miner\u00EDa", "Pesca", "Artes Gr\u00E1ficas", "Entretenimiento", "Farmac\u00E9utica", "Qu\u00EDmica", "Ambiental", "Seguridad", "Legal", "Artesan\u00EDa"}));
         cbxSector.setSelectedItem(selected.getSector());
+        cbxSector.setSelectedItem(selected.getPais());
+        cbxSector.setBackground(SystemColor.inactiveCaptionBorder);
         cbxSector.setBounds(131, 305, 280, 20);
         panel.add(cbxSector);
-
-        JPanel buttonPane = new JPanel();
-        buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        getContentPane().add(buttonPane, BorderLayout.SOUTH);
         
         btnRegistrar = new JButton("Modificar");
+        btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnRegistrar.setBackground(SystemColor.textHighlight);
+        btnRegistrar.setBounds(171, 338, 101, 23);
+        panel.add(btnRegistrar);
         btnRegistrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	if(txtIdentificador.getText().trim().isEmpty() || txtNombre.getText().trim().isEmpty() || cbxSector.getSelectedIndex() == 0 || cbxPais.getSelectedIndex() == 0) {
@@ -218,16 +234,21 @@ public class ModEmpresa extends JDialog {
                 
             }
         });
-        buttonPane.add(btnRegistrar);
         getRootPane().setDefaultButton(btnRegistrar);
         
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-        buttonPane.add(btnCancelar);
+        panel_1 = new JPanel();
+        panel_1.setBackground(new Color(0, 102, 153));
+        panel_1.setBounds(0, 0, 444, 61);
+        contentPanel.add(panel_1);
+        panel_1.setLayout(null);
+        
+        JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("DATOS DE EMPRESA");
+        lblNewJgoodiesTitle.setForeground(SystemColor.window);
+        lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewJgoodiesTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
+        lblNewJgoodiesTitle.setBounds(138, 20, 168, 20);
+        panel_1.add(lblNewJgoodiesTitle);
+        
     }
 
 }

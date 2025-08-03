@@ -19,6 +19,7 @@ import Logico.Universitario;
 
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Label;
 import java.awt.Font;
@@ -427,6 +428,7 @@ public class RegistrarCandidato extends JDialog {
 			btnRegistrar.setForeground(Color.WHITE);
 			btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 			btnRegistrar.setBackground(SystemColor.textHighlight);
+			btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			btnRegistrar.setBounds(237, 581, 119, 35);
 			contentPanel.add(btnRegistrar);
 			btnRegistrar.addActionListener(new ActionListener() {

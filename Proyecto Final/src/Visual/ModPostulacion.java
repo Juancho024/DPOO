@@ -2,10 +2,12 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class ModPostulacion extends JDialog {
 
@@ -76,28 +79,32 @@ public class ModPostulacion extends JDialog {
     private JCheckBox chkTuberias;
     private JCheckBox chkMantenimiento;
     private JCheckBox chkMaquinaria;
+    private JPanel panel;
+    private Label label;
+    private JPanel panelDatos;
+    private Label label_13;
+    private Label label_2;
 
 
     public ModPostulacion(Postulacion post) {
         this.postulacionActual = post; // Guarda la postulación a modificar
 
         setTitle("Modificar Postulación");
-        setBounds(100, 100, 750, 700);
+        setBounds(100, 100, 750, 726);
         setLocationRelativeTo(null);
         setResizable(false);
         setModal(true); // Asegura que la ventana sea modal
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
-        contentPanel.setLayout(null);
 
         // Inicializar mapa de ciudades por país
         inicializarCiudadesPorPais();
+        contentPanel.setLayout(null);
 
         // --- Resto de la inicialización de la interfaz de usuario ---
-        JPanel panelDatos = new JPanel();
-        panelDatos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-                "Datos de Postulación", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelDatos.setBounds(12, 13, 708, 592);
+        panelDatos = new JPanelRedondeado(60);
+        panelDatos.setBackground(SystemColor.inactiveCaption);
+        panelDatos.setBounds(10, 66, 708, 575);
         contentPanel.add(panelDatos);
         panelDatos.setLayout(null);
 
@@ -108,8 +115,9 @@ public class ModPostulacion extends JDialog {
         panelDatos.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
+        txtIdentificador.setEnabled(false);
+        txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 80, 331, 22);
-        txtIdentificador.setEditable(false); // No editable para el identificador
         panelDatos.add(txtIdentificador);
         txtIdentificador.setColumns(10);
 
@@ -179,25 +187,28 @@ public class ModPostulacion extends JDialog {
         panelDatos.add(spnPretensionSalarial);
 
         // Panel Nivel de Estudio
-        JPanel panelNivelEstudio = new JPanel();
-        panelNivelEstudio.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Nivel de Estudio ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        JPanel panelNivelEstudio = new JPanelRedondeado(60);
+        panelNivelEstudio.setBackground(SystemColor.inactiveCaption);
         panelNivelEstudio.setBounds(10, 372, 686, 61);
         panelDatos.add(panelNivelEstudio);
         panelNivelEstudio.setLayout(null);
 
         rdbtnUniversitario = new JRadioButton("Universitario");
+        rdbtnUniversitario.setBackground(SystemColor.inactiveCaption);
         rdbtnUniversitario.addActionListener(e -> toggleNivelEstudioPanels(true, false, false));
         rdbtnUniversitario.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnUniversitario.setBounds(77, 27, 109, 23);
         panelNivelEstudio.add(rdbtnUniversitario);
 
         rdbtnTecnicoSuperior = new JRadioButton("Técnico Superior");
+        rdbtnTecnicoSuperior.setBackground(SystemColor.inactiveCaption);
         rdbtnTecnicoSuperior.addActionListener(e -> toggleNivelEstudioPanels(false, true, false));
         rdbtnTecnicoSuperior.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnTecnicoSuperior.setBounds(263, 27, 133, 23);
         panelNivelEstudio.add(rdbtnTecnicoSuperior);
 
         rdbtnObrero = new JRadioButton("Obrero");
+        rdbtnObrero.setBackground(SystemColor.inactiveCaption);
         rdbtnObrero.addActionListener(e -> toggleNivelEstudioPanels(false, false, true));
         rdbtnObrero.setFont(new Font("Tahoma", Font.BOLD, 12));
         rdbtnObrero.setBounds(473, 27, 133, 23);
@@ -207,6 +218,12 @@ public class ModPostulacion extends JDialog {
         grupoNivelEstudio.add(rdbtnUniversitario);
         grupoNivelEstudio.add(rdbtnTecnicoSuperior);
         grupoNivelEstudio.add(rdbtnObrero);
+        
+        label_2 = new Label("Nivel Acad\u00E9mico");
+        label_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label_2.setAlignment(Label.CENTER);
+        label_2.setBounds(290, 0, 106, 22);
+        panelNivelEstudio.add(label_2);
 
         setupPanelesNivelEstudio(panelDatos); // Configura los paneles específicos de nivel de estudio
 
@@ -217,11 +234,14 @@ public class ModPostulacion extends JDialog {
         panelDatos.add(lblMudanza);
 
         JPanel panelMudanza = new JPanel();
+        panelMudanza.setBackground(SystemColor.inactiveCaption);
         panelMudanza.setBounds(138, 336, 100, 23);
         panelDatos.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnMudanzaSi = new JRadioButton("Sí");
+        rdbtnMudanzaSi.setBackground(SystemColor.inactiveCaption);
         rdbtnMudanzaNo = new JRadioButton("No");
+        rdbtnMudanzaNo.setBackground(SystemColor.inactiveCaption);
         ButtonGroup grupoMudanza = new ButtonGroup();
         grupoMudanza.add(rdbtnMudanzaSi);
         grupoMudanza.add(rdbtnMudanzaNo);
@@ -233,11 +253,14 @@ public class ModPostulacion extends JDialog {
         lblVehiculo.setBounds(258, 336, 100, 22);
         panelDatos.add(lblVehiculo);
         JPanel panelVehiculo = new JPanel();
+        panelVehiculo.setBackground(SystemColor.inactiveCaption);
         panelVehiculo.setBounds(353, 336, 100, 23);
         panelDatos.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnVehiculoSi = new JRadioButton("Sí");
+        rdbtnVehiculoSi.setBackground(SystemColor.inactiveCaption);
         rdbtnVehiculoNo = new JRadioButton("No");
+        rdbtnVehiculoNo.setBackground(SystemColor.inactiveCaption);
         ButtonGroup grupoVehiculo = new ButtonGroup();
         grupoVehiculo.add(rdbtnVehiculoSi);
         grupoVehiculo.add(rdbtnVehiculoNo);
@@ -249,29 +272,19 @@ public class ModPostulacion extends JDialog {
         lblLicencia.setBounds(470, 336, 120, 22);
         panelDatos.add(lblLicencia);
         JPanel panelLicencia = new JPanel();
+        panelLicencia.setBackground(SystemColor.inactiveCaption);
         panelLicencia.setBounds(581, 336, 100, 23);
         panelDatos.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnLicenciaSi = new JRadioButton("Sí");
+        rdbtnLicenciaSi.setBackground(SystemColor.inactiveCaption);
         rdbtnLicenciaNo = new JRadioButton("No");
+        rdbtnLicenciaNo.setBackground(SystemColor.inactiveCaption);
         ButtonGroup grupoLicencia = new ButtonGroup();
         grupoLicencia.add(rdbtnLicenciaSi);
         grupoLicencia.add(rdbtnLicenciaNo);
         panelLicencia.add(rdbtnLicenciaSi);
         panelLicencia.add(rdbtnLicenciaNo);
-
-        // --- Botones ---
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        getContentPane().add(buttonPane, BorderLayout.SOUTH);
-
-        JButton btnModificar = new JButton("Modificar");
-        btnModificar.addActionListener(e -> modificarPostulacion()); // Llama al método de modificación
-        buttonPane.add(btnModificar);
-
-        JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(e -> dispose());
-        buttonPane.add(btnCancelar);
 
         // --- Llamada al método para pre-cargar los datos ---
         preCargarDatosPostulacion();
@@ -302,6 +315,26 @@ public class ModPostulacion extends JDialog {
         	    } else {
         	        lbImagen.setIcon(null);
         	        lbImagen.setText("Sin imagen");
+        	        
+        	                JButton btnModificar = new JButton("Modificar");
+        	                btnModificar.setForeground(Color.WHITE);
+        	                btnModificar.setFont(new Font("Tahoma", Font.BOLD, 12));
+        	                btnModificar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        	                btnModificar.setBackground(SystemColor.textHighlight);
+        	                btnModificar.setBounds(325, 652, 93, 23);
+        	                contentPanel.add(btnModificar);
+        	                
+        	                panel = new JPanel();
+        	                panel.setBackground(new Color(0, 102, 153));
+        	                panel.setBounds(0, 0, 744, 55);
+        	                contentPanel.add(panel);
+        	                panel.setLayout(null);
+        	                
+        	                JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("Datos de la Postulaci\u00F3n");
+        	                lblNewJgoodiesTitle.setFont(new Font("Tahoma", Font.BOLD, 18));
+        	                lblNewJgoodiesTitle.setBounds(277, 11, 210, 33);
+        	                panel.add(lblNewJgoodiesTitle);
+        	                btnModificar.addActionListener(e -> modificarPostulacion());
         	    }
 			}
 		});
@@ -432,7 +465,7 @@ public class ModPostulacion extends JDialog {
     private void setupPanelesNivelEstudio(JPanel parentPanel) {
         // Panel Universitario
         panel_Universitario = new JPanel();
-        panel_Universitario.setBorder(new TitledBorder(null, " Universitario ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_Universitario.setBackground(SystemColor.inactiveCaption);
         panel_Universitario.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_Universitario);
         panel_Universitario.setLayout(null);
@@ -442,12 +475,12 @@ public class ModPostulacion extends JDialog {
         panel_Universitario.add(lblCarrera);
         cbxUniversitario = new JComboBox<>();
         cbxUniversitario.setModel(new DefaultComboBoxModel<>(new String[]{"Seleccione una Opción", "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Ingeniería en Sistemas / Informática", "Ingeniería Civil", "Ingeniería Industrial", "Medicina", "Derecho", "Psicología"}));
-        cbxUniversitario.setBounds(55, 58, 619, 22);
+        cbxUniversitario.setBounds(33, 58, 619, 22);
         panel_Universitario.add(cbxUniversitario);
 
         // Panel Técnico Superior
         panel_TecnicoSuperior = new JPanel();
-        panel_TecnicoSuperior.setBorder(new TitledBorder(null, "Técnico Superior ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_TecnicoSuperior.setBackground(SystemColor.inactiveCaption);
         panel_TecnicoSuperior.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_TecnicoSuperior);
         panel_TecnicoSuperior.setLayout(null);
@@ -467,10 +500,14 @@ public class ModPostulacion extends JDialog {
         spnExperiencia.setModel(new SpinnerNumberModel(0, 0, 50, 1));
         spnExperiencia.setBounds(310, 56, 212, 22);
         panel_TecnicoSuperior.add(spnExperiencia);
+        
+        label = new Label("New label");
+        label.setBounds(0, 0, 62, 22);
+        panelDatos.add(label);
 
         // Panel Obrero
         panel_Obrero = new JPanel();
-        panel_Obrero.setBorder(new TitledBorder(null, " Obrero ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_Obrero.setBackground(SystemColor.inactiveCaption);
         panel_Obrero.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_Obrero);
         panel_Obrero.setLayout(null);
@@ -481,26 +518,32 @@ public class ModPostulacion extends JDialog {
         panel_Obrero.add(lblHabilidades);
         
         chkElectricidad = new JCheckBox("Electricidad básica");
+        chkElectricidad.setBackground(SystemColor.inactiveCaption);
         chkElectricidad.setBounds(25, 50, 133, 23);       // Col1, Fila1
         panel_Obrero.add(chkElectricidad);
         
         chkSoldadura = new JCheckBox("Soldadura");
+        chkSoldadura.setBackground(SystemColor.inactiveCaption);
         chkSoldadura.setBounds(25, 76, 94, 23);          // Col1, Fila2
         panel_Obrero.add(chkSoldadura);
         
         chkTecnicaPintura = new JCheckBox("Técnicas de pintura o albañilería");
+        chkTecnicaPintura.setBackground(SystemColor.inactiveCaption);
         chkTecnicaPintura.setBounds(205, 50, 215, 23);   // Col2, Fila1
         panel_Obrero.add(chkTecnicaPintura);
         
         chkTuberias = new JCheckBox("Instalación de tuberías");
+        chkTuberias.setBackground(SystemColor.inactiveCaption);
         chkTuberias.setBounds(205, 76, 164, 23);          // Col2, Fila2
         panel_Obrero.add(chkTuberias);
         
         chkMantenimiento = new JCheckBox("Mantenimiento básico de equipos");
+        chkMantenimiento.setBackground(SystemColor.inactiveCaption);
         chkMantenimiento.setBounds(425, 50, 247, 23);    // Col3, Fila1
         panel_Obrero.add(chkMantenimiento);
         
         chkMaquinaria = new JCheckBox("Lectura de planos");
+        chkMaquinaria.setBackground(SystemColor.inactiveCaption);
         chkMaquinaria.setBounds(425, 76, 247, 23);       // Col3, Fila2
         panel_Obrero.add(chkMaquinaria);
 

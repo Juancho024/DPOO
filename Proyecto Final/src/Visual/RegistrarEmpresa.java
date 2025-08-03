@@ -2,6 +2,7 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -164,7 +165,7 @@ public class RegistrarEmpresa extends JDialog {
 		                imagenActual = bos.toByteArray();
 
 		                ImageIcon iconoOriginal = new ImageIcon(imagenActual);
-		                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+		                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(156, 106, Image.SCALE_SMOOTH);
 		                lbLogo.setIcon(new ImageIcon(imagenEscalada));
 		                lbLogo.setText("");
 		              
@@ -184,6 +185,7 @@ public class RegistrarEmpresa extends JDialog {
         btnRegistrar = new JButton("Registrar");
         btnRegistrar.setForeground(Color.WHITE);
         btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnRegistrar.setBackground(SystemColor.textHighlight);
         btnRegistrar.setBounds(172, 356, 99, 23);
         panel.add(btnRegistrar);

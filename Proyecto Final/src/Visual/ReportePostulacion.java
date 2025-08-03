@@ -2,6 +2,8 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -12,12 +14,17 @@ import Logico.Postulacion;
 import Logico.Candidato; // Podrías necesitarlo para obtener el nombre del candidato si no está en Postulacion
 import Logico.Bolsa; // Para buscar el candidato por cédula si es necesario
 import java.awt.Label;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox; // Para habilidades de obrero
-import javax.swing.JRadioButton; // Para sí/no de mudanza, vehículo, licencia
+import javax.swing.JRadioButton;
+import javax.swing.UIManager;
+import java.awt.Color;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.SwingConstants; // Para sí/no de mudanza, vehículo, licencia
 
 public class ReportePostulacion extends JDialog {
 
@@ -51,6 +58,7 @@ public class ReportePostulacion extends JDialog {
     private JCheckBox chkTuberias;
     private JCheckBox chkMantenimiento;
     private JCheckBox chkLecturaPlanos; // Cambiado de chkMaquinaria a chkLecturaPlanos
+    private JPanel panel;
 
     /**
      * Launch the application.
@@ -70,17 +78,18 @@ public class ReportePostulacion extends JDialog {
      */
     public ReportePostulacion(Postulacion selected) {
         setTitle("Reporte de Postulación");
-        setBounds(100, 100, 550, 680); // Ajustar tamaño de la ventana
+        setBounds(100, 100, 550, 695); // Ajustar tamaño de la ventana
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
+        contentPanel.setBackground(SystemColor.inactiveCaptionBorder);
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
 
-        JPanel panelDatosPrincipales = new JPanel();
-        panelDatosPrincipales.setBorder(new TitledBorder(null, " Datos de la Postulación ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelDatosPrincipales.setBounds(10, 11, 514, 320); // Ajustar tamaño
+        JPanel panelDatosPrincipales = new JPanelRedondeado(60);
+        panelDatosPrincipales.setBackground(SystemColor.inactiveCaption);
+        panelDatosPrincipales.setBounds(10, 75, 514, 304); // Ajustar tamaño
         contentPanel.add(panelDatosPrincipales);
         panelDatosPrincipales.setLayout(null);
 
@@ -91,6 +100,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
+        txtIdentificador.setBackground(SystemColor.inactiveCaptionBorder);
         txtIdentificador.setEnabled(false);
         txtIdentificador.setEditable(false);
         txtIdentificador.setText(selected.getIdentificador());
@@ -105,6 +115,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblCedulaCandidato);
 
         txtCedulaCandidato = new JTextField();
+        txtCedulaCandidato.setBackground(SystemColor.inactiveCaptionBorder);
         txtCedulaCandidato.setEnabled(false);
         txtCedulaCandidato.setEditable(false);
         txtCedulaCandidato.setText(selected.getCedulaCliente());
@@ -118,6 +129,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblNombreCandidato);
 
         txtNombreCandidato = new JTextField();
+        txtNombreCandidato.setBackground(SystemColor.inactiveCaptionBorder);
         txtNombreCandidato.setEnabled(false);
         txtNombreCandidato.setEditable(false);
         // Buscar el nombre del candidato a partir de la cédula
@@ -138,6 +150,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblTipoContrato);
 
         txtTipoContrato = new JTextField();
+        txtTipoContrato.setBackground(SystemColor.inactiveCaptionBorder);
         txtTipoContrato.setEnabled(false);
         txtTipoContrato.setEditable(false);
         txtTipoContrato.setText(selected.getTipoContrato());
@@ -152,6 +165,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblPais);
 
         txtPaisResidencia = new JTextField();
+        txtPaisResidencia.setBackground(SystemColor.inactiveCaptionBorder);
         txtPaisResidencia.setEnabled(false);
         txtPaisResidencia.setEditable(false);
         txtPaisResidencia.setText(selected.getPaisResidencia());
@@ -165,6 +179,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblCiudad);
 
         txtCiudadResidencia = new JTextField();
+        txtCiudadResidencia.setBackground(SystemColor.inactiveCaptionBorder);
         txtCiudadResidencia.setEnabled(false);
         txtCiudadResidencia.setEditable(false);
         txtCiudadResidencia.setText(selected.getCiudadResidencia());
@@ -179,6 +194,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(lblSalario);
 
         txtPretensionSalarial = new JTextField();
+        txtPretensionSalarial.setBackground(SystemColor.inactiveCaptionBorder);
         txtPretensionSalarial.setEnabled(false);
         txtPretensionSalarial.setEditable(false);
         txtPretensionSalarial.setText(String.format("%,.2f", selected.getPretensionSalarial())); // Formato de moneda
@@ -194,11 +210,13 @@ public class ReportePostulacion extends JDialog {
 
         rdbtnMudanzaSi = new JRadioButton("Sí");
         rdbtnMudanzaSi.setEnabled(false);
+        rdbtnMudanzaSi.setBackground(SystemColor.inactiveCaption);
         rdbtnMudanzaSi.setBounds(155, 240, 50, 23);
         panelDatosPrincipales.add(rdbtnMudanzaSi);
 
         rdbtnMudanzaNo = new JRadioButton("No");
         rdbtnMudanzaNo.setEnabled(false);
+        rdbtnMudanzaNo.setBackground(SystemColor.inactiveCaption);
         rdbtnMudanzaNo.setBounds(205, 240, 50, 23);
         panelDatosPrincipales.add(rdbtnMudanzaNo);
 
@@ -215,11 +233,13 @@ public class ReportePostulacion extends JDialog {
 
         rdbtnVehiculoSi = new JRadioButton("Sí");
         rdbtnVehiculoSi.setEnabled(false);
+        rdbtnVehiculoSi.setBackground(SystemColor.inactiveCaption);
         rdbtnVehiculoSi.setBounds(375, 240, 50, 23);
         panelDatosPrincipales.add(rdbtnVehiculoSi);
 
         rdbtnVehiculoNo = new JRadioButton("No");
         rdbtnVehiculoNo.setEnabled(false);
+        rdbtnVehiculoNo.setBackground(SystemColor.inactiveCaption);
         rdbtnVehiculoNo.setBounds(425, 240, 50, 23);
         panelDatosPrincipales.add(rdbtnVehiculoNo);
 
@@ -236,11 +256,13 @@ public class ReportePostulacion extends JDialog {
 
         rdbtnLicenciaSi = new JRadioButton("Sí");
         rdbtnLicenciaSi.setEnabled(false);
+        rdbtnLicenciaSi.setBackground(SystemColor.inactiveCaption);
         rdbtnLicenciaSi.setBounds(135, 275, 50, 23);
         panelDatosPrincipales.add(rdbtnLicenciaSi);
 
         rdbtnLicenciaNo = new JRadioButton("No");
         rdbtnLicenciaNo.setEnabled(false);
+        rdbtnLicenciaNo.setBackground(SystemColor.inactiveCaption);
         rdbtnLicenciaNo.setBounds(185, 275, 50, 23);
         panelDatosPrincipales.add(rdbtnLicenciaNo);
 
@@ -252,9 +274,9 @@ public class ReportePostulacion extends JDialog {
 
 
         // Panel de Datos Académicos / Nivel de Estudio
-        JPanel panelNivelEstudio = new JPanel();
-        panelNivelEstudio.setBorder(new TitledBorder(null, " Nivel de Estudio ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelNivelEstudio.setBounds(10, 340, 514, 250); // Ajustar tamaño
+        JPanel panelNivelEstudio = new JPanelRedondeado(60);
+        panelNivelEstudio.setBackground(SystemColor.inactiveCaption);
+        panelNivelEstudio.setBounds(10, 390, 514, 250); // Ajustar tamaño
         contentPanel.add(panelNivelEstudio);
         panelNivelEstudio.setLayout(null);
 
@@ -264,6 +286,7 @@ public class ReportePostulacion extends JDialog {
         panelNivelEstudio.add(lblNivel);
 
         txtNivelEstudio = new JTextField();
+        txtNivelEstudio.setBackground(SystemColor.inactiveCaptionBorder);
         txtNivelEstudio.setEnabled(false);
         txtNivelEstudio.setEditable(false);
         txtNivelEstudio.setText(selected.getNivelEstudio());
@@ -273,10 +296,22 @@ public class ReportePostulacion extends JDialog {
         
         // Panel para detalles específicos del nivel de estudio (se hará visible según el tipo)
         panelDetalleEstudio = new JPanel();
+        panelDetalleEstudio.setBackground(SystemColor.inactiveCaption);
         panelDetalleEstudio.setBounds(10, 60, 494, 180); // Posición y tamaño dentro de panelNivelEstudio
         panelNivelEstudio.add(panelDetalleEstudio);
         panelDetalleEstudio.setLayout(null);
-        panelDetalleEstudio.setBorder(new TitledBorder(null, " Detalles ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        
+        panel = new JPanel();
+        panel.setBackground(new Color(0, 102, 153));
+        panel.setBounds(0, 0, 544, 64);
+        contentPanel.add(panel);
+        panel.setLayout(null);
+        
+        JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("DATOS DE LA POSTULACI\u00D3N");
+        lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewJgoodiesTitle.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblNewJgoodiesTitle.setBounds(144, 18, 256, 28);
+        panel.add(lblNewJgoodiesTitle);
         panelDetalleEstudio.setVisible(false); // Inicialmente oculto
 
         // Lógica para mostrar los detalles según el nivel de estudio
@@ -295,6 +330,7 @@ public class ReportePostulacion extends JDialog {
             txtDetalleEstudio.setEnabled(false);
             txtDetalleEstudio.setEditable(false);
             txtDetalleEstudio.setText(detalleNivelEstudio);
+            txtDetalleEstudio.setBackground(SystemColor.inactiveCaptionBorder);
             txtDetalleEstudio.setBounds(160, 30, 300, 20);
             panelDetalleEstudio.add(txtDetalleEstudio);
             txtDetalleEstudio.setColumns(10);
@@ -310,6 +346,7 @@ public class ReportePostulacion extends JDialog {
             txtDetalleEstudio.setEnabled(false);
             txtDetalleEstudio.setEditable(false);
             txtDetalleEstudio.setText(detalleNivelEstudio);
+            txtDetalleEstudio.setBackground(SystemColor.inactiveCaptionBorder);
             txtDetalleEstudio.setBounds(160, 30, 300, 20);
             panelDetalleEstudio.add(txtDetalleEstudio);
             txtDetalleEstudio.setColumns(10);
@@ -323,6 +360,7 @@ public class ReportePostulacion extends JDialog {
             txtAniosExperiencia.setEnabled(false);
             txtAniosExperiencia.setEditable(false);
             txtAniosExperiencia.setText(String.valueOf(aniosExperiencia));
+            txtAniosExperiencia.setBackground(SystemColor.inactiveCaptionBorder);
             txtAniosExperiencia.setBounds(160, 70, 100, 20);
             panelDetalleEstudio.add(txtAniosExperiencia);
             txtAniosExperiencia.setColumns(10);
@@ -336,31 +374,37 @@ public class ReportePostulacion extends JDialog {
 
             chkElectricidad = new JCheckBox("Electricidad básica");
             chkElectricidad.setEnabled(false);
+            chkElectricidad.setBackground(SystemColor.inactiveCaption);
             chkElectricidad.setBounds(10, 40, 150, 23);
             panelDetalleEstudio.add(chkElectricidad);
 
             chkSoldadura = new JCheckBox("Soldadura");
             chkSoldadura.setEnabled(false);
+            chkSoldadura.setBackground(SystemColor.inactiveCaption);
             chkSoldadura.setBounds(10, 65, 150, 23);
             panelDetalleEstudio.add(chkSoldadura);
 
             chkTecnicaPintura = new JCheckBox("Técnicas de pintura o albañilería");
             chkTecnicaPintura.setEnabled(false);
+            chkTecnicaPintura.setBackground(SystemColor.inactiveCaption);
             chkTecnicaPintura.setBounds(265, 40, 220, 23);
             panelDetalleEstudio.add(chkTecnicaPintura);
 
             chkTuberias = new JCheckBox("Instalación de tuberías");
             chkTuberias.setEnabled(false);
+            chkTuberias.setBackground(SystemColor.inactiveCaption);
             chkTuberias.setBounds(265, 65, 220, 23);
             panelDetalleEstudio.add(chkTuberias);
 
             chkMantenimiento = new JCheckBox("Mantenimiento básico de equipos");
             chkMantenimiento.setEnabled(false);
+            chkMantenimiento.setBackground(SystemColor.inactiveCaption);
             chkMantenimiento.setBounds(10, 90, 250, 23);
             panelDetalleEstudio.add(chkMantenimiento);
             
             chkLecturaPlanos = new JCheckBox("Lectura de planos"); // Cambiado el nombre de la variable
             chkLecturaPlanos.setEnabled(false);
+            chkLecturaPlanos.setBackground(SystemColor.inactiveCaption);
             chkLecturaPlanos.setBounds(265, 90, 220, 23);
             panelDetalleEstudio.add(chkLecturaPlanos);
 
@@ -375,19 +419,26 @@ public class ReportePostulacion extends JDialog {
                 else if ("Lectura de planos".equals(habilidad)) chkLecturaPlanos.setSelected(true);
             }
         }
-        
-        JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-        
-		JButton okButton = new JButton("OK");
-		okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose(); // Cierra la ventana
+        JTextField[] campos = { txtPretensionSalarial, txtDetalleEstudio, txtAniosExperiencia, txtCiudadResidencia, txtPaisResidencia, txtTipoContrato, txtNivelEstudio, txtNombreCandidato, txtCedulaCandidato, txtIdentificador};
+		for (JTextField campo : campos) {
+		    if(campo != null) {
+		    	campo.setEditable(false);
+			    campo.setBackground(SystemColor.inactiveCaptionBorder);
+			    campo.setForeground(Color.BLACK);
+			    campo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+			    campo.setDisabledTextColor(Color.BLACK); 
+		    }
+		}
+		JCheckBox[] check = {chkTuberias, chkMantenimiento, chkLecturaPlanos, chkTecnicaPintura, chkSoldadura, chkElectricidad};
+		for(JCheckBox checks : check) {
+			if(checks != null) {
+		        checks.setForeground(Color.BLACK); 
+		        checks.setOpaque(true); 
+		        checks.setBackground(SystemColor.inactiveCaption); 
+		        checks.setFont(new Font("Tahoma", Font.BOLD, 12)); 
+		        checks.setOpaque(true); 
+		        checks.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); 
 			}
-		});
-		okButton.setActionCommand("OK");
-		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
+		}
     }
 }
