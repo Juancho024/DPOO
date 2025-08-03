@@ -1,7 +1,14 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -9,32 +16,29 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import Logico.Bolsa;
 import Logico.Vacante;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import java.awt.Label;
-import java.awt.Font;
+import javax.swing.JLabel;
 
 public class ListadoVacante extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
     private static Object[] row;
     private static DefaultTableModel modelo = new DefaultTableModel();
-    private JButton btnCancelar;
+    private JButton btnCerrar;
     private static JTable table;
     private JButton btnModificar;
     private JButton btnEliminar;
     private Vacante selected = null;
     private JButton btnReportes;
-    private JComboBox cbxEstadoVacante;
+    private JComboBox<String> cbxEstadoVacante;
 
     public static void main(String[] args) {
         try {
@@ -50,41 +54,61 @@ public class ListadoVacante extends JDialog {
         setTitle("Listado de Vacantes");
         setBounds(100, 100, 1200, 677);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
         getContentPane().setLayout(new BorderLayout());
-        contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        
+        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        contentPanel.setBackground(Color.decode("#ecf0f1"));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
-        contentPanel.setLayout(new BorderLayout(0, 0));
+        contentPanel.setLayout(new BorderLayout(10, 10));
         {
             JPanel panel = new JPanel();
-            panel.setBorder(new TitledBorder(null, "Vacantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+            panel.setBackground(Color.decode("#ecf0f1"));
+            panel.setBorder(BorderFactory.createTitledBorder(
+                    BorderFactory.createLineBorder(Color.decode("#bdc3c7")),
+                    " Vacantes ",
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new Font("Segoe UI", Font.BOLD, 16),
+                    Color.decode("#333333")));
             contentPanel.add(panel, BorderLayout.CENTER);
-            panel.setLayout(null);
-            
-            cbxEstadoVacante = new JComboBox();
-            cbxEstadoVacante.setModel(new DefaultComboBoxModel(new String[] {"Todas", "Activas", "Inactivas"}));
+            panel.setLayout(new BorderLayout(0, 10));
+
+            // Panel de filtros
+            JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            panelFiltro.setBackground(Color.decode("#ecf0f1"));
+            panelFiltro.add(new JLabel("Filtrar por estado de vacante:"));
+
+            cbxEstadoVacante = new JComboBox<>();
+            DefaultComboBoxModel<String> modelCbx = new DefaultComboBoxModel<>();
+            modelCbx.addElement("Todas");
+            modelCbx.addElement("Activas");
+            modelCbx.addElement("Inactivas");
+            cbxEstadoVacante.setModel(modelCbx);
             cbxEstadoVacante.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     loadVacantes();
                 }
             });
-            cbxEstadoVacante.setBounds(293, 23, 260, 20);
-            panel.add(cbxEstadoVacante);
-            
-            Label label = new Label("Filtrar por estado de vacante:");
-            label.setFont(new Font("Tahoma", Font.BOLD, 12));
-            label.setBounds(10, 21, 260, 22);
-            panel.add(label);
-            
-            JPanel panel_1 = new JPanel();
-            panel_1.setBounds(10, 56, 1155, 523);
-            panel.add(panel_1);
-            panel_1.setLayout(new BorderLayout(0, 0));
+            panelFiltro.add(cbxEstadoVacante);
+            panel.add(panelFiltro, BorderLayout.NORTH);
             
             JScrollPane scrollPane = new JScrollPane();
-            panel_1.add(scrollPane, BorderLayout.CENTER);
+            scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#bdc3c7"), 1));
+            panel.add(scrollPane, BorderLayout.CENTER);
             
             table = new JTable();
+            table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            table.setRowHeight(25);
+            table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            
+            JTableHeader header = table.getTableHeader();
+            header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            header.setBackground(Color.decode("#2c3e50"));
+            header.setForeground(Color.white);
+            header.setReorderingAllowed(false);
+            header.setResizingAllowed(true);
+            
             table.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -94,6 +118,8 @@ public class ListadoVacante extends JDialog {
                         btnEliminar.setEnabled(true);
                         btnModificar.setEnabled(true);
                         btnReportes.setEnabled(true);
+                    } else {
+                        clearSelection();
                     }
                 }
             });
@@ -105,37 +131,53 @@ public class ListadoVacante extends JDialog {
                 }
             };
             
-            String[] header = {"Identificador", "RNC Empresa", "Nombre Vacante", "Tipo Contrato", 
+            String[] headerTable = {"Identificador", "RNC Empresa", "Nombre Vacante", "Tipo Contrato", 
                                "País Residencia", "Ciudad Residencia", "Pretensión Salarial", 
                                "Mudanza", "Vehículo", "Licencia", "Nivel Estudio", "Estado"};
-            modelo.setColumnIdentifiers(header);
+            modelo.setColumnIdentifiers(headerTable);
             table.setModel(modelo);
             scrollPane.setViewportView(table);
         }
         {
             JPanel buttonPane = new JPanel();
-            buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-            buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+            buttonPane.setBackground(Color.decode("#ecf0f1"));
+            buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-            btnReportes = new JButton("Ver Reporte");
+            btnReportes = createStyledButton("Ver Reporte", "#3498db");
             btnReportes.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if(selected != null) {
                         ReporteVacante reporte = new ReporteVacante(selected);
                         reporte.setModal(true);
                         reporte.setVisible(true);
+                        clearSelection();
                     }
                 }
             });
             btnReportes.setEnabled(false);
             buttonPane.add(btnReportes);
             
-            btnEliminar = new JButton("Eliminar");
+            btnModificar = createStyledButton("Modificar", "#3498db");
+            btnModificar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(selected != null) {
+                        ModVacante modVac = new ModVacante(selected);
+                        modVac.setModal(true);
+                        modVac.setVisible(true);
+                        loadVacantes();
+                        clearSelection();
+                    }
+                }
+            });
+            btnModificar.setEnabled(false);
+            buttonPane.add(btnModificar);
+            
+            btnEliminar = createStyledButton("Eliminar", "#e74c3c");
             btnEliminar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if(selected != null) {
-                        // Eliminamos la verificación de postulaciones activas
                         int opcion = JOptionPane.showConfirmDialog(null, 
                                 "¿Seguro que desea eliminar esta vacante?", 
                                 "Confirmar Eliminación", 
@@ -144,10 +186,7 @@ public class ListadoVacante extends JDialog {
                         if(opcion == JOptionPane.YES_OPTION) {
                             Bolsa.getInstance().eliminarVacante(selected);
                             loadVacantes();
-                            btnModificar.setEnabled(false);
-                            btnEliminar.setEnabled(false);
-                            btnReportes.setEnabled(false);
-                            selected = null;
+                            clearSelection();
                         }
                     }
                 }
@@ -155,31 +194,36 @@ public class ListadoVacante extends JDialog {
             btnEliminar.setEnabled(false);
             buttonPane.add(btnEliminar);
             
-            btnModificar = new JButton("Modificar");
-            btnModificar.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if(selected != null) {
-                        ModVacante modVac = new ModVacante(selected);
-                        modVac.setModal(true);
-                        modVac.setVisible(true);
-                        loadVacantes();
-                    }
-                }
-            });
-            btnModificar.setEnabled(false);
-            buttonPane.add(btnModificar);
-            
-            btnCancelar = new JButton("Cancelar");
-            btnCancelar.addActionListener(new ActionListener() {
+            btnCerrar = createStyledButton("Cerrar", "#95a5a6");
+            btnCerrar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     dispose();
                 }
             });
-            btnCancelar.setActionCommand("Cancel");
-            buttonPane.add(btnCancelar);
+            btnCerrar.setActionCommand("Cancel");
+            buttonPane.add(btnCerrar);
         }
         
         loadVacantes();
+    }
+    
+    private void clearSelection() {
+        table.clearSelection();
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnReportes.setEnabled(false);
+        selected = null;
+    }
+    
+    private JButton createStyledButton(String text, String hexColor) {
+        JButton button = new JButton(text);
+        button.setBackground(Color.decode(hexColor));
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setBorderPainted(false);
+        return button;
     }
 
     public void loadVacantes() {
@@ -189,9 +233,8 @@ public class ListadoVacante extends JDialog {
         int estadoFilter = cbxEstadoVacante.getSelectedIndex();
         
         for(Vacante aux: Bolsa.getInstance().getMisVacantes()) {
-            // Aplicar filtro de estado
-            if(estadoFilter == 1 && !aux.isStatus()) continue; // Solo activas
-            if(estadoFilter == 2 && aux.isStatus()) continue;  // Solo inactivas
+            if(estadoFilter == 1 && !aux.isStatus()) continue;
+            if(estadoFilter == 2 && aux.isStatus()) continue;
             
             row[0] = aux.getIdentificador();
             row[1] = aux.getRncEmpresa();
@@ -199,7 +242,7 @@ public class ListadoVacante extends JDialog {
             row[3] = aux.getTipoContrato();
             row[4] = aux.getPaisResidencia();
             row[5] = aux.getCiudadResidencia();
-            row[6] = aux.getPretensionSalarial();
+            row[6] = String.format("%,.2f", aux.getPretensionSalarial());
             row[7] = aux.isMudanza() ? "Sí" : "No";
             row[8] = aux.isDisponibilidadVehiculo() ? "Sí" : "No";
             row[9] = aux.isLicencia() ? "Sí" : "No";
@@ -214,17 +257,17 @@ public class ListadoVacante extends JDialog {
         table.getTableHeader().setReorderingAllowed(false);
         
         TableColumnModel columnModel = table.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(100);  // Identificador
-        columnModel.getColumn(1).setPreferredWidth(100);  // RNC Empresa
-        columnModel.getColumn(2).setPreferredWidth(150);  // Nombre Vacante
-        columnModel.getColumn(3).setPreferredWidth(120);  // Tipo Contrato
-        columnModel.getColumn(4).setPreferredWidth(120);  // País
-        columnModel.getColumn(5).setPreferredWidth(120);  // Ciudad
-        columnModel.getColumn(6).setPreferredWidth(100);  // Salario
-        columnModel.getColumn(7).setPreferredWidth(80);   // Mudanza
-        columnModel.getColumn(8).setPreferredWidth(80);   // Vehículo
-        columnModel.getColumn(9).setPreferredWidth(80);   // Licencia
-        columnModel.getColumn(10).setPreferredWidth(120); // Nivel Estudio
-        columnModel.getColumn(11).setPreferredWidth(80);  // Estado
+        columnModel.getColumn(0).setPreferredWidth(100);
+        columnModel.getColumn(1).setPreferredWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(120);
+        columnModel.getColumn(4).setPreferredWidth(120);
+        columnModel.getColumn(5).setPreferredWidth(120);
+        columnModel.getColumn(6).setPreferredWidth(100);
+        columnModel.getColumn(7).setPreferredWidth(80);
+        columnModel.getColumn(8).setPreferredWidth(80);
+        columnModel.getColumn(9).setPreferredWidth(80);
+        columnModel.getColumn(10).setPreferredWidth(120);
+        columnModel.getColumn(11).setPreferredWidth(80);
     }
 }
