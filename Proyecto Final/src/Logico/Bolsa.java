@@ -530,19 +530,22 @@ public class Bolsa implements Serializable {
 	}
 
 	public void eliminarEmpresa(Empresa selected) {
-		// TODO Auto-generated method stub
+		
 		misEmpresas.remove(selected);
 	}
-
-	public void eliminar(Empresa selected) {
-		// TODO Auto-generated method stub
-		misEmpresas.remove(selected);
+	
+	public boolean buscarVacanteHistorial(Vacante aux) {
+		boolean find = false;
+		for (HistorialMatch auxHM : misContrataciones) {
+			if(auxHM.getVacanteEmpleada().equals(aux)) {
+				find = true;
+			}
+		}
+		return find;
 	}
 
 	public void eliminarVacante(Vacante vacante) {
-		if (vacante != null) {
-			misVacantes.remove(vacante);
-		}
+		
 	}
 
 	public void modificarVacante(Vacante selected) {
