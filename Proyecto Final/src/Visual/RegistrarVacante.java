@@ -35,6 +35,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.border.EmptyBorder;
 
 public class RegistrarVacante extends JDialog {
 
@@ -48,7 +49,7 @@ public class RegistrarVacante extends JDialog {
     private JPanel panelUniversitario;
     private JPanel panelTecnicoSuperior;
     private JPanel panelObrero;
-    private JComboBox cbxEmpresa;
+    private JComboBox<String> cbxEmpresa;
     private JComboBox<String> cbxCarreraUniversitario;
     private JComboBox<String> cbxEspecialidadTecnico;
     private JCheckBox chkElectricidad;
@@ -91,26 +92,31 @@ public class RegistrarVacante extends JDialog {
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
+        
+        contentPanel.setBackground(new Color(70, 130, 180));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
 
-        // Inicializar mapa de ciudades
         inicializarCiudadesPorPais();
 
         // --- Panel de Selección de Empresa (Izquierda) ---
         JPanel panelSeleccionEmpresa = new JPanel();
-        panelSeleccionEmpresa.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-            "Seleccionar Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panelSeleccionEmpresa.setBackground(Color.decode("#ecf0f1"));
+        panelSeleccionEmpresa.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")),
+            "Seleccionar Empresa", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
         panelSeleccionEmpresa.setBounds(10, 11, 470, 70);
         contentPanel.add(panelSeleccionEmpresa);
         panelSeleccionEmpresa.setLayout(null);
 
         JLabel lblEmpresa = new JLabel("Empresa:");
-        lblEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblEmpresa.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblEmpresa.setBounds(10, 30, 60, 22);
         panelSeleccionEmpresa.add(lblEmpresa);
 
         cbxEmpresa = new JComboBox<>();
+        cbxEmpresa.setBackground(new Color(255, 255, 224));
         cbxEmpresa.setBounds(85, 30, 370, 22);
         panelSeleccionEmpresa.add(cbxEmpresa);
         cbxEmpresa.addActionListener(e -> cargarDatosEmpresa());
@@ -118,39 +124,46 @@ public class RegistrarVacante extends JDialog {
 
         // --- Panel de Información de Empresa (Derecha) ---
         JPanel panelInfoEmpresa = new JPanel();
-        panelInfoEmpresa.setBorder(new TitledBorder(null, "Informaci\u00F3n de la Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panelInfoEmpresa.setBackground(Color.decode("#ecf0f1"));
+        panelInfoEmpresa.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")), 
+            "Información de la Empresa", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
         panelInfoEmpresa.setBounds(490, 11, 485, 323);
         contentPanel.add(panelInfoEmpresa);
         panelInfoEmpresa.setLayout(null);
 
         JLabel lblRNC = new JLabel("RNC:");
-        lblRNC.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblRNC.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblRNC.setBounds(20, 194, 80, 22);
         panelInfoEmpresa.add(lblRNC);
 
         txtRNC = new JTextField();
+        txtRNC.setBackground(new Color(255, 255, 224));
         txtRNC.setEditable(false);
         txtRNC.setBounds(106, 194, 348, 22);
         panelInfoEmpresa.add(txtRNC);
         txtRNC.setColumns(10);
 
         JLabel lblUbicacion = new JLabel("Ubicación:");
-        lblUbicacion.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblUbicacion.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblUbicacion.setBounds(20, 237, 80, 22);
         panelInfoEmpresa.add(lblUbicacion);
 
         txtUbicacion = new JTextField();
+        txtUbicacion.setBackground(new Color(255, 255, 224));
         txtUbicacion.setEditable(false);
         txtUbicacion.setBounds(106, 237, 348, 22);
         panelInfoEmpresa.add(txtUbicacion);
         txtUbicacion.setColumns(10);
 
         JLabel lblArea = new JLabel("Área:");
-        lblArea.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblArea.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblArea.setBounds(20, 280, 80, 22);
         panelInfoEmpresa.add(lblArea);
 
         txtSector = new JTextField();
+        txtSector.setBackground(new Color(255, 255, 224));
         txtSector.setEditable(false);
         txtSector.setBounds(106, 280, 348, 22);
         panelInfoEmpresa.add(txtSector);
@@ -158,7 +171,7 @@ public class RegistrarVacante extends JDialog {
         
         lbLogoEmpresa = new JLabel("Logo de la Empresa");
         lbLogoEmpresa.setHorizontalAlignment(SwingConstants.CENTER);
-        lbLogoEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lbLogoEmpresa.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lbLogoEmpresa.setBounds(200, 161, 159, 22);
         panelInfoEmpresa.add(lbLogoEmpresa);
         
@@ -170,18 +183,22 @@ public class RegistrarVacante extends JDialog {
 
         // --- Panel Principal de Vacante (Izquierda) ---
         JPanel panelVacante = new JPanel();
-        panelVacante.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-            "Datos de la Vacante", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panelVacante.setBackground(Color.decode("#ecf0f1"));
+        panelVacante.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")),
+            "Datos de la Vacante", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
         panelVacante.setBounds(10, 92, 470, 395);
         contentPanel.add(panelVacante);
         panelVacante.setLayout(null);
 
         JLabel lblIdentificador = new JLabel("Identificador:");
-        lblIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblIdentificador.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblIdentificador.setBounds(10, 35, 100, 22);
         panelVacante.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
+        txtIdentificador.setBackground(new Color(255, 255, 224));
         txtIdentificador.setText("Vac - 00"+(Bolsa.getInstance().genCodVac+5));
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 63, 440, 22);
@@ -189,21 +206,23 @@ public class RegistrarVacante extends JDialog {
         txtIdentificador.setColumns(10);
 
         JLabel lblNombreVacante = new JLabel("Nombre Vacante:");
-        lblNombreVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblNombreVacante.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblNombreVacante.setBounds(10, 101, 120, 22);
         panelVacante.add(lblNombreVacante);
 
         txtNombreVacante = new JTextField();
+        txtNombreVacante.setBackground(new Color(255, 255, 224));
         txtNombreVacante.setBounds(10, 136, 440, 22);
         panelVacante.add(txtNombreVacante);
         txtNombreVacante.setColumns(10);
 
         JLabel lblTipoContrato = new JLabel("Tipo de Contrato:");
-        lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblTipoContrato.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblTipoContrato.setBounds(10, 164, 120, 22);
         panelVacante.add(lblTipoContrato);
 
         cbxTipoContrato = new JComboBox<>();
+        cbxTipoContrato.setBackground(new Color(255, 255, 224));
         cbxTipoContrato.setModel(new DefaultComboBoxModel<>(new String[] {
             "Tiempo Completo", "Medio Tiempo", "Por Horas", "Por Proyecto"
         }));
@@ -211,11 +230,12 @@ public class RegistrarVacante extends JDialog {
         panelVacante.add(cbxTipoContrato);
 
         JLabel lblPais = new JLabel("País Residencia:");
-        lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblPais.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblPais.setBounds(10, 220, 120, 22);
         panelVacante.add(lblPais);
 
         cbxPaisResidencia = new JComboBox<>();
+        cbxPaisResidencia.setBackground(new Color(255, 255, 224));
         cbxPaisResidencia.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una Opción",
             "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Perú", "México",
             "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panamá",
@@ -229,11 +249,12 @@ public class RegistrarVacante extends JDialog {
         panelVacante.add(cbxPaisResidencia);
 
         JLabel lblCiudad = new JLabel("Ciudad Residencia:");
-        lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblCiudad.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblCiudad.setBounds(10, 276, 120, 22);
         panelVacante.add(lblCiudad);
 
         cbxCiudades = new JComboBox<>();
+        cbxCiudades.setBackground(new Color(255, 255, 224));
         cbxCiudades.setBounds(10, 304, 440, 22);
         panelVacante.add(cbxCiudades);
         cbxCiudades.setEnabled(false);
@@ -250,7 +271,7 @@ public class RegistrarVacante extends JDialog {
         });
 
         JLabel lblSalario = new JLabel("Pretensión Salarial:");
-        lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblSalario.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblSalario.setBounds(10, 332, 120, 22);
         panelVacante.add(lblSalario);
 
@@ -262,22 +283,29 @@ public class RegistrarVacante extends JDialog {
 
         // --- Panel de Requisitos Adicionales (Derecha) ---
         JPanel panelRequisitos = new JPanel();
-        panelRequisitos.setBorder(new TitledBorder(null, "Requisitos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panelRequisitos.setBackground(Color.decode("#ecf0f1"));
+        panelRequisitos.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")), 
+            "Requisitos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
         panelRequisitos.setBounds(490, 347, 485, 140);
         contentPanel.add(panelRequisitos);
         panelRequisitos.setLayout(null);
 
         JLabel lblMudanza = new JLabel("Dispuesto a Mudarse:");
-        lblMudanza.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblMudanza.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblMudanza.setBounds(20, 30, 140, 22);
         panelRequisitos.add(lblMudanza);
 
         JPanel panelMudanza = new JPanel();
+        panelMudanza.setOpaque(false);
         panelMudanza.setBounds(170, 30, 120, 22);
         panelRequisitos.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         rdbtnMudanzaSi = new JRadioButton("Sí");
+        rdbtnMudanzaSi.setOpaque(false);
         rdbtnMudanzaNo = new JRadioButton("No");
+        rdbtnMudanzaNo.setOpaque(false);
         ButtonGroup grupoMudanza = new ButtonGroup();
         grupoMudanza.add(rdbtnMudanzaSi);
         grupoMudanza.add(rdbtnMudanzaNo);
@@ -286,16 +314,19 @@ public class RegistrarVacante extends JDialog {
         rdbtnMudanzaNo.setSelected(true);
 
         JLabel lblVehiculo = new JLabel("Vehículo Propio:");
-        lblVehiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblVehiculo.setBounds(20, 65, 140, 22);
         panelRequisitos.add(lblVehiculo);
 
         JPanel panelVehiculo = new JPanel();
+        panelVehiculo.setOpaque(false);
         panelVehiculo.setBounds(170, 65, 120, 22);
         panelRequisitos.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         rdbtnVehiculoSi = new JRadioButton("Sí");
+        rdbtnVehiculoSi.setOpaque(false);
         rdbtnVehiculoNo = new JRadioButton("No");
+        rdbtnVehiculoNo.setOpaque(false);
         ButtonGroup grupoVehiculo = new ButtonGroup();
         grupoVehiculo.add(rdbtnVehiculoSi);
         grupoVehiculo.add(rdbtnVehiculoNo);
@@ -304,16 +335,19 @@ public class RegistrarVacante extends JDialog {
         rdbtnVehiculoNo.setSelected(true);
 
         JLabel lblLicencia = new JLabel("Licencia de Conducir:");
-        lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblLicencia.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblLicencia.setBounds(20, 100, 140, 22);
         panelRequisitos.add(lblLicencia);
 
         JPanel panelLicencia = new JPanel();
+        panelLicencia.setOpaque(false);
         panelLicencia.setBounds(170, 100, 120, 22);
         panelRequisitos.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         rdbtnLicenciaSi = new JRadioButton("Sí");
+        rdbtnLicenciaSi.setOpaque(false);
         rdbtnLicenciaNo = new JRadioButton("No");
+        rdbtnLicenciaNo.setOpaque(false);
         ButtonGroup grupoLicencia = new ButtonGroup();
         grupoLicencia.add(rdbtnLicenciaSi);
         grupoLicencia.add(rdbtnLicenciaNo);
@@ -324,38 +358,49 @@ public class RegistrarVacante extends JDialog {
 
         // --- Paneles de Nivel de Estudio ---
         JPanel panelEstudios = new JPanel();
-        panelEstudios.setBorder(new TitledBorder(null, "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panelEstudios.setBackground(Color.decode("#ecf0f1"));
+        panelEstudios.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")),
+            "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
         panelEstudios.setBounds(10, 500, 965, 70);  
         contentPanel.add(panelEstudios);
         panelEstudios.setLayout(null);
 
         ButtonGroup grupoNivelEstudio = new ButtonGroup();
         rdbtnUniversitario = new JRadioButton("Universitario");
-        rdbtnUniversitario.setFont(new Font("Tahoma", Font.BOLD, 12));
+        rdbtnUniversitario.setOpaque(false);
+        rdbtnUniversitario.setFont(new Font("Segoe UI", Font.BOLD, 12));
         rdbtnUniversitario.setBounds(20, 30, 120, 23);
         grupoNivelEstudio.add(rdbtnUniversitario);
         panelEstudios.add(rdbtnUniversitario);
 
         rdbtnTecnicoSuperior = new JRadioButton("Técnico Superior");
-        rdbtnTecnicoSuperior.setFont(new Font("Tahoma", Font.BOLD, 12));
+        rdbtnTecnicoSuperior.setOpaque(false);
+        rdbtnTecnicoSuperior.setFont(new Font("Segoe UI", Font.BOLD, 12));
         rdbtnTecnicoSuperior.setBounds(170, 30, 150, 23);
         grupoNivelEstudio.add(rdbtnTecnicoSuperior);
         panelEstudios.add(rdbtnTecnicoSuperior);
 
         rdbtnObrero = new JRadioButton("Obrero");
-        rdbtnObrero.setFont(new Font("Tahoma", Font.BOLD, 12));
+        rdbtnObrero.setOpaque(false);
+        rdbtnObrero.setFont(new Font("Segoe UI", Font.BOLD, 12));
         rdbtnObrero.setBounds(350, 30, 100, 23);
         grupoNivelEstudio.add(rdbtnObrero);
         panelEstudios.add(rdbtnObrero);
 
         panelTecnicoSuperior = new JPanel();
-        panelTecnicoSuperior.setBorder(new TitledBorder(null, "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelTecnicoSuperior.setBounds(10, 581, 965, 70);  // Cambiado de 496 a 581
+        panelTecnicoSuperior.setBackground(Color.decode("#ecf0f1"));
+        panelTecnicoSuperior.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")), 
+            "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
+        panelTecnicoSuperior.setBounds(10, 581, 965, 70);
         contentPanel.add(panelTecnicoSuperior);
         panelTecnicoSuperior.setLayout(null);
 
         JLabel lblEspecialidad = new JLabel("Especialidad Requerida:");
-        lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblEspecialidad.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblEspecialidad.setBounds(20, 30, 180, 22);
         panelTecnicoSuperior.add(lblEspecialidad);
 
@@ -378,7 +423,7 @@ public class RegistrarVacante extends JDialog {
         panelTecnicoSuperior.add(cbxEspecialidadTecnico);
         
         JLabel lblAniosExperiencia = new JLabel("Años de experiencia:");
-        lblAniosExperiencia.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblAniosExperiencia.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblAniosExperiencia.setBounds(531, 30, 146, 22);
         panelTecnicoSuperior.add(lblAniosExperiencia);
         
@@ -388,33 +433,43 @@ public class RegistrarVacante extends JDialog {
         panelTecnicoSuperior.add(spnAniosExperienciaTecnico);
 
         panelObrero = new JPanel();
-        panelObrero.setBorder(new TitledBorder(null, "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelObrero.setBounds(10, 581, 965, 105);  // Cambiado de 496 a 581
+        panelObrero.setBackground(Color.decode("#ecf0f1"));
+        panelObrero.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")),
+            "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, 
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
+        panelObrero.setBounds(10, 581, 965, 105);
         contentPanel.add(panelObrero);
         panelObrero.setLayout(null);
 
         chkElectricidad = new JCheckBox("Electricidad básica");
-        chkElectricidad.setBounds(20, 30, 200, 23);      // Col1, Fila1
+        chkElectricidad.setOpaque(false);
+        chkElectricidad.setBounds(20, 30, 200, 23);
         panelObrero.add(chkElectricidad);
         
         chkSoldadura = new JCheckBox("Soldadura");
-        chkSoldadura.setBounds(20, 60, 200, 23);         // Col1, Fila2
+        chkSoldadura.setOpaque(false);
+        chkSoldadura.setBounds(20, 60, 200, 23);
         panelObrero.add(chkSoldadura);
         
         chkTecnicaPintura = new JCheckBox("Técnicas de pintura o albañilería");
-        chkTecnicaPintura.setBounds(270, 30, 250, 23);   // Col2, Fila1
+        chkTecnicaPintura.setOpaque(false);
+        chkTecnicaPintura.setBounds(270, 30, 250, 23);
         panelObrero.add(chkTecnicaPintura);
         
         chkTuberias = new JCheckBox("Instalación de tuberías");
-        chkTuberias.setBounds(270, 60, 250, 23);         // Col2, Fila2
+        chkTuberias.setOpaque(false);
+        chkTuberias.setBounds(270, 60, 250, 23);
         panelObrero.add(chkTuberias);
         
         chkMantenimiento = new JCheckBox("Mantenimiento básico de equipos");
-        chkMantenimiento.setBounds(530, 30, 250, 23);    // Col3, Fila1
+        chkMantenimiento.setOpaque(false);
+        chkMantenimiento.setBounds(530, 30, 250, 23);
         panelObrero.add(chkMantenimiento);
         
         chkMaquinaria = new JCheckBox("Lectura de planos");
-        chkMaquinaria.setBounds(530, 60, 250, 23);       // Col3, Fila2
+        chkMaquinaria.setOpaque(false);
+        chkMaquinaria.setBounds(530, 60, 250, 23);
         panelObrero.add(chkMaquinaria);
 
         // Listeners
@@ -425,45 +480,52 @@ public class RegistrarVacante extends JDialog {
         // Estado Inicial
         rdbtnUniversitario.setSelected(true);
         
-                panelUniversitario = new JPanel();
-                panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-                panelUniversitario.setBounds(10, 581, 965, 70);  // Cambiado de 496 a 581
-                contentPanel.add(panelUniversitario);
-                panelUniversitario.setLayout(null);
-                
-                        JLabel lblCarrera = new JLabel("Carrera Requerida:");
-                        lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
-                        lblCarrera.setBounds(20, 30, 150, 22);
-                        panelUniversitario.add(lblCarrera);
-                        
-                                cbxCarreraUniversitario = new JComboBox<>();
-                                cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",
-                                    "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Finanzas",
-                                    "Psicología", "Derecho", "Educación / Pedagogía", "Trabajo Social",
-                                    "Comunicación Social / Periodismo", "Relaciones Internacionales",
-                                    "Ingeniería en Sistemas / Informática", "Ingeniería Civil", "Ingeniería Industrial",
-                                    "Ingeniería Eléctrica / Electrónica", "Medicina", "Enfermería", "Odontología",
-                                    "Farmacia", "Nutrición", "Fisioterapia", "Veterinaria", "Ciencias de la Computación",
-                                    "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Diseño Gráfico",
-                                    "Diseño Industrial", "Turismo y Hotelería", "Gastronomía / Artes Culinarias"
-                                }));
-                                cbxCarreraUniversitario.setBounds(180, 30, 770, 22);
-                                panelUniversitario.add(cbxCarreraUniversitario);
-                                mostrarPanelEstudio(panelUniversitario);
+        panelUniversitario = new JPanel();
+        panelUniversitario.setBackground(Color.decode("#ecf0f1"));
+        panelUniversitario.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(Color.decode("#1A237E")),
+            "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP,
+            new Font("Segoe UI", Font.BOLD, 14), Color.decode("#1A237E")));
+        panelUniversitario.setBounds(10, 581, 965, 70);
+        contentPanel.add(panelUniversitario);
+        panelUniversitario.setLayout(null);
+        
+        JLabel lblCarrera = new JLabel("Carrera Requerida:");
+        lblCarrera.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblCarrera.setBounds(20, 30, 150, 22);
+        panelUniversitario.add(lblCarrera);
+        
+        cbxCarreraUniversitario = new JComboBox<>();
+        cbxCarreraUniversitario.setModel(new DefaultComboBoxModel<>(new String[] {"Seleccione una opcion",
+            "Administración de Empresas", "Contabilidad", "Economía", "Marketing", "Finanzas",
+            "Psicología", "Derecho", "Educación / Pedagogía", "Trabajo Social",
+            "Comunicación Social / Periodismo", "Relaciones Internacionales",
+            "Ingeniería en Sistemas / Informática", "Ingeniería Civil", "Ingeniería Industrial",
+            "Ingeniería Eléctrica / Electrónica", "Medicina", "Enfermería", "Odontología",
+            "Farmacia", "Nutrición", "Fisioterapia", "Veterinaria", "Ciencias de la Computación",
+            "Desarrollo de Software", "Ciberseguridad", "Arquitectura", "Diseño Gráfico",
+            "Diseño Industrial", "Turismo y Hotelería", "Gastronomía / Artes Culinarias"
+        }));
+        cbxCarreraUniversitario.setBounds(180, 30, 770, 22);
+        panelUniversitario.add(cbxCarreraUniversitario);
+        mostrarPanelEstudio(panelUniversitario);
         cargarEmpresas();
 
         // Botones
         JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonPane.setBackground(Color.decode("#ecf0f1"));
+        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
-        JButton btnRegistrar = new JButton("Registrar");
+        
+        JButton btnRegistrar = createStyledButton("Registrar", "#2962ff");
         btnRegistrar.addActionListener(e -> registrarVacante());
         buttonPane.add(btnRegistrar);
-        JButton btnCancelar = new JButton("Cancelar");
+        
+        JButton btnCancelar = createStyledButton("Cancelar", "#95a5a6");
         btnCancelar.addActionListener(e -> dispose());
         buttonPane.add(btnCancelar);
     }
-
+    
     private void mostrarPanelEstudio(JPanel panel) {
         panelUniversitario.setVisible(false);
         panelTecnicoSuperior.setVisible(false);
@@ -472,31 +534,14 @@ public class RegistrarVacante extends JDialog {
     }
 
     private void inicializarCiudadesPorPais() {
-        // Argentina
         ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires", "Córdoba", "Rosario", "Mendoza", "La Plata", "Mar del Plata", "Salta", "San Juan", "San Miguel de Tucumán"});
-        
-        // Brasil
         ciudadesPorPais.put("Brasil", new String[]{"Brasilia", "São Paulo", "Río de Janeiro", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife"});
-        
-        // Chile
         ciudadesPorPais.put("Chile", new String[]{"Santiago", "Valparaíso", "Concepción", "La Serena", "Antofagasta", "Temuco", "Puerto Montt", "Arica", "Iquique"});
-        
-        // Colombia
         ciudadesPorPais.put("Colombia", new String[]{"Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena", "Cúcuta", "Bucaramanga", "Pereira", "Santa Marta"});
-        
-        // México
         ciudadesPorPais.put("México", new String[]{"Ciudad de México", "Guadalajara", "Monterrey", "Puebla", "Toluca", "Tijuana", "León", "Querétaro", "Mérida"});
-        
-        // Estados Unidos
         ciudadesPorPais.put("Estados Unidos", new String[]{"Washington D.C.", "Nueva York", "Los Ángeles", "Chicago", "Houston", "Phoenix", "Filadelfia", "San Antonio", "San Diego"});
-        
-        // España
         ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza", "Málaga", "Murcia", "Palma de Mallorca", "Las Palmas"});
-        
-        // Perú
         ciudadesPorPais.put("Perú", new String[]{"Lima", "Arequipa", "Trujillo", "Chiclayo", "Piura", "Iquitos", "Cusco", "Chimbote", "Huancayo"});
-        
-        // Resto de países (ejemplos)
         ciudadesPorPais.put("Ecuador", new String[]{"Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Loja", "Ambato"});
         ciudadesPorPais.put("Venezuela", new String[]{"Caracas", "Maracaibo", "Valencia", "Barquisimeto", "Maracay", "Ciudad Guayana", "Maturín", "Barcelona", "San Cristóbal"});
         ciudadesPorPais.put("Uruguay", new String[]{"Montevideo", "Salto", "Ciudad de la Costa", "Paysandú", "Las Piedras", "Rivera", "Maldonado", "Tacuarembó", "Melo"});
@@ -512,7 +557,6 @@ public class RegistrarVacante extends JDialog {
         ciudadesPorPais.put("China", new String[]{"Pekín", "Shanghái", "Hong Kong", "Cantón", "Shenzhen", "Tianjín", "Chongqing", "Dongguan", "Nankín"});
         ciudadesPorPais.put("Japón", new String[]{"Tokio", "Osaka", "Nagoya", "Yokohama", "Kioto", "Kobe", "Fukuoka", "Sapporo", "Hiroshima"});
         
-        // Países sin definir (usar capital como única opción)
         String[] paisesRestantes = {"Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panamá", "Puerto Rico", "Portugal", "Corea del Sur", "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"};
         for (String pais : paisesRestantes) {
             ciudadesPorPais.put(pais, new String[]{pais});
@@ -538,7 +582,7 @@ public class RegistrarVacante extends JDialog {
     
     private void cargarDatosEmpresa() {
         int selectedIndex = cbxEmpresa.getSelectedIndex();
-        if (selectedIndex <= 0) { // Si es "Seleccione una Opción"
+        if (selectedIndex <= 0) {
             txtRNC.setText("");
             txtUbicacion.setText("");
             txtSector.setText("");
@@ -568,22 +612,30 @@ public class RegistrarVacante extends JDialog {
                 }
             }
         } catch (Exception e) {
-            // Manejar el caso en que la selección no tenga el formato esperado
             txtRNC.setText("");
             txtUbicacion.setText("");
             txtSector.setText("");
         }
     }
+    
+    private JButton createStyledButton(String text, String hexColor) {
+        JButton button = new JButton(text);
+        button.setBackground(Color.decode(hexColor));
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setBorderPainted(false);
+        return button;
+    }
 
     private void registrarVacante() {
         try {
-            // Validar campos básicos
             String identificador = txtIdentificador.getText().trim();
             String nombreVacante = txtNombreVacante.getText().trim();
             String tipoContrato = (String) cbxTipoContrato.getSelectedItem();
             String salarioStr = spnPretensionSalarial.getValue().toString();
             
-            // Validar selección de país y ciudad
             if (cbxPaisResidencia.getSelectedIndex() == 0) {
                 throw new Exception("Seleccione un país");
             }
@@ -602,7 +654,6 @@ public class RegistrarVacante extends JDialog {
             String pais = (String) cbxPaisResidencia.getSelectedItem();
             String ciudad = (String) cbxCiudades.getSelectedItem();
             
-            // Validar campos vacíos
             if (nombreVacante.isEmpty() || salarioStr.isEmpty()) {
                 throw new Exception("Complete todos los campos obligatorios");
             }
@@ -611,18 +662,15 @@ public class RegistrarVacante extends JDialog {
                 throw new Exception("Nombre de vacante no puede exceder 100 caracteres");
             }
             
-            // Validar pretensión salarial
             float pretensionSalarial = Float.parseFloat(salarioStr);
             if (pretensionSalarial <= 0) {
                 throw new Exception("La pretensión salarial debe ser mayor que 0");
             }
             
-            // Validar empresa
             if (cbxEmpresa.getSelectedItem() == null) {
                 throw new Exception("Seleccione una empresa");
             }
             
-            // Validar radio buttons
             if (!rdbtnMudanzaSi.isSelected() && !rdbtnMudanzaNo.isSelected()) {
                 throw new Exception("Seleccione disponibilidad de mudanza");
             }
@@ -635,12 +683,10 @@ public class RegistrarVacante extends JDialog {
                 throw new Exception("Seleccione disponibilidad de licencia");
             }
             
-            // Obtener valores de los radio buttons
             boolean mudanza = rdbtnMudanzaSi.isSelected();
             boolean vehiculo = rdbtnVehiculoSi.isSelected();
             boolean licencia = rdbtnLicenciaSi.isSelected();
             
-            // Validar nivel de estudio
             String nivelEstudio = "";
             String[] infoEstudio = new String[1];
             ArrayList<String> habilidades = new ArrayList<>();
@@ -680,10 +726,8 @@ public class RegistrarVacante extends JDialog {
                 throw new Exception("Seleccione un nivel de estudio requerido");
             }
             
-            // Obtener empresa
             Empresa empresa = Bolsa.getInstance().buscarEmpresaByCod(rnc);
             
-            // Crear vacante
             Vacante vacante = new Vacante(identificador,
                	rnc,
                 nivelEstudio,
@@ -697,10 +741,8 @@ public class RegistrarVacante extends JDialog {
                 pretensionSalarial, true
             );
             
-            // Registrar vacante
             Bolsa.getInstance().registrarVacante(vacante);
             
-            // Asociar vacante a empresa
             empresa.getMisFormulariosEmpresa().add(vacante);
             
             JOptionPane.showMessageDialog(this, "Vacante registrada con éxito!");
@@ -712,12 +754,5 @@ public class RegistrarVacante extends JDialog {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        // MIOP, ACA TERMINA, lo que esta arriba es mejor no tocarlo, es para guardar en el array y para gestionar errores
-        // Como que no se inserten datos o que sean invalidos
-        //Coloca por aca las cosas del Match
-        
-        
-        
     }
 }

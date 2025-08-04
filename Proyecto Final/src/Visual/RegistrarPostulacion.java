@@ -90,11 +90,13 @@ public class RegistrarPostulacion extends JDialog {
     }
 
     public RegistrarPostulacion() {
+    	setBackground(new Color(192, 192, 192));
         setTitle("Registrar Postulación");
         setBounds(100, 100, 750, 700); // Ajustado para nuevo contenido
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
+        contentPanel.setBackground(new Color(192, 192, 192));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
 
@@ -102,6 +104,7 @@ public class RegistrarPostulacion extends JDialog {
         inicializarCiudadesPorPais();
 
         JPanel panelDatos = new JPanel();
+        panelDatos.setBackground(new Color(100, 149, 237));
         panelDatos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
                 "Datos de Postulación", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
         panelDatos.setBounds(12, 13, 708, 592); // Ajustado para nuevo contenido
@@ -114,6 +117,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblCandidato);
 
         cbxCandidatos = new JComboBox<>();
+        cbxCandidatos.setBackground(new Color(255, 255, 224));
         cbxCandidatos.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -149,6 +153,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblTipoContrato);
 
         cbxTipoContrato = new JComboBox<>();
+        cbxTipoContrato.setBackground(new Color(255, 255, 224));
         cbxTipoContrato.setModel(new DefaultComboBoxModel<>(new String[]{"Seleccione una Opción", "Tiempo Completo", "Medio Tiempo", "Por Proyecto"}));
         cbxTipoContrato.setBounds(10, 133, 331, 22);
         panelDatos.add(cbxTipoContrato);
@@ -159,6 +164,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblPais);
 
         cbxPaisResidencia = new JComboBox<>();
+        cbxPaisResidencia.setBackground(new Color(255, 255, 224));
         cbxPaisResidencia.setModel(new DefaultComboBoxModel<>(new String[]{"Seleccione una Opción", "Argentina", "Brasil", "Chile", "Colombia", "Ecuador", "Perú", "México", "Guatemala", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panamá", "Venezuela", "Paraguay", "Uruguay", "Bolivia", "Cuba", "República Dominicana", "Puerto Rico", "España", "Estados Unidos", "Canadá", "Italia", "Francia", "Alemania", "Reino Unido", "Portugal", "Japón", "Corea del Sur", "China", "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos", "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia", "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"}));
         cbxPaisResidencia.setBounds(10, 189, 331, 22);
         panelDatos.add(cbxPaisResidencia);
@@ -169,6 +175,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblCiudad);
 
         cbxCiudades = new JComboBox<>();
+        cbxCiudades.setBackground(new Color(255, 255, 224));
         cbxCiudades.setBounds(10, 245, 331, 22);
         panelDatos.add(cbxCiudades);
         cbxCiudades.setEnabled(false); // Inicialmente deshabilitado
@@ -196,6 +203,7 @@ public class RegistrarPostulacion extends JDialog {
 
         // --- Panel Nivel de Estudio ---
         JPanel panelNivelEstudio = new JPanel();
+        panelNivelEstudio.setBackground(new Color(224, 255, 255));
         panelNivelEstudio.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Nivel de Estudio ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         panelNivelEstudio.setBounds(10, 372, 686, 61); // Nueva posición: 340
         panelDatos.add(panelNivelEstudio);
@@ -240,11 +248,14 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lblMudanza);
 
         JPanel panelMudanza = new JPanel();
+        panelMudanza.setBackground(new Color(192, 192, 192));
         panelMudanza.setBounds(138, 336, 100, 23); // Nueva posición: 229
         panelDatos.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnMudanzaSi = new JRadioButton("Sí");
+        rdbtnMudanzaSi.setBackground(new Color(192, 192, 192));
         rdbtnMudanzaNo = new JRadioButton("No");
+        rdbtnMudanzaNo.setBackground(new Color(192, 192, 192));
         ButtonGroup grupoMudanza = new ButtonGroup();
         grupoMudanza.add(rdbtnMudanzaSi);
         grupoMudanza.add(rdbtnMudanzaNo);
@@ -257,11 +268,14 @@ public class RegistrarPostulacion extends JDialog {
         lblVehiculo.setBounds(258, 336, 100, 22); // Nueva posición: 267
         panelDatos.add(lblVehiculo);
         JPanel panelVehiculo = new JPanel();
+        panelVehiculo.setBackground(new Color(192, 192, 192));
         panelVehiculo.setBounds(353, 336, 100, 23); // Nueva posición: 266
         panelDatos.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnVehiculoSi = new JRadioButton("Sí");
+        rdbtnVehiculoSi.setBackground(new Color(192, 192, 192));
         rdbtnVehiculoNo = new JRadioButton("No");
+        rdbtnVehiculoNo.setBackground(new Color(192, 192, 192));
         ButtonGroup grupoVehiculo = new ButtonGroup();
         grupoVehiculo.add(rdbtnVehiculoSi);
         grupoVehiculo.add(rdbtnVehiculoNo);
@@ -274,11 +288,14 @@ public class RegistrarPostulacion extends JDialog {
         lblLicencia.setBounds(470, 336, 120, 22); // Nueva posición: 304
         panelDatos.add(lblLicencia);
         JPanel panelLicencia = new JPanel();
+        panelLicencia.setBackground(new Color(192, 192, 192));
         panelLicencia.setBounds(581, 336, 100, 23); // Nueva posición: 303
         panelDatos.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
         rdbtnLicenciaSi = new JRadioButton("Sí");
+        rdbtnLicenciaSi.setBackground(new Color(192, 192, 192));
         rdbtnLicenciaNo = new JRadioButton("No");
+        rdbtnLicenciaNo.setBackground(new Color(192, 192, 192));
         ButtonGroup grupoLicencia = new ButtonGroup();
         grupoLicencia.add(rdbtnLicenciaSi);
         grupoLicencia.add(rdbtnLicenciaNo);
@@ -297,6 +314,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(lbIdentificador);
         
         txtIdentificador = new JTextField();
+        txtIdentificador.setBackground(new Color(255, 255, 224));
         txtIdentificador.setText(Bolsa.getInstance().generarCodigoPostulacion());
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 80, 331, 22);
@@ -304,12 +322,13 @@ public class RegistrarPostulacion extends JDialog {
         txtIdentificador.setColumns(10);
         
         lbImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
-        lbImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        lbImagen.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         lbImagen.setBounds(361, 66, 320, 257);
         panelDatos.add(lbImagen);
 
         // --- Botones ---
         JPanel buttonPane = new JPanel();
+        buttonPane.setBackground(new Color(192, 192, 192));
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
@@ -331,6 +350,7 @@ public class RegistrarPostulacion extends JDialog {
     private void setupPanelesNivelEstudio(JPanel parentPanel) {
         // Panel Universitario
         panel_Universitario = new JPanel();
+        panel_Universitario.setBackground(new Color(224, 255, 255));
         panel_Universitario.setBorder(new TitledBorder(null, " Universitario ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_Universitario.setBounds(10, 430, 686, 140); // Nueva posición: 410
         parentPanel.add(panel_Universitario);
@@ -346,6 +366,7 @@ public class RegistrarPostulacion extends JDialog {
 
         // Panel Técnico Superior
         panel_TecnicoSuperior = new JPanel();
+        panel_TecnicoSuperior.setBackground(new Color(224, 255, 255));
         panel_TecnicoSuperior.setBorder(new TitledBorder(null, "Técnico Superior ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_TecnicoSuperior.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_TecnicoSuperior);
@@ -369,6 +390,7 @@ public class RegistrarPostulacion extends JDialog {
 
         // Panel Obrero
         panel_Obrero = new JPanel();
+        panel_Obrero.setBackground(new Color(224, 255, 255));
         panel_Obrero.setBorder(new TitledBorder(null, " Obrero ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_Obrero.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_Obrero);
