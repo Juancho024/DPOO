@@ -13,7 +13,7 @@ import javax.swing.border.TitledBorder;
 import Logico.Postulacion;
 import Logico.Candidato; // Podrías necesitarlo para obtener el nombre del candidato si no está en Postulacion
 import Logico.Bolsa; // Para buscar el candidato por cédula si es necesario
-import java.awt.Label;
+
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -96,7 +96,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.setLayout(null);
 
         // Identificador
-        Label lblIdentificador = new Label("Identificador: ");
+        JLabel lblIdentificador = new JLabel("Identificador: ");
         lblIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblIdentificador.setBounds(10, 23, 90, 22);
         panelDatosPrincipales.add(lblIdentificador);
@@ -111,7 +111,7 @@ public class ReportePostulacion extends JDialog {
         txtIdentificador.setColumns(10);
 
         // Candidato (Cédula y Nombre)
-        Label lblCedulaCandidato = new Label("Cédula Candidato: ");
+        JLabel lblCedulaCandidato = new JLabel("Cédula Candidato: ");
         lblCedulaCandidato.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblCedulaCandidato.setBounds(260, 23, 130, 22);
         panelDatosPrincipales.add(lblCedulaCandidato);
@@ -125,7 +125,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(txtCedulaCandidato);
         txtCedulaCandidato.setColumns(10);
         
-        Label lblNombreCandidato = new Label("Nombre Candidato: ");
+        JLabel lblNombreCandidato = new JLabel("Nombre Candidato: ");
         lblNombreCandidato.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblNombreCandidato.setBounds(10, 76, 130, 22);
         panelDatosPrincipales.add(lblNombreCandidato);
@@ -146,7 +146,7 @@ public class ReportePostulacion extends JDialog {
         txtNombreCandidato.setColumns(10);
 
         // Tipo de Contrato
-        Label lblTipoContrato = new Label("Tipo de Contrato: ");
+        JLabel lblTipoContrato = new JLabel("Tipo de Contrato: ");
         lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblTipoContrato.setBounds(10, 130, 120, 22);
         panelDatosPrincipales.add(lblTipoContrato);
@@ -161,7 +161,7 @@ public class ReportePostulacion extends JDialog {
         txtTipoContrato.setColumns(10);
 
         // País y Ciudad
-        Label lblPais = new Label("País Residencia: ");
+        JLabel lblPais = new JLabel("País Residencia: ");
         lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblPais.setBounds(260, 130, 120, 22);
         panelDatosPrincipales.add(lblPais);
@@ -175,7 +175,7 @@ public class ReportePostulacion extends JDialog {
         panelDatosPrincipales.add(txtPaisResidencia);
         txtPaisResidencia.setColumns(10);
 
-        Label lblCiudad = new Label("Ciudad Residencia: ");
+        JLabel lblCiudad = new JLabel("Ciudad Residencia: ");
         lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblCiudad.setBounds(10, 184, 130, 22);
         panelDatosPrincipales.add(lblCiudad);
@@ -190,7 +190,7 @@ public class ReportePostulacion extends JDialog {
         txtCiudadResidencia.setColumns(10);
 
         // Pretensión Salarial
-        Label lblSalario = new Label("Pretensión Salarial: ");
+        JLabel lblSalario = new JLabel("Pretensión Salarial: ");
         lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblSalario.setBounds(260, 184, 140, 22);
         panelDatosPrincipales.add(lblSalario);
@@ -205,7 +205,7 @@ public class ReportePostulacion extends JDialog {
         txtPretensionSalarial.setColumns(10);
         
         // Opciones de Radio Buttons
-        Label lblMudanza = new Label("Dispuesto a Mudarse:");
+        JLabel lblMudanza = new JLabel("Dispuesto a Mudarse:");
         lblMudanza.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblMudanza.setBounds(10, 240, 140, 22);
         panelDatosPrincipales.add(lblMudanza);
@@ -228,7 +228,7 @@ public class ReportePostulacion extends JDialog {
             rdbtnMudanzaNo.setSelected(true);
         }
 
-        Label lblVehiculo = new Label("Vehículo Propio:");
+        JLabel lblVehiculo = new JLabel("Vehículo Propio:");
         lblVehiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblVehiculo.setBounds(260, 240, 110, 22);
         panelDatosPrincipales.add(lblVehiculo);
@@ -251,7 +251,7 @@ public class ReportePostulacion extends JDialog {
             rdbtnVehiculoNo.setSelected(true);
         }
 
-        Label lblLicencia = new Label("Licencia Conducir:");
+        JLabel lblLicencia = new JLabel("Licencia Conducir:");
         lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblLicencia.setBounds(10, 275, 120, 22);
         panelDatosPrincipales.add(lblLicencia);
@@ -282,7 +282,7 @@ public class ReportePostulacion extends JDialog {
         contentPanel.add(panelNivelEstudio);
         panelNivelEstudio.setLayout(null);
 
-        Label lblNivel = new Label("Nivel de Estudio: ");
+        JLabel lblNivel = new JLabel("Nivel de Estudio: ");
         lblNivel.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblNivel.setBounds(10, 25, 120, 22);
         panelNivelEstudio.add(lblNivel);
@@ -323,7 +323,7 @@ public class ReportePostulacion extends JDialog {
 
         if ("Universitario".equals(nivelEstudio)) {
             panelDetalleEstudio.setVisible(true);
-            Label lblCarrera = new Label("Carrera Graduada: ");
+            JLabel lblCarrera = new JLabel("Carrera Graduada: ");
             lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
             lblCarrera.setBounds(10, 30, 150, 22);
             panelDetalleEstudio.add(lblCarrera);
@@ -339,7 +339,7 @@ public class ReportePostulacion extends JDialog {
             
         } else if ("Técnico Superior".equals(nivelEstudio)) {
             panelDetalleEstudio.setVisible(true);
-            Label lblTecnico = new Label("Área de Especialidad: ");
+            JLabel lblTecnico = new JLabel("Área de Especialidad: ");
             lblTecnico.setFont(new Font("Tahoma", Font.BOLD, 12));
             lblTecnico.setBounds(10, 30, 150, 22);
             panelDetalleEstudio.add(lblTecnico);
@@ -353,7 +353,7 @@ public class ReportePostulacion extends JDialog {
             panelDetalleEstudio.add(txtDetalleEstudio);
             txtDetalleEstudio.setColumns(10);
 
-            Label lblAnyo = new Label("Años de Experiencia: ");
+            JLabel lblAnyo = new JLabel("Años de Experiencia: ");
             lblAnyo.setFont(new Font("Tahoma", Font.BOLD, 12));
             lblAnyo.setBounds(10, 70, 150, 22);
             panelDetalleEstudio.add(lblAnyo);
@@ -369,7 +369,7 @@ public class ReportePostulacion extends JDialog {
 
         } else if ("Obrero".equals(nivelEstudio)) {
             panelDetalleEstudio.setVisible(true);
-            Label lblHabilidades = new Label("Habilidades: ");
+            JLabel lblHabilidades = new JLabel("Habilidades: ");
             lblHabilidades.setFont(new Font("Tahoma", Font.BOLD, 12));
             lblHabilidades.setBounds(10, 15, 90, 22);
             panelDetalleEstudio.add(lblHabilidades);
