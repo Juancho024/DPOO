@@ -37,6 +37,7 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class ModVacante extends JDialog {
 
+    // ... (El resto de las declaraciones de variables no cambia)
     private final JPanel contentPanel = new JPanel();
     private JTextField txtIdentificador;
     private JTextField txtNombreVacante;
@@ -74,8 +75,10 @@ public class ModVacante extends JDialog {
     private Vacante vacanteOriginal;
     private JLabel lbLogo;
 
+
     public ModVacante(Vacante selected) {
         this.vacanteOriginal = selected;
+        // ... (El constructor y la inicialización de componentes no cambian)
         setTitle("Modificar Vacante");
         setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 1001, 719);
@@ -448,7 +451,8 @@ public class ModVacante extends JDialog {
         btnCancelar.addActionListener(e -> dispose());
         buttonPane.add(btnCancelar);
     }
-
+    
+    // ... (El resto de los métodos como mostrarPanelEstudio, inicializarCiudades, etc., no cambian)
     private void mostrarPanelEstudio(JPanel panel) {
         panelUniversitario.setVisible(false);
         panelTecnicoSuperior.setVisible(false);
@@ -558,7 +562,11 @@ public class ModVacante extends JDialog {
             txtSector.setText("");
         }
     }
-
+    
+    /**
+     * Carga los datos de la vacante en los componentes de la ventana.
+     * @param vacante La vacante a modificar.
+     */
     private void cargarDatosVacante(Vacante vacante) {
         // Datos básicos
         txtIdentificador.setText(vacante.getIdentificador());
@@ -579,18 +587,27 @@ public class ModVacante extends JDialog {
         rdbtnLicenciaSi.setSelected(vacante.isLicencia());
         rdbtnLicenciaNo.setSelected(!vacante.isLicencia());
         
-        // Nivel de estudios
+        // --- INICIO DE LA LÓGICA CORREGIDA ---
+        // Nivel de estudios: Carga el nivel de estudio y muestra el panel correspondiente.
         String nivel = vacante.getNivelEstudio();
         if ("Universitario".equals(nivel)) {
             rdbtnUniversitario.setSelected(true);
             mostrarPanelEstudio(panelUniversitario);
+            // Aquí se podría cargar la carrera si estuviera guardada en la vacante
+            // cbxCarreraUniversitario.setSelectedItem(vacante.getCarrera());
         } else if ("Técnico Superior".equals(nivel)) {
             rdbtnTecnicoSuperior.setSelected(true);
             mostrarPanelEstudio(panelTecnicoSuperior);
+             // Aquí se podría cargar la especialidad y años si estuvieran guardados
+            // cbxEspecialidadTecnico.setSelectedItem(vacante.getEspecialidad());
+            // spnAniosExperienciaTecnico.setValue(vacante.getAniosExperiencia());
         } else if ("Obrero".equals(nivel)) {
             rdbtnObrero.setSelected(true);
             mostrarPanelEstudio(panelObrero);
+            // Ya no se intenta cargar ni deshabilitar las habilidades,
+            // porque no se guardan en la clase Vacante.
         }
+        // --- FIN DE LA LÓGICA CORREGIDA ---
         
         // Empresa
         for (int i = 0; i < cbxEmpresa.getItemCount(); i++) {
@@ -601,16 +618,21 @@ public class ModVacante extends JDialog {
         }
     }
 
+    /**
+     * Procesa la modificación de la vacante con los datos del formulario.
+     */
     private void modificarVacante() {
         try {
             // Obtener datos de la empresa
             String rnc = "";
-            if (cbxEmpresa.getSelectedItem() != null) {
+            if (cbxEmpresa.getSelectedItem() != null && cbxEmpresa.getSelectedIndex() > 0) {
                 String selection = cbxEmpresa.getSelectedItem().toString();
                 String[] partes = selection.split(" - ");
                 if (partes.length == 2) {
                     rnc = partes[1];
                 }
+            } else {
+                 throw new Exception("Seleccione una empresa");
             }
             
             // Validar campos
@@ -653,7 +675,7 @@ public class ModVacante extends JDialog {
                 if (chkMaquinaria.isSelected()) habilidades.add("Lectura de planos");
                 
                 if (habilidades.isEmpty()) {
-                    throw new Exception("Seleccione al menos una habilidad");
+                    throw new Exception("Seleccione al menos una habilidad para el obrero");
                 }
             } 
             else {
@@ -671,14 +693,15 @@ public class ModVacante extends JDialog {
             vacanteOriginal.setDisponibilidadVehiculo(rdbtnVehiculoSi.isSelected());
             vacanteOriginal.setLicencia(rdbtnLicenciaSi.isSelected());
             
-            
-            // Test de reparacion, pasar una variable del integer a float para llevarlo a la vacante original
-            
             Number pretensionSalarialNumber = (Number) spnPretensionSalarial.getValue();
             float pretensionSalarial = pretensionSalarialNumber.floatValue();
             vacanteOriginal.setPretensionSalarial(pretensionSalarial);
             
-            // FIN TEST
+            // --- CAMBIO IMPORTANTE ---
+            // Se elimina la asignación de habilidades, ya que no se guardan en Vacante.
+            // if ("Obrero".equals(nivelEstudio)) {
+            //     vacanteOriginal.setHabilidades(habilidades); // Esta línea se elimina
+            // }
             
             // Guardar cambios
             Bolsa.getInstance().modificarVacante(vacanteOriginal);

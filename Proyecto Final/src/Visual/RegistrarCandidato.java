@@ -21,7 +21,6 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Label;
 import java.awt.Font;
 import java.awt.Image;
 
@@ -79,30 +78,30 @@ public class RegistrarCandidato extends JDialog {
 	private char genero;
 	private JRadioButton rdbtnMasculino;
 	private JRadioButton rdbtnFemenino;
-	private Label label_6;
+	private JLabel label_6;
 	private JCheckBox chkElectricidad;
 	private JCheckBox chkSoldadura;
 	private JCheckBox chkTecnicaPintura;
 	private JCheckBox chkTuberias;
 	private JCheckBox chkMantenimiento;
 	private JCheckBox chkMaquinaria;
-	private Label label_7;
+	private JLabel label_7;
 	private JComboBox cbxTecnicoSuperior;
 	private JComboBox cbxUniversitario;
 	private JSpinner spnFecha;
-	private Label label_10;
+	private JLabel label_10;
 	private JSpinner spnExperiencia;
 	private Button btnFoto;
-	private Label label_11;
+	private JLabel label_11;
 	private JComboBox cbxNacionalidad;
 	private JLabel lbImagen;
 	private byte[] imagenActual;
 	private JPanel panel_2;
-	private Label label_12;
-	private Label label_13;
-	private Label label_14;
-	private Label label_15;
-	private Label label_16;
+	private JLabel label_12;
+	private JLabel label_13;
+	private JLabel label_14;
+	private JLabel label_15;
+	private JLabel label_16;
 
 	/**
 	 * Launch the application.
@@ -137,12 +136,12 @@ public class RegistrarCandidato extends JDialog {
 		contentPanel.add(panel);
 		panel.setLayout(null);
 
-		Label label_2 = new Label("Apellido: ");
+		JLabel label_2 = new JLabel("Apellido: ");
 		label_2.setBounds(10, 113, 62, 22);
 		panel.add(label_2);
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		Label label_5 = new Label("Correo: ");
+		JLabel label_5 = new JLabel("Correo: ");
 		label_5.setBounds(256, 154, 62, 22);
 		panel.add(label_5);
 		label_5.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -159,7 +158,7 @@ public class RegistrarCandidato extends JDialog {
 		panel.add(txtApellido);
 		txtApellido.setColumns(10);
 
-		Label label = new Label("Cedula: ");
+		JLabel label = new JLabel("Cedula: ");
 		label.setBounds(10, 31, 49, 22);
 		panel.add(label);
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -189,12 +188,12 @@ public class RegistrarCandidato extends JDialog {
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);
 
-		Label label_1 = new Label("Nombre:");
+		JLabel label_1 = new JLabel("Nombre:");
 		label_1.setBounds(10, 70, 62, 22);
 		panel.add(label_1);
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		Label label_4 = new Label("Telefono: ");
+		JLabel label_4 = new JLabel("Telefono: ");
 		label_4.setBounds(10, 154, 62, 22);
 		panel.add(label_4);
 		label_4.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -225,12 +224,12 @@ public class RegistrarCandidato extends JDialog {
 		rdbtnFemenino.setBounds(435, 197, 109, 23);
 		panel.add(rdbtnFemenino);
 
-		Label label_3 = new Label("Genero: ");
+		JLabel label_3 = new JLabel("Genero: ");
 		label_3.setBounds(257, 197, 61, 22);
 		panel.add(label_3);
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		Label label_9 = new Label("Fecha de Nacimiento: ");
+		JLabel label_9 = new JLabel("Fecha de Nacimiento: ");
 		label_9.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_9.setBounds(10, 197, 132, 22);
 		panel.add(label_9);
@@ -319,7 +318,7 @@ public class RegistrarCandidato extends JDialog {
 		btnFoto.setBounds(392, 128, 90, 22);
 		panel.add(btnFoto);
 
-		label_11 = new Label("Nacionalidad:");
+		label_11 = new JLabel("Nacionalidad:");
 		label_11.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_11.setBounds(108, 226, 101, 22);
 		panel.add(label_11);
@@ -335,9 +334,9 @@ public class RegistrarCandidato extends JDialog {
 		lbImagen.setBounds(378, 23, 117, 99);
 		panel.add(lbImagen);
 
-		label_13 = new Label("Datos Personales");
+		label_13 = new JLabel("Datos Personales");
 		label_13.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_13.setAlignment(Label.CENTER);
+		label_13.setHorizontalAlignment(JLabel.CENTER);
 		label_13.setBounds(216, 0, 132, 21);
 		panel.add(label_13);
 
@@ -398,8 +397,8 @@ public class RegistrarCandidato extends JDialog {
 		rdbtnObrero.setBounds(370, 27, 133, 23);
 		panel_1.add(rdbtnObrero);
 
-		label_12 = new Label("Nivel de Estudio");
-		label_12.setAlignment(Label.CENTER);
+		label_12 = new JLabel("Nivel de Estudio");
+		label_12.setHorizontalAlignment(JLabel.CENTER);
 		label_12.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_12.setBounds(216, 0, 132, 21);
 		panel_1.add(label_12);
@@ -410,7 +409,7 @@ public class RegistrarCandidato extends JDialog {
 		contentPanel.add(panel_Universitario);
 		panel_Universitario.setLayout(null);
 
-		label_7 = new Label("Nombre de la Carrera: ");
+		label_7 = new JLabel("Nombre de la Carrera: ");
 		label_7.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_7.setBounds(55, 29, 139, 22);
 		panel_Universitario.add(label_7);
@@ -421,9 +420,9 @@ public class RegistrarCandidato extends JDialog {
 		cbxUniversitario.setBounds(55, 58, 219, 20);
 		panel_Universitario.add(cbxUniversitario);
 
-		label_16 = new Label("Universitario");
+		label_16 = new JLabel("Universitario");
 		label_16.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_16.setAlignment(Label.CENTER);
+		label_16.setHorizontalAlignment(JLabel.CENTER);
 		label_16.setBounds(216, 0, 132, 21);
 		panel_Universitario.add(label_16);
 		{
@@ -549,7 +548,7 @@ public class RegistrarCandidato extends JDialog {
 		contentPanel.add(panel_TecnicoSuperior);
 		panel_TecnicoSuperior.setLayout(null);
 
-		Label label_8 = new Label("Nombre del T\u00E9cnico Superior:");
+		JLabel label_8 = new JLabel("Nombre del T\u00E9cnico Superior:");
 		label_8.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_8.setBounds(27, 25, 212, 22);
 		panel_TecnicoSuperior.add(label_8);
@@ -560,7 +559,7 @@ public class RegistrarCandidato extends JDialog {
 		cbxTecnicoSuperior.setBounds(27, 56, 212, 20);
 		panel_TecnicoSuperior.add(cbxTecnicoSuperior);
 
-		label_10 = new Label("A\u00F1os de Experiencia laboral:");
+		label_10 = new JLabel("A\u00F1os de Experiencia laboral:");
 		label_10.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_10.setBounds(293, 25, 212, 22);
 		panel_TecnicoSuperior.add(label_10);
@@ -571,9 +570,9 @@ public class RegistrarCandidato extends JDialog {
 		spnExperiencia.setBounds(359, 56, 103, 20);
 		panel_TecnicoSuperior.add(spnExperiencia);
 
-		label_14 = new Label("T\u00E9cnico Superior");
+		label_14 = new JLabel("T\u00E9cnico Superior");
 		label_14.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_14.setAlignment(Label.CENTER);
+		label_14.setHorizontalAlignment(JLabel.CENTER);
 		label_14.setBounds(216, 0, 132, 21);
 		panel_TecnicoSuperior.add(label_14);
 
@@ -583,7 +582,7 @@ public class RegistrarCandidato extends JDialog {
 		contentPanel.add(panel_Obrero);
 		panel_Obrero.setLayout(null);
 
-		label_6 = new Label("Habilidades: ");
+		label_6 = new JLabel("Habilidades: ");
 		label_6.setFont(new Font("Tahoma", Font.BOLD, 12));
 		label_6.setBounds(25, 22, 97, 22);
 		panel_Obrero.add(label_6);
@@ -618,9 +617,9 @@ public class RegistrarCandidato extends JDialog {
 		chkMaquinaria.setBounds(261, 102, 247, 23);
 		panel_Obrero.add(chkMaquinaria);
 
-		label_15 = new Label("Obrero");
+		label_15 = new JLabel("Obrero");
 		label_15.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_15.setAlignment(Label.CENTER);
+		label_15.setHorizontalAlignment(JLabel.CENTER);
 		label_15.setBounds(216, 0, 132, 21);
 		panel_Obrero.add(label_15);
 		{
