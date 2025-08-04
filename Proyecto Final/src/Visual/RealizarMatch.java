@@ -133,6 +133,9 @@ public class RealizarMatch extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String seleccion = (String) cbxVacantes.getSelectedItem();
 				if (seleccion != null && !seleccion.equals("Seleccione una Opción")) {
+					Visual.PorcentajeMatch ventana = new Visual.PorcentajeMatch();
+					ventana.setModal(true);
+					ventana.setVisible(true);
 					PorcentajeMatch match = buscarAuxByInfo(seleccion);
 					if (match != null) {
 						llenarPostulacionesDesdeCedulas(match);

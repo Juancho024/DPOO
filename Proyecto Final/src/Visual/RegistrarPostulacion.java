@@ -105,7 +105,7 @@ public class RegistrarPostulacion extends JDialog {
         // Inicializar mapa de ciudades por país
         inicializarCiudadesPorPais();
 
-        JPanel panelDatos = new JPanel();
+        JPanel panelDatos = new JPanelRedondeado(60);
         panelDatos.setBackground(new Color(100, 149, 237));
         panelDatos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
                 "Datos de Postulación", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -204,7 +204,7 @@ public class RegistrarPostulacion extends JDialog {
         panelDatos.add(spnPretensionSalarial);
 
         // --- Panel Nivel de Estudio ---
-        JPanel panelNivelEstudio = new JPanel();
+        JPanel panelNivelEstudio = new JPanelRedondeado(10);
         panelNivelEstudio.setBackground(new Color(224, 255, 255));
         panelNivelEstudio.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), " Nivel de Estudio ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         panelNivelEstudio.setBounds(10, 372, 686, 61); // Nueva posición: 340
@@ -352,7 +352,7 @@ public class RegistrarPostulacion extends JDialog {
     
     private void setupPanelesNivelEstudio(JPanel parentPanel) {
         // Panel Universitario
-        panel_Universitario = new JPanel();
+        panel_Universitario = new JPanelRedondeado(30);
         panel_Universitario.setBackground(new Color(224, 255, 255));
         panel_Universitario.setBorder(new TitledBorder(null, " Universitario ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_Universitario.setBounds(10, 430, 686, 140); // Nueva posición: 410
@@ -368,7 +368,7 @@ public class RegistrarPostulacion extends JDialog {
         panel_Universitario.add(cbxUniversitario);
 
         // Panel Técnico Superior
-        panel_TecnicoSuperior = new JPanel();
+        panel_TecnicoSuperior = new JPanelRedondeado(30);
         panel_TecnicoSuperior.setBackground(new Color(224, 255, 255));
         panel_TecnicoSuperior.setBorder(new TitledBorder(null, "Técnico Superior ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_TecnicoSuperior.setBounds(10, 430, 686, 140);
@@ -392,7 +392,7 @@ public class RegistrarPostulacion extends JDialog {
         panel_TecnicoSuperior.add(spnExperiencia);
 
         // Panel Obrero
-        panel_Obrero = new JPanel();
+        panel_Obrero = new JPanelRedondeado(30);
         panel_Obrero.setBackground(new Color(224, 255, 255));
         panel_Obrero.setBorder(new TitledBorder(null, " Obrero ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_Obrero.setBounds(10, 430, 686, 140);
