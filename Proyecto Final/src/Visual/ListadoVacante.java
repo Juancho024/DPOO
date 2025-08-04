@@ -244,7 +244,7 @@ public class ListadoVacante extends JDialog {
             row[3] = aux.getTipoContrato();
             row[4] = aux.getPaisResidencia();
             row[5] = aux.getCiudadResidencia();
-            row[6] = String.format("%,.2f", aux.getPretensionSalarial());
+            row[6] = String.format("$ %,.2f", aux.getPretensionSalarial());
             row[7] = aux.isMudanza() ? "Sí" : "No";
             row[8] = aux.isDisponibilidadVehiculo() ? "Sí" : "No";
             row[9] = aux.isLicencia() ? "Sí" : "No";
@@ -262,10 +262,10 @@ public class ListadoVacante extends JDialog {
         columnModel.getColumn(0).setPreferredWidth(100);
         columnModel.getColumn(1).setPreferredWidth(100);
         columnModel.getColumn(2).setPreferredWidth(150);
-        columnModel.getColumn(3).setPreferredWidth(120);
-        columnModel.getColumn(4).setPreferredWidth(120);
-        columnModel.getColumn(5).setPreferredWidth(120);
-        columnModel.getColumn(6).setPreferredWidth(100);
+        columnModel.getColumn(3).setPreferredWidth(150);
+        columnModel.getColumn(4).setPreferredWidth(150);
+        columnModel.getColumn(5).setPreferredWidth(150);
+        columnModel.getColumn(6).setPreferredWidth(200);
         columnModel.getColumn(7).setPreferredWidth(80);
         columnModel.getColumn(8).setPreferredWidth(80);
         columnModel.getColumn(9).setPreferredWidth(80);

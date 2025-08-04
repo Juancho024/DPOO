@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,11 +27,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import Logico.Bolsa;
 import Logico.Empresa;
 import Logico.Vacante;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class ModVacante extends JDialog {
 
@@ -66,14 +72,16 @@ public class ModVacante extends JDialog {
     private JTextField txtUbicacion;
     private JTextField txtSector;
     private Vacante vacanteOriginal;
+    private JLabel lbLogo;
 
     public ModVacante(Vacante selected) {
         this.vacanteOriginal = selected;
         setTitle("Modificar Vacante");
         setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
-        setBounds(100, 100, 1001, 785);
+        setBounds(100, 100, 1001, 719);
         setLocationRelativeTo(null);
         setResizable(false);
+        contentPanel.setBackground(new Color(70, 130, 180));
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(null);
@@ -83,9 +91,8 @@ public class ModVacante extends JDialog {
 
         // --- Panel de Selección de Empresa (Izquierda) ---
         JPanel panelSeleccionEmpresa = new JPanel();
-        panelSeleccionEmpresa.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-            "Seleccionar Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelSeleccionEmpresa.setBounds(10, 11, 470, 70);
+        panelSeleccionEmpresa.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Seleccionar Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelSeleccionEmpresa.setBounds(10, 11, 470, 63);
         contentPanel.add(panelSeleccionEmpresa);
         panelSeleccionEmpresa.setLayout(null);
 
@@ -101,94 +108,100 @@ public class ModVacante extends JDialog {
 
         // --- Panel de Información de Empresa (Derecha) ---
         JPanel panelInfoEmpresa = new JPanel();
-        panelInfoEmpresa.setBorder(new TitledBorder(null, "Información de la Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelInfoEmpresa.setBounds(490, 11, 485, 323);
+        panelInfoEmpresa.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n de la Empresa", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelInfoEmpresa.setBounds(490, 11, 485, 298);
         contentPanel.add(panelInfoEmpresa);
         panelInfoEmpresa.setLayout(null);
 
         JLabel lblRNC = new JLabel("RNC:");
         lblRNC.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblRNC.setBounds(20, 194, 80, 22);
+        lblRNC.setBounds(21, 181, 80, 22);
         panelInfoEmpresa.add(lblRNC);
 
         txtRNC = new JTextField();
         txtRNC.setEditable(false);
-        txtRNC.setBounds(106, 194, 348, 22);
+        txtRNC.setBounds(107, 181, 348, 22);
         panelInfoEmpresa.add(txtRNC);
         txtRNC.setColumns(10);
 
         JLabel lblUbicacion = new JLabel("Ubicación:");
         lblUbicacion.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblUbicacion.setBounds(20, 237, 80, 22);
+        lblUbicacion.setBounds(21, 224, 80, 22);
         panelInfoEmpresa.add(lblUbicacion);
 
         txtUbicacion = new JTextField();
         txtUbicacion.setEditable(false);
-        txtUbicacion.setBounds(106, 237, 348, 22);
+        txtUbicacion.setBounds(107, 224, 348, 22);
         panelInfoEmpresa.add(txtUbicacion);
         txtUbicacion.setColumns(10);
 
         JLabel lblArea = new JLabel("Área:");
         lblArea.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblArea.setBounds(20, 280, 80, 22);
+        lblArea.setBounds(21, 267, 80, 22);
         panelInfoEmpresa.add(lblArea);
 
         txtSector = new JTextField();
         txtSector.setEditable(false);
-        txtSector.setBounds(106, 280, 348, 22);
+        txtSector.setBounds(107, 267, 348, 22);
         panelInfoEmpresa.add(txtSector);
         txtSector.setColumns(10);
         
-        lbLogoEmpresa = new JLabel("Logo de la empresa:");
+        lbLogoEmpresa = new JLabel("Logo de la empresa");
         lbLogoEmpresa.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lbLogoEmpresa.setBounds(174, 30, 123, 22);
+        lbLogoEmpresa.setBounds(184, 148, 123, 22);
         panelInfoEmpresa.add(lbLogoEmpresa);
+        
+        lbLogo = new JLabel("Sin imagen", SwingConstants.CENTER);
+        lbLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        lbLogo.setBounds(159, 36, 166, 116);
+        panelInfoEmpresa.add(lbLogo);
+        
+        
 
         // --- Panel Principal de Vacante (Izquierda) ---
         JPanel panelVacante = new JPanel();
-        panelVacante.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-            "Datos de la Vacante", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelVacante.setBounds(10, 92, 470, 395);
+        panelVacante.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de la Vacante", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelVacante.setBounds(10, 83, 470, 376);
         contentPanel.add(panelVacante);
         panelVacante.setLayout(null);
 
         JLabel lblIdentificador = new JLabel("Identificador:");
         lblIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblIdentificador.setBounds(10, 35, 100, 22);
+        lblIdentificador.setBounds(10, 22, 100, 22);
         panelVacante.add(lblIdentificador);
 
         txtIdentificador = new JTextField();
         txtIdentificador.setText(selected.getIdentificador());
         txtIdentificador.setEditable(false);
-        txtIdentificador.setBounds(10, 63, 440, 22);
+        txtIdentificador.setBounds(10, 50, 440, 22);
         panelVacante.add(txtIdentificador);
         txtIdentificador.setColumns(10);
 
         JLabel lblNombreVacante = new JLabel("Nombre Vacante:");
         lblNombreVacante.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblNombreVacante.setBounds(10, 101, 120, 22);
+        lblNombreVacante.setBounds(10, 88, 120, 22);
         panelVacante.add(lblNombreVacante);
 
         txtNombreVacante = new JTextField();
-        txtNombreVacante.setBounds(10, 136, 440, 22);
+        txtNombreVacante.setBounds(10, 123, 440, 22);
         panelVacante.add(txtNombreVacante);
         txtNombreVacante.setColumns(10);
 
         JLabel lblTipoContrato = new JLabel("Tipo de Contrato:");
         lblTipoContrato.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblTipoContrato.setBounds(10, 164, 120, 22);
+        lblTipoContrato.setBounds(10, 151, 120, 22);
         panelVacante.add(lblTipoContrato);
 
         cbxTipoContrato = new JComboBox<>();
         cbxTipoContrato.setModel(new DefaultComboBoxModel<>(new String[] {
             "Tiempo Completo", "Medio Tiempo", "Por Horas", "Por Proyecto"
         }));
-        cbxTipoContrato.setBounds(10, 192, 440, 22);
+        cbxTipoContrato.setBounds(10, 179, 440, 22);
         panelVacante.add(cbxTipoContrato);
 
         JLabel lblPais = new JLabel("País Residencia:");
         lblPais.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblPais.setBounds(10, 220, 120, 22);
+        lblPais.setBounds(10, 207, 120, 22);
         panelVacante.add(lblPais);
 
         cbxPaisResidencia = new JComboBox<>();
@@ -201,16 +214,16 @@ public class ModVacante extends JDialog {
             "India", "Australia", "Sudáfrica", "Egipto", "Nigeria", "Marruecos",
             "Arabia Saudita", "Turquía", "Rusia", "Noruega", "Suecia", "Finlandia",
             "Polonia", "Grecia", "Suiza", "Austria", "Bélgica", "Países Bajos", "Nueva Zelanda"}));
-        cbxPaisResidencia.setBounds(10, 248, 440, 22);
+        cbxPaisResidencia.setBounds(10, 235, 440, 22);
         panelVacante.add(cbxPaisResidencia);
 
         JLabel lblCiudad = new JLabel("Ciudad Residencia:");
         lblCiudad.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblCiudad.setBounds(10, 276, 120, 22);
+        lblCiudad.setBounds(10, 263, 120, 22);
         panelVacante.add(lblCiudad);
 
         cbxCiudades = new JComboBox<>();
-        cbxCiudades.setBounds(10, 304, 440, 22);
+        cbxCiudades.setBounds(10, 291, 440, 22);
         panelVacante.add(cbxCiudades);
         cbxCiudades.setEnabled(false);
 
@@ -227,18 +240,18 @@ public class ModVacante extends JDialog {
 
         JLabel lblSalario = new JLabel("Pretensión Salarial:");
         lblSalario.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblSalario.setBounds(10, 332, 120, 22);
+        lblSalario.setBounds(10, 319, 120, 22);
         panelVacante.add(lblSalario);
 
         spnPretensionSalarial = new JSpinner();
         spnPretensionSalarial.setModel(new SpinnerNumberModel(0, 0, null, 10));
-        spnPretensionSalarial.setBounds(10, 360, 440, 22);
+        spnPretensionSalarial.setBounds(10, 347, 440, 22);
         panelVacante.add(spnPretensionSalarial);
 
         // --- Panel de Requisitos Adicionales (Derecha) ---
         JPanel panelRequisitos = new JPanel();
-        panelRequisitos.setBorder(new TitledBorder(null, "Requisitos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelRequisitos.setBounds(490, 347, 485, 140);
+        panelRequisitos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Requisitos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelRequisitos.setBounds(490, 319, 485, 140);
         contentPanel.add(panelRequisitos);
         panelRequisitos.setLayout(null);
 
@@ -248,7 +261,7 @@ public class ModVacante extends JDialog {
         panelRequisitos.add(lblMudanza);
 
         JPanel panelMudanza = new JPanel();
-        panelMudanza.setBounds(170, 30, 120, 22);
+        panelMudanza.setBounds(170, 30, 120, 33);
         panelRequisitos.add(panelMudanza);
         panelMudanza.setLayout(new FlowLayout());
         rdbtnMudanzaSi = new JRadioButton("Sí");
@@ -265,7 +278,7 @@ public class ModVacante extends JDialog {
         panelRequisitos.add(lblVehiculo);
 
         JPanel panelVehiculo = new JPanel();
-        panelVehiculo.setBounds(170, 65, 120, 22);
+        panelVehiculo.setBounds(170, 65, 120, 33);
         panelRequisitos.add(panelVehiculo);
         panelVehiculo.setLayout(new FlowLayout());
         rdbtnVehiculoSi = new JRadioButton("Sí");
@@ -282,7 +295,7 @@ public class ModVacante extends JDialog {
         panelRequisitos.add(lblLicencia);
 
         JPanel panelLicencia = new JPanel();
-        panelLicencia.setBounds(170, 100, 120, 22);
+        panelLicencia.setBounds(170, 100, 120, 29);
         panelRequisitos.add(panelLicencia);
         panelLicencia.setLayout(new FlowLayout());
         rdbtnLicenciaSi = new JRadioButton("Sí");
@@ -295,8 +308,8 @@ public class ModVacante extends JDialog {
 
         // --- Paneles de Nivel de Estudio ---
         JPanel panelEstudios = new JPanel();
-        panelEstudios.setBorder(new TitledBorder(null, "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelEstudios.setBounds(10, 500, 965, 70);
+        panelEstudios.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Nivel de Estudios Requerido", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelEstudios.setBounds(10, 470, 965, 70);
         contentPanel.add(panelEstudios);
         panelEstudios.setLayout(null);
 
@@ -320,8 +333,8 @@ public class ModVacante extends JDialog {
         panelEstudios.add(rdbtnObrero);
 
         panelUniversitario = new JPanel();
-        panelUniversitario.setBorder(new TitledBorder(null, "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelUniversitario.setBounds(10, 581, 965, 70);
+        panelUniversitario.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Detalles Universitario", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelUniversitario.setBounds(10, 551, 965, 70);
         contentPanel.add(panelUniversitario);
         panelUniversitario.setLayout(null);
 
@@ -345,8 +358,8 @@ public class ModVacante extends JDialog {
         panelUniversitario.add(cbxCarreraUniversitario);
 
         panelTecnicoSuperior = new JPanel();
-        panelTecnicoSuperior.setBorder(new TitledBorder(null, "Detalles Técnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelTecnicoSuperior.setBounds(10, 581, 965, 70);
+        panelTecnicoSuperior.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Detalles T\u00E9cnico Superior", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelTecnicoSuperior.setBounds(10, 551, 965, 70);
         contentPanel.add(panelTecnicoSuperior);
         panelTecnicoSuperior.setLayout(null);
 
@@ -375,42 +388,42 @@ public class ModVacante extends JDialog {
         
         JLabel lblAniosExperiencia = new JLabel("Años de experiencia:");
         lblAniosExperiencia.setFont(new Font("Tahoma", Font.BOLD, 12));
-        lblAniosExperiencia.setBounds(520, 30, 120, 22);
+        lblAniosExperiencia.setBounds(520, 30, 200, 22);
         panelTecnicoSuperior.add(lblAniosExperiencia);
         
         spnAniosExperienciaTecnico = new JSpinner();
         spnAniosExperienciaTecnico.setModel(new SpinnerNumberModel(0, 0, 50, 1));
-        spnAniosExperienciaTecnico.setBounds(650, 30, 80, 22);
+        spnAniosExperienciaTecnico.setBounds(720, 30, 80, 22);
         panelTecnicoSuperior.add(spnAniosExperienciaTecnico);
 
         panelObrero = new JPanel();
-        panelObrero.setBorder(new TitledBorder(null, "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panelObrero.setBounds(10, 581, 965, 130);
+        panelObrero.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Habilidades Requeridas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 128)));
+        panelObrero.setBounds(10, 551, 965, 85);
         contentPanel.add(panelObrero);
         panelObrero.setLayout(null);
 
         chkElectricidad = new JCheckBox("Electricidad básica");
-        chkElectricidad.setBounds(20, 30, 200, 23);
+        chkElectricidad.setBounds(20, 25, 200, 23);
         panelObrero.add(chkElectricidad);
         
         chkSoldadura = new JCheckBox("Soldadura");
-        chkSoldadura.setBounds(20, 60, 200, 23);
+        chkSoldadura.setBounds(20, 55, 200, 23);
         panelObrero.add(chkSoldadura);
         
         chkTecnicaPintura = new JCheckBox("Técnicas de pintura o albañilería");
-        chkTecnicaPintura.setBounds(270, 30, 250, 23);
+        chkTecnicaPintura.setBounds(270, 25, 250, 23);
         panelObrero.add(chkTecnicaPintura);
         
         chkTuberias = new JCheckBox("Instalación de tuberías");
-        chkTuberias.setBounds(270, 60, 250, 23);
+        chkTuberias.setBounds(270, 55, 250, 23);
         panelObrero.add(chkTuberias);
         
         chkMantenimiento = new JCheckBox("Mantenimiento básico de equipos");
-        chkMantenimiento.setBounds(530, 30, 250, 23);
+        chkMantenimiento.setBounds(530, 25, 250, 23);
         panelObrero.add(chkMantenimiento);
         
         chkMaquinaria = new JCheckBox("Lectura de planos");
-        chkMaquinaria.setBounds(530, 60, 250, 23);
+        chkMaquinaria.setBounds(530, 55, 250, 23);
         panelObrero.add(chkMaquinaria);
 
         // Listeners para mostrar los paneles correspondientes
@@ -527,6 +540,16 @@ public class ModVacante extends JDialog {
                     txtRNC.setText(empresa.getIdentificador());
                     txtUbicacion.setText(empresa.getPais());
                     txtSector.setText(empresa.getSector());
+                    byte[] imgBytes = empresa.getImagen();
+            		if (imgBytes != null) {
+            		    ImageIcon icono = new ImageIcon(imgBytes);
+            		    Image imagenEscalada = icono.getImage().getScaledInstance(166, 116, Image.SCALE_SMOOTH);
+            		    lbLogo.setIcon(new ImageIcon(imagenEscalada));
+            		    lbLogo.setText("");
+            		} else {
+            			lbLogo.setIcon(null);
+            			lbLogo.setText("Sin imagen");
+            		}
                 }
             }
         } catch (Exception e) {

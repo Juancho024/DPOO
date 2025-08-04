@@ -166,6 +166,7 @@ public class Principal extends JFrame {
 		menuCandidatos.add(mntmNewMenuItem_2);
 
 		mntmNewMenuItem_3 = new JMenuItem("Abrir postulaci\u00F3n");
+		mntmNewMenuItem_3.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/postulacion.png")));
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarPostulacion regPos = new RegistrarPostulacion();
@@ -189,6 +190,7 @@ public class Principal extends JFrame {
 		addPopup(lbEmpresa, menuEmpresa);
 
 		mntmNewMenuItem = new JMenuItem("Registro");
+		mntmNewMenuItem.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listEmpresa.png")));
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarEmpresa regEmp = new RegistrarEmpresa();
@@ -199,6 +201,7 @@ public class Principal extends JFrame {
 		menuEmpresa.add(mntmNewMenuItem);
 
 		mntmNewMenuItem_1 = new JMenuItem("Crear Vacante");
+		mntmNewMenuItem_1.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/vacante.png")));
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarVacante regVac = new RegistrarVacante();
@@ -223,6 +226,7 @@ public class Principal extends JFrame {
 		addPopup(lbListado, MenuListados);
 
 		mntmNewMenuItem_4 = new JMenuItem("Listados de Candidatos");
+		mntmNewMenuItem_4.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listperson.png")));
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListadoCandidatos lisCan = new ListadoCandidatos();
@@ -233,6 +237,7 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_4);
 
 		mntmNewMenuItem_5 = new JMenuItem("Listados de Empresas");
+		mntmNewMenuItem_5.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listUSer.png")));
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListadoEmpresa lisEmp = new ListadoEmpresa();
@@ -243,6 +248,7 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_5);
 
 		mntmNewMenuItem_6 = new JMenuItem("Listados de Vacantes");
+		mntmNewMenuItem_6.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/vacante.png")));
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListadoVacante lisVac = new ListadoVacante();
@@ -253,6 +259,7 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_6);
 
 		mntmNewMenuItem_7 = new JMenuItem("Listados de Postulaci\u00F3nes");
+		mntmNewMenuItem_7.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listperson.png")));
 		mntmNewMenuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				   ListadoPostulacion listPos = new ListadoPostulacion();
@@ -263,6 +270,7 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmNewMenuItem_7);
 		
 		JMenuItem mntmListadoContrataciones = new JMenuItem("Listado de Contrataciones");
+		mntmListadoContrataciones.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listUSer.png")));
 		mntmListadoContrataciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 ListadoContratacionesActivas listCont = new ListadoContratacionesActivas();
@@ -273,6 +281,7 @@ public class Principal extends JFrame {
 		MenuListados.add(mntmListadoContrataciones);
 		
 		JMenuItem mntmListadoHistorialContrataciones = new JMenuItem("Historial de Contrataciones\r\n");
+		mntmListadoHistorialContrataciones.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/contrataciones.png")));
 		mntmListadoHistorialContrataciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				ListadoHistorialContrataciones hm = new ListadoHistorialContrataciones();
@@ -307,6 +316,7 @@ public class Principal extends JFrame {
 		menuUsuario.add(mntmNewMenuItem_8);
 		
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Listado de Usuarios");
+		mntmNewMenuItem_9.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/listUSer.png")));
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListadoUser lisUser = new ListadoUser();

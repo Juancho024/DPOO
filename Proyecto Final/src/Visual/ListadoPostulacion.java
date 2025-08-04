@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import Logico.Bolsa;
 import Logico.Postulacion;
@@ -214,10 +215,17 @@ public class ListadoPostulacion extends JDialog {
             fila[0] = p.getIdentificador();
             fila[1] = p.getTipoContrato();
             fila[2] = p.getPaisResidencia();
-            fila[3] = String.format("%,.2f", p.getPretensionSalarial());
+            fila[3] = String.format("$ %,.2f", p.getPretensionSalarial());
             fila[4] = p.getNivelEstudio();
             
             model.addRow(fila);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    		TableColumnModel columnModel = table.getColumnModel();
+    		columnModel.getColumn(0).setPreferredWidth(100);
+			columnModel.getColumn(1).setPreferredWidth(150);
+			columnModel.getColumn(2).setPreferredWidth(200);
+			columnModel.getColumn(3).setPreferredWidth(150);
+			columnModel.getColumn(4).setPreferredWidth(152);
         }
     }
 }
