@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class ModPostulacion extends JDialog {
 
     public ModPostulacion(Postulacion post) {
         this.postulacionActual = post; // Guarda la postulación a modificar
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setTitle("Modificar Postulación");
         setBounds(100, 100, 750, 726);
         setLocationRelativeTo(null);
@@ -468,7 +469,7 @@ public class ModPostulacion extends JDialog {
         panel_Universitario.setBackground(SystemColor.inactiveCaption);
         panel_Universitario.setBounds(10, 430, 686, 140);
         parentPanel.add(panel_Universitario);
-        panel_Universitario.setLayout(null);
+        panel_Universitario.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         Label lblCarrera = new Label("Nombre de la Carrera: ");
         lblCarrera.setFont(new Font("Tahoma", Font.BOLD, 12));
         lblCarrera.setBounds(55, 29, 150, 22);

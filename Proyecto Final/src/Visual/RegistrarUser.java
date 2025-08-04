@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -57,6 +58,7 @@ public class RegistrarUser extends JDialog {
 	public RegistrarUser() {
 		setTitle("Registrar Usuario");
 		setBounds(100, 100, 450, 330);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());

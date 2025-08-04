@@ -16,6 +16,8 @@ import Logico.Empresa;
 import Logico.Vacante;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class ReporteVacante extends JDialog {
@@ -38,6 +40,7 @@ public class ReporteVacante extends JDialog {
 	public ReporteVacante(Vacante selected) {
 		setTitle("Reporte de Vacante");
 		setBounds(100, 100, 530, 595);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());

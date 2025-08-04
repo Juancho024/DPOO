@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -55,6 +56,7 @@ public class ListadoUser extends JDialog {
      */
     public ListadoUser() {
         setTitle("Listado de Usuarios");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 941, 697);
         setLocationRelativeTo(null);
         setResizable(true);

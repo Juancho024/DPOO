@@ -59,6 +59,7 @@ import javax.swing.SwingConstants;
 import java.awt.Canvas;
 import java.awt.Button;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class ModCandidato extends JDialog {
 
@@ -121,6 +122,7 @@ public class ModCandidato extends JDialog {
 	 */
 	public ModCandidato(Candidato selected) {
 		setTitle("Modificar Candidato");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 600, 575);
 		setLocationRelativeTo(null);
 		setResizable(false);

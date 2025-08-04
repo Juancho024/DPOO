@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class RegistrarPostulacion extends JDialog {
     public RegistrarPostulacion() {
     	setBackground(new Color(192, 192, 192));
         setTitle("Registrar Postulación");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 750, 700); // Ajustado para nuevo contenido
         setLocationRelativeTo(null);
         setResizable(false);
@@ -309,6 +311,7 @@ public class RegistrarPostulacion extends JDialog {
         rdbtnUniversitario.setSelected(true);
         
         lbIdentificador = new Label("Identificador:");
+        lbIdentificador.setText("Post - %02d"+(Bolsa.genCodPost+1));
         lbIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
         lbIdentificador.setBounds(10, 58, 80, 22);
         panelDatos.add(lbIdentificador);
@@ -578,8 +581,7 @@ public class RegistrarPostulacion extends JDialog {
             );
 
             // Registrar en bolsa y agregar al candidato
-            Bolsa.getInstance().getMisPostulaciones().add(postulacion);
-            Bolsa.getInstance().actualizarMatchPorPostulacion(postulacion);
+            Bolsa.getInstance().registrarPostulacion(postulacion);
             candidato.getMisPostulaciones().add(postulacion);
 
             JOptionPane.showMessageDialog(this, "¡Postulación registrada con éxito!");
@@ -589,11 +591,6 @@ public class RegistrarPostulacion extends JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Validación", JOptionPane.ERROR_MESSAGE);
         }
-        
-     // MIOP, ACA TERMINA, lo que esta arriba es mejor no tocarlo, es para guardar en el array y para gestionar errores
-        // Como que no se inserten datos o que sean invalidos
-        //Coloca por aca las cosas del Match
-        
         
         
     }

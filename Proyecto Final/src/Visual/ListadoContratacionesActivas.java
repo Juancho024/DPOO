@@ -37,6 +37,7 @@ public class ListadoContratacionesActivas extends JDialog {
 
     public ListadoContratacionesActivas() {
         setTitle("Contrataciones Activas");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 1000, 600); // Aumentado el tamaño
         setResizable(true);
         setModal(true);

@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class RealizarMatch extends JDialog {
@@ -101,6 +104,7 @@ public class RealizarMatch extends JDialog {
 	 */
 	public RealizarMatch() {
 		setTitle("Realizar Match");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 1200, 677);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -128,7 +132,6 @@ public class RealizarMatch extends JDialog {
 		cbxVacantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String seleccion = (String) cbxVacantes.getSelectedItem();
-				System.out.println("Seleccionado: " + seleccion); //Borrar
 				if (seleccion != null && !seleccion.equals("Seleccione una Opción")) {
 					PorcentajeMatch match = buscarAuxByInfo(seleccion);
 					if (match != null) {
@@ -149,17 +152,59 @@ public class RealizarMatch extends JDialog {
 		btnContratar1 = new Button("Contratar");
 		btnContratar1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
-				Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCedula(cedula1);
-				auxPos.setStatus(false);
-				auxVa.setStatus(false);
-				Candidato auxCan = Bolsa.getInstance().buscarCandidatoByCod(cedula1);
-				auxCan.setStatus(false);
-				Bolsa.getInstance().actualizarMatchPorPostulacion(auxPos);
-				Bolsa.getInstance().actualizarMatchPorVacante(auxVa);
-				Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
+				try {
+					String seleccion = (String) cbxVacantes.getSelectedItem();
+					if(seleccion.equals("Seleccione una Opción")) {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar una Vacante primero.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					if(cedula1.isEmpty() || txtNombre1.getText().trim().isEmpty() || txtTipoContrato1.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Este postulante esta vacio, no hay a quien contratar.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					// Confirmar contratación
+					int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar a este candidato?", "Confirmar contratación", JOptionPane.YES_NO_OPTION);
+					if (confirm != JOptionPane.YES_OPTION) {
+						return; // el usuario canceló
+					}
+
+					// Buscar vacante, postulación y candidato
+					Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
+					Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCedula(cedula1);
+					Candidato auxCan = Bolsa.getInstance().buscarCandidatoByCod(cedula1);
+
+					// Validar que existan los objetos
+					if (auxVa == null || auxPos == null || auxCan == null) {
+						JOptionPane.showMessageDialog(null, "Error al encontrar la vacante, postulación o candidato.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+
+					// Eliminar matches previos de la vacante
+					Bolsa.getInstance().eliminarMatchGuardadoVacante(auxVa.getIdentificador());
+					
+					// Cambiar estados
+					auxPos.setStatus(false);
+					auxVa.setStatus(false);
+					auxCan.setStatus(false);
+
+					// Actualizar matches
+					Bolsa.getInstance().actualizarMatchPorPostulacion(auxPos);
+					Bolsa.getInstance().actualizarMatchPorVacante(auxVa);
+
+					// Registrar historial
+					Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
+
+					// Mensaje final
+					JOptionPane.showMessageDialog(null, "¡Candidato contratado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (Exception ex) {
+					ex.printStackTrace(); // para debugear
+					JOptionPane.showMessageDialog(null, "Ocurrió un error al realizar la contratación.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				loadMatch();
 			}
 		});
+
 		btnContratar1.setBackground(new Color(220, 53, 69)); 
 		btnContratar1.setForeground(Color.WHITE);
 		btnContratar1.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -291,6 +336,60 @@ public class RealizarMatch extends JDialog {
 		panel_Postulacion2.setLayout(null);
 		
 		btnContratar2 = new Button("Contratar");
+		btnContratar2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String seleccion = (String) cbxVacantes.getSelectedItem();
+					if(seleccion.equals("Seleccione una Opción")) {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar una Vacante primero.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					if(cedula2.isEmpty() || txtNombre2.getText().trim().isEmpty() || txtTipoContrato2.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Este postulante esta vacio, no hay a quien contratar.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					// Confirmar contratación
+					int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar a este candidato?", "Confirmar contratación", JOptionPane.YES_NO_OPTION);
+					if (confirm != JOptionPane.YES_OPTION) {
+						return; // el usuario canceló
+					}
+
+					// Buscar vacante, postulación y candidato
+					Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
+					Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCedula(cedula2);
+					Candidato auxCan = Bolsa.getInstance().buscarCandidatoByCod(cedula2);
+
+					// Validar que existan los objetos
+					if (auxVa == null || auxPos == null || auxCan == null) {
+						JOptionPane.showMessageDialog(null, "Error al encontrar la vacante, postulación o candidato.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+
+					// Eliminar matches previos de la vacante
+					Bolsa.getInstance().eliminarMatchGuardadoVacante(auxVa.getIdentificador());
+					
+					// Cambiar estados
+					auxPos.setStatus(false);
+					auxVa.setStatus(false);
+					auxCan.setStatus(false);
+
+					// Actualizar matches
+					Bolsa.getInstance().actualizarMatchPorPostulacion(auxPos);
+					Bolsa.getInstance().actualizarMatchPorVacante(auxVa);
+
+					// Registrar historial
+					Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
+
+					// Mensaje final
+					JOptionPane.showMessageDialog(null, "¡Candidato contratado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (Exception ex) {
+					ex.printStackTrace(); // para debugear
+					JOptionPane.showMessageDialog(null, "Ocurrió un error al realizar la contratación.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				loadMatch();
+			}
+		});
 		btnContratar2.setBackground(new Color(220, 53, 69)); 
 		btnContratar2.setForeground(Color.WHITE);
 		btnContratar2.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -422,6 +521,60 @@ public class RealizarMatch extends JDialog {
 		panel_Postulacion3.setLayout(null);
 		
 		btnContratar3 = new Button("Contratar");
+		btnContratar3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String seleccion = (String) cbxVacantes.getSelectedItem();
+					if(seleccion.equals("Seleccione una Opción")) {
+						JOptionPane.showMessageDialog(null, "Debe seleccionar una Vacante primero.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					if(cedula3.isEmpty() || txtNombre3.getText().trim().isEmpty() || txtTipoContrato3.getText().trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Este postulante esta vacio, no hay a quien contratar.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					// Confirmar contratación
+					int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de contratar a este candidato?", "Confirmar contratación", JOptionPane.YES_NO_OPTION);
+					if (confirm != JOptionPane.YES_OPTION) {
+						return; // el usuario canceló
+					}
+
+					// Buscar vacante, postulación y candidato
+					Vacante auxVa = buscarAuxVacanteByInfo(cbxVacantes.getSelectedItem().toString());
+					Postulacion auxPos = Bolsa.getInstance().buscarPostulacionByCedula(cedula3);
+					Candidato auxCan = Bolsa.getInstance().buscarCandidatoByCod(cedula3);
+
+					// Validar que existan los objetos
+					if (auxVa == null || auxPos == null || auxCan == null) {
+						JOptionPane.showMessageDialog(null, "Error al encontrar la vacante, postulación o candidato.", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+
+					// Eliminar matches previos de la vacante
+					Bolsa.getInstance().eliminarMatchGuardadoVacante(auxVa.getIdentificador());
+
+					// Cambiar estados
+					auxPos.setStatus(false);
+					auxVa.setStatus(false);
+					auxCan.setStatus(false);
+					
+					// Actualizar matches
+					Bolsa.getInstance().actualizarMatchPorPostulacion(auxPos);
+					Bolsa.getInstance().actualizarMatchPorVacante(auxVa);
+
+					// Registrar historial
+					Bolsa.getInstance().registrarHistorialMatch(auxVa, auxPos);
+
+					// Mensaje final
+					JOptionPane.showMessageDialog(null, "¡Candidato contratado exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (Exception ex) {
+					ex.printStackTrace(); // para debugear
+					JOptionPane.showMessageDialog(null, "Ocurrió un error al realizar la contratación.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				loadMatch();
+			}
+		});
 		btnContratar3.setBackground(new Color(220, 53, 69)); 
 		btnContratar3.setForeground(Color.WHITE);
 		btnContratar3.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -558,14 +711,44 @@ public class RealizarMatch extends JDialog {
 		}
 		
 	}
+	private void loadMatch() {
+		// TODO Auto-generated method stub
+		cbxVacantes.setSelectedIndex(0);
+		lbPorcentaje1.setText("");
+		txtNombre1.setText("");
+        txtTipoContrato1.setText("");
+        txtSalario1.setText("");
+        txtPais1.setText("");
+        txtCuidad1.setText("");
+        txtVehiculo1.setText("");
+        txtLicencia1.setText("");
+        txtMudarse1.setText("");
+        lbImagen1.setText("Sin imagen");
+        lbPorcentaje2.setText("");
+		txtNombre2.setText("");
+        txtTipoContrato2.setText("");
+        txtSalario2.setText("");
+        txtPais2.setText("");
+        txtCuidad2.setText("");
+        txtVehiculo2.setText("");
+        txtLicencia2.setText("");
+        txtMudarse2.setText("");
+        lbImagen2.setText("Sin imagen");
+        lbPorcentaje3.setText("");
+		txtNombre3.setText("");
+        txtTipoContrato3.setText("");
+        txtSalario3.setText("");
+        txtPais3.setText("");
+        txtCiudad3.setText("");
+        txtVehiculo3.setText("");
+        txtLicencia3.setText("");
+        txtMudarse3.setText("");
+        lbImagen3.setText("Sin imagen");
+	}
 	private void llenarPostulacionesDesdeCedulas(PorcentajeMatch match) {
 		// TODO Auto-generated method stub
 		String[] cedulas = match.getMis3Postulaciones();
 		ArrayList<Postulacion> misPostulaciones = Bolsa.getInstance().getMisPostulaciones();
-		System.out.println("Cantidad de cédulas: " + (cedulas != null ? cedulas.length : "null"));
-		for (int i = 0; i < cedulas.length; i++) { //Borrar
-		    System.out.println("Cédula [" + i + "]: " + cedulas[i]);
-		}
 		
 		for(int i = 0; i < cedulas.length; i++) {
 			String cedula = cedulas[i];
@@ -686,7 +869,6 @@ public class RealizarMatch extends JDialog {
                     break;
 				}
 			}
-			System.out.println(cedula1 + " " + cedula2 + " "+ cedula3); //Borrar
 		}
 	}
 

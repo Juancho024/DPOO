@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -62,6 +63,7 @@ public class ReporteEmpresa extends JDialog {
 
 	public ReporteEmpresa(Empresa selected) {
 		setTitle("Reporte de Empresa");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 450, 440);
 		setLocationRelativeTo(null);
 		setResizable(false);

@@ -1,6 +1,7 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -13,6 +14,8 @@ import javax.swing.border.TitledBorder;
 import Logico.Bolsa;
 
 import java.awt.Label;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -24,7 +27,6 @@ import java.awt.event.KeyEvent;
 public class PorcentajeMatch extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JButton btnCancelar;
 	private JButton okButton;
 	private JTextField txtPorcentaje;
 
@@ -46,15 +48,17 @@ public class PorcentajeMatch extends JDialog {
 	 */
 	public PorcentajeMatch() {
 		setTitle("Registrar el Porcentaje de Matcheo");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 404, 197);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBackground(new Color(0, 102, 153));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			JPanel panel = new JPanelRedondeado(60);
+			panel.setBackground(SystemColor.activeCaption);
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
@@ -81,14 +85,13 @@ public class PorcentajeMatch extends JDialog {
 			txtPorcentaje.setBounds(87, 62, 203, 20);
 			panel.add(txtPorcentaje);
 			txtPorcentaje.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton = new JButton("Registrar");
+				okButton.setForeground(Color.WHITE);
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+				okButton.setBackground(SystemColor.textHighlight);
+				okButton.setBounds(132, 102, 114, 23);
+				panel.add(okButton);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
@@ -112,18 +115,7 @@ public class PorcentajeMatch extends JDialog {
 					}
 				});
 				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				btnCancelar = new JButton("Cancelar");
-				btnCancelar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
-					}
-				});
-				btnCancelar.setActionCommand("Cancel");
-				buttonPane.add(btnCancelar);
 			}
 		}
 	}

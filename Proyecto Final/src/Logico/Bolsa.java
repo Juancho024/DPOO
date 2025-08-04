@@ -15,7 +15,7 @@ public class Bolsa implements Serializable {
 	private ArrayList<Vacante> misVacantes;
 	private ArrayList<PorcentajeMatch> misPorcentajesMatches;
 	private ArrayList<DatosMatch> misDatosMatches;
-	private ArrayList<HistorialMatch> misContrataciones; //Esta fallando no quiere registrar
+	private ArrayList<HistorialMatch> misContrataciones;
 	public static int genCodVac = 0;
 	public static int genCodPost = 0;
 	private static float porcentajeMinMatcheo = 0;
@@ -279,7 +279,7 @@ public class Bolsa implements Serializable {
 		misPorcentajesMatches.add(newMatch);
 	}
 
-	private void eliminarMatchGuardadoVacante(String identificador) {
+	public void eliminarMatchGuardadoVacante(String identificador) {
 		PorcentajeMatch match = buscarMatchByVacante(identificador);
 		if (match != null) {
 			misPorcentajesMatches.remove(match);
@@ -289,10 +289,39 @@ public class Bolsa implements Serializable {
 
 	public int contarPuntosMatch(Postulacion auxP, Vacante auxV) {
 		int totalPuntos = 0;
-		if(auxP.getNivelEstudio().equalsIgnoreCase(auxV.getNivelEstudio())) {
-			totalPuntos += 2;
-		} else {
-			totalPuntos += 1;
+		Candidato auxEstudio = buscarCandidatoByCod(auxP.getCedulaCliente());
+		if(auxEstudio instanceof Universitario) {
+			Universitario us = (Universitario) auxEstudio;
+			if(auxP.getNivelEstudio().equalsIgnoreCase(auxV.getNivelEstudio()) || us.getCarreraGraduada().equalsIgnoreCase(auxV.getNivelEstudio())) {
+				totalPuntos += 2;
+			} else {
+				totalPuntos += 1;
+			}
+		}
+		if(auxEstudio instanceof TecnicoSuperior) {
+			TecnicoSuperior ts = (TecnicoSuperior) auxEstudio;
+			if(auxP.getNivelEstudio().equalsIgnoreCase(auxV.getNivelEstudio()) || ts.getAreaEspecialidad().equalsIgnoreCase(auxV.getNivelEstudio())) {
+				totalPuntos += 2;
+			} else {
+				totalPuntos += 1;
+			}
+		}
+		if(auxEstudio instanceof Obrero) {
+			Obrero ob = (Obrero) auxEstudio;
+			String[] habilidades = ob.getMisHabilidades();
+
+			boolean coincide = false;
+			for (String hab : habilidades) {
+				if (hab.equalsIgnoreCase(auxV.getNivelEstudio())) {
+					coincide = true;
+					break;
+				}
+			}
+			if(auxP.getNivelEstudio().equalsIgnoreCase(auxV.getNivelEstudio()) || coincide == true) {
+				totalPuntos += 2;
+			} else {
+				totalPuntos += 1;
+			}
 		}
 		if(auxP.getTipoContrato().equalsIgnoreCase(auxV.getTipoContrato())) {
 			totalPuntos += 2;
@@ -512,7 +541,6 @@ public class Bolsa implements Serializable {
 
 	public void eliminarVacante(Vacante vacante) {
 		if (vacante != null) {
-			genCodVac--;
 			misVacantes.remove(vacante);
 		}
 	}
@@ -568,6 +596,11 @@ public class Bolsa implements Serializable {
 		actualizarMatchPorVacante(vacante);
 		genCodVac++;
 	}
+	public void registrarPostulacion(Postulacion postulacion) {
+		misPostulaciones.add(postulacion);
+		actualizarMatchPorPostulacion(postulacion);
+		genCodPost++;
+	}
 
 	public ArrayList<HistorialMatch> getMisContrataciones() {
 		return misContrataciones;
@@ -580,9 +613,18 @@ public class Bolsa implements Serializable {
 	public static float getPorcentajeMinMatcheo() {
 		return porcentajeMinMatcheo;
 	}
+	public static void setPorcentajeMinMatcheo(float nuevoPorcentajeMinMatcheo) {
+		porcentajeMinMatcheo = nuevoPorcentajeMinMatcheo;
+		
+		if (instance != null) {
+			instance.getMisPorcentajesMatches().clear(); //limpiar clase
 
-	public static void setPorcentajeMinMatcheo(float porcentajeMinMatcheo) {
-		Bolsa.porcentajeMinMatcheo = porcentajeMinMatcheo;
+			for (Vacante auxVa : instance.getMisVacantes()) { //actualizar to
+				if (auxVa.isStatus()) {
+					instance.actualizarMatchPorVacante(auxVa);
+				}
+			}
+		}
 	}
 
 	public void registrarHistorialMatch(Vacante vacante, Postulacion postulacion) {

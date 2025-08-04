@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -64,6 +65,7 @@ public class ModEmpresa extends JDialog {
 
     public ModEmpresa(Empresa selected) {
         setTitle("Modificar Empresa");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 450, 475);
         setLocationRelativeTo(null);
         setResizable(false);

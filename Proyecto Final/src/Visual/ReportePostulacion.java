@@ -15,6 +15,7 @@ import Logico.Candidato; // Podrías necesitarlo para obtener el nombre del candi
 import Logico.Bolsa; // Para buscar el candidato por cédula si es necesario
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
@@ -78,6 +79,7 @@ public class ReportePostulacion extends JDialog {
      */
     public ReportePostulacion(Postulacion selected) {
         setTitle("Reporte de Postulación");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 550, 695); // Ajustar tamaño de la ventana
         setLocationRelativeTo(null);
         setResizable(false);

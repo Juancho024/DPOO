@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -68,6 +69,7 @@ public class ListadoCandidatos extends JDialog {
      */
     public ListadoCandidatos() {
         setTitle("Listado de Candidatos");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setBounds(100, 100, 1200, 677);
         setLocationRelativeTo(null);
         setResizable(true); // Se permite el redimensionamiento

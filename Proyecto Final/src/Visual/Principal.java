@@ -40,10 +40,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.Color;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
+	private JPanel contentPane_1;
 	private Dimension dim;
 	private JLabel lbCandidatos;
 	private JLabel lbEmpresa;
@@ -67,6 +71,7 @@ public class Principal extends JFrame {
 	static DataOutputStream SalidaSocket;
 	private JMenuItem mntmNewMenuItem_11;
 	private JMenuItem mntmNewMenuItem_10;
+	private JPanel panel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -82,6 +87,8 @@ public class Principal extends JFrame {
 	}
 
 	public Principal() {
+		setTitle("JJ² PROJECT");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -107,10 +114,10 @@ public class Principal extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
-		contentPane = new PanelConFondo("/Recursos/fondov2.png");
-		contentPane.setLayout(null);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		contentPane_1 = new PanelConFondo("/Recursos/fondov2.png");
+		contentPane_1.setLayout(null);
+		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane_1);
 
 		lbMatch = new RoundedLabel("MATCH", new Color(0, 102, 153), new Font("Arial", Font.BOLD, 14), Color.WHITE);
 		lbMatch.setBounds(1230, 11, 100, 26); // Tamaño y posición más amplios
@@ -131,8 +138,8 @@ public class Principal extends JFrame {
 		        }
 		    }
 		});
-		contentPane.setLayout(null);
-		contentPane.add(lbMatch);
+		contentPane_1.setLayout(null);
+		contentPane_1.add(lbMatch);
 
 		lbCandidatos = new RoundedLabel("Candidato", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbCandidatos.setBounds(805, 11, 100, 26);
@@ -142,12 +149,13 @@ public class Principal extends JFrame {
 				menuCandidatos.show(lbCandidatos, 0, lbCandidatos.getHeight());
 			}
 		});
-		contentPane.add(lbCandidatos);
+		contentPane_1.add(lbCandidatos);
 
 		menuCandidatos = new JPopupMenu();
 		addPopup(lbCandidatos, menuCandidatos);
 
 		mntmNewMenuItem_2 = new JMenuItem("Registro");
+		mntmNewMenuItem_2.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/candidato.png")));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarCandidato regCan = new RegistrarCandidato();
@@ -175,7 +183,7 @@ public class Principal extends JFrame {
 			}
 		});
 		lbEmpresa.setBounds(929, 11, 100, 26);
-		contentPane.add(lbEmpresa);
+		contentPane_1.add(lbEmpresa);
 
 		menuEmpresa = new JPopupMenu();
 		addPopup(lbEmpresa, menuEmpresa);
@@ -209,7 +217,7 @@ public class Principal extends JFrame {
 			}
 		});
 		lbListado.setBounds(1051, 11, 154, 26); // Posición ajustada
-		contentPane.add(lbListado);
+		contentPane_1.add(lbListado);
 
 		MenuListados = new JPopupMenu();
 		addPopup(lbListado, MenuListados);
@@ -282,12 +290,13 @@ public class Principal extends JFrame {
 			}
 		});
 		lbAdministracion.setBounds(671, 11, 113, 26);
-		contentPane.add(lbAdministracion);
+		contentPane_1.add(lbAdministracion);
 		
 		menuUsuario = new JPopupMenu();
 		addPopup(lbAdministracion, menuUsuario);
 		
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Registrar Usuario");
+		mntmNewMenuItem_8.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/persona.png")));
 		mntmNewMenuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarUser regUser = new RegistrarUser();
@@ -308,6 +317,7 @@ public class Principal extends JFrame {
 		menuUsuario.add(mntmNewMenuItem_9);
 		
 		mntmNewMenuItem_11 = new JMenuItem("Realizar Respaldo");
+		mntmNewMenuItem_11.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/respaldo.png")));
 		mntmNewMenuItem_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
@@ -343,6 +353,7 @@ public class Principal extends JFrame {
 		menuUsuario.add(mntmNewMenuItem_11);
 		
 		mntmNewMenuItem_10 = new JMenuItem("Porcentaje Match");
+		mntmNewMenuItem_10.setIcon(new ImageIcon(Principal.class.getResource("/Recursos/%.png")));
 		mntmNewMenuItem_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PorcentajeMatch newPor = new PorcentajeMatch();
@@ -351,6 +362,26 @@ public class Principal extends JFrame {
 			}
 		});
 		menuUsuario.add(mntmNewMenuItem_10);
+		
+		panel = new RoundedImagePanel("/Recursos/logo.jpg", 550);
+		panel.setBounds(683, 186, 587, 391);
+		contentPane_1.add(panel);
+		
+		JLabel lblNewJgoodiesTitle = new JLabel();
+		lblNewJgoodiesTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewJgoodiesTitle.setText("<html><div style='text-align: center; font-size:32px; color:#003366;'>"
+		    + "¡Impulsa tu futuro hoy mismo!<br>"
+		    + "Bienvenido a la Bolsa Laboral que te conecta con<br>"
+		    + "las mejores oportunidades."
+		    + "</div></html>");
+
+		lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewJgoodiesTitle.setVerticalAlignment(SwingConstants.TOP);
+		lblNewJgoodiesTitle.setOpaque(true);
+		lblNewJgoodiesTitle.setBackground(Color.WHITE); // Fondo blanco
+		lblNewJgoodiesTitle.setBounds(63, 218, 571, 261); // Ajusta según el espacio disponible
+
+		contentPane_1.add(lblNewJgoodiesTitle);
 		if(!Bolsa.getLoginUser().getTipoUser().equalsIgnoreCase("Administrador")) {
 			lbAdministracion.setVisible(false);
 		}

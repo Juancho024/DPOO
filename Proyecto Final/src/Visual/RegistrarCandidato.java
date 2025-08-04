@@ -56,6 +56,8 @@ import javax.swing.SwingConstants;
 import java.awt.Canvas;
 import java.awt.Button;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
@@ -120,6 +122,7 @@ public class RegistrarCandidato extends JDialog {
 	 */
 	public RegistrarCandidato() {
 		setTitle("Registrar Candidato");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 600, 668);
 		setLocationRelativeTo(null);
 		setResizable(false);

@@ -37,6 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class RegistrarEmpresa extends JDialog {
 
@@ -64,6 +65,7 @@ public class RegistrarEmpresa extends JDialog {
     public RegistrarEmpresa() {
         setTitle("Registrar Empresa");
         setBounds(100, 100, 450, 430);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());

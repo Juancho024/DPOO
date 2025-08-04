@@ -20,6 +20,7 @@ import Logico.Universitario;
 
 import java.awt.Label;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.awt.Font;
 import java.awt.Image;
@@ -69,6 +70,7 @@ public class ReporteCandidato extends JDialog {
 	 */
 	public ReporteCandidato(Candidato selected) {
 		setTitle("Reporte de Candidato");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Recursos/logo.jpg")));
 		setBounds(100, 100, 530, 580);
 		setLocationRelativeTo(null);
 		setResizable(false);
