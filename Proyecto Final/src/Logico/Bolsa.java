@@ -558,7 +558,7 @@ public class Bolsa implements Serializable {
 	
 	
 	public void eliminarVacante(Vacante vacante) {
-		
+		misVacantes.remove(vacante);
 	}
 
 	public void modificarVacante(Vacante selected) {

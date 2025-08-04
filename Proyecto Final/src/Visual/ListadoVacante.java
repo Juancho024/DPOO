@@ -180,6 +180,11 @@ public class ListadoVacante extends JDialog {
             btnEliminar.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if(selected != null) {
+                    	boolean encontrado = Bolsa.getInstance().buscarVacanteHistorial(selected);
+        				if(!encontrado) {
+        					JOptionPane.showMessageDialog(null, "La Vacante de  la empresa " + selected.getRncEmpresa() + " esta vinculada a un match.\nDebe eliminar dicho match primero.", "Error de Eliminación", JOptionPane.INFORMATION_MESSAGE);
+                    		return;
+        				}
                         int opcion = JOptionPane.showConfirmDialog(null, 
                                 "¿Seguro que desea eliminar esta vacante?", 
                                 "Confirmar Eliminación", 

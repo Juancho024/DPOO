@@ -148,6 +148,12 @@ public class ListadoPostulacion extends JDialog {
         btnEliminar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (selectedPostulacion != null) {
+                	boolean encontrado = Bolsa.getInstance().buscarPostulacionHistorial(selectedPostulacion);
+                	if(!encontrado) {
+                		JOptionPane.showMessageDialog(null, "La postulación de " + selectedPostulacion.getCedulaCliente() + " esta vinculada a un match.\nDebe eliminar dicho match primero.", "Error de Eliminación", JOptionPane.INFORMATION_MESSAGE);
+                		return;
+                	}
+                	
                     int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar esta postulación?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         Bolsa.getInstance().eliminarPostulacion(selectedPostulacion);
