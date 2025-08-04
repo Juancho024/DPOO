@@ -68,6 +68,12 @@ public class ListadoContratacionesActivas extends JDialog {
         cbxEstadoContratacion.setModel(modelCbx);
         panelFiltro.add(cbxEstadoContratacion);
         contentPanel.add(panelFiltro, BorderLayout.NORTH);
+        cbxEstadoContratacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadContrataciones(); 
+            }
+        });
 
         // --- Tabla con scroll pane ---
         JScrollPane scrollPane = new JScrollPane();
@@ -192,7 +198,7 @@ public class ListadoContratacionesActivas extends JDialog {
     }
 
     private void loadContrataciones() {
-        // ... (Tu lógica existente para cargar datos)
+
         model.setRowCount(0);
         
         if (Bolsa.getInstance().getMisContrataciones() == null) {
@@ -207,8 +213,8 @@ public class ListadoContratacionesActivas extends JDialog {
             }
             
             boolean activa = Bolsa.getInstance().buscarCandidatoByCod(hm.getPostulacionEmpleada().getCedulaCliente()).isStatus();
-            if (filtro == 1 && !activa) continue;
-            if (filtro == 2 && activa) continue;
+            if (filtro == 1 && activa) continue;
+            if (filtro == 2 && !activa) continue;
             
             Candidato cand = Bolsa.getInstance().buscarCandidatoByCod(hm.getPostulacionEmpleada().getCedulaCliente());
             
@@ -218,7 +224,7 @@ public class ListadoContratacionesActivas extends JDialog {
             fila[2] = hm.getPostulacionEmpleada().getIdentificador();
             fila[3] = hm.getPostulacionEmpleada().getCedulaCliente();
             fila[4] = (cand != null) ? cand.getNombre() + " " + cand.getApellido() : "Candidato no encontrado";
-            fila[5] = activa ? "Activa" : "Inactiva";
+            fila[5] = activa ? "Inactiva" : "Activa";
             
             model.addRow(fila);
         }

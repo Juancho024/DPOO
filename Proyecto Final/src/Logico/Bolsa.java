@@ -650,7 +650,7 @@ public class Bolsa implements Serializable {
 	}
 
 	public void desemplearCandidato(HistorialMatch selectedContratacion) {
-	    // Validar entrada
+
 	    if (selectedContratacion == null || 
 	        selectedContratacion.getPostulacionEmpleada() == null) {
 	        throw new IllegalArgumentException("Contratación inválida");
@@ -664,9 +664,8 @@ public class Bolsa implements Serializable {
 	    Candidato candidato = buscarCandidatoByCod(cedulaCliente);
 	    
 	    if (candidato != null) {
-	        // 1. Cambiar estado del candidato
-	        candidato.setStatus(true);  // true = disponible para trabajar
 
+	        candidato.setStatus(true);  
 	    } else {
 	        // Manejar candidato no encontrado
 	        throw new IllegalStateException("Candidato con cédula " + cedulaCliente + " no encontrado");
