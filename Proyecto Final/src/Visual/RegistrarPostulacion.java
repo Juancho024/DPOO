@@ -311,14 +311,13 @@ public class RegistrarPostulacion extends JDialog {
         rdbtnUniversitario.setSelected(true);
         
         lbIdentificador = new Label("Identificador:");
-        lbIdentificador.setText("Post - %02d"+(Bolsa.genCodPost+1));
         lbIdentificador.setFont(new Font("Tahoma", Font.BOLD, 12));
         lbIdentificador.setBounds(10, 58, 80, 22);
         panelDatos.add(lbIdentificador);
         
         txtIdentificador = new JTextField();
         txtIdentificador.setBackground(new Color(255, 255, 224));
-        txtIdentificador.setText(Bolsa.getInstance().generarCodigoPostulacion());
+        txtIdentificador.setText("Pos - 00"+(Bolsa.genCodPost+1));
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 80, 331, 22);
         panelDatos.add(txtIdentificador);

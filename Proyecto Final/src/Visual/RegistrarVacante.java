@@ -202,7 +202,7 @@ public class RegistrarVacante extends JDialog {
         txtIdentificador = new JTextField();
         txtIdentificador.setBackground(new Color(255, 255, 224));
         Bolsa.getInstance();
-		txtIdentificador.setText("Vac - %02d"+(Bolsa.genCodVac+1));
+		txtIdentificador.setText("Vac - 00"+(Bolsa.genCodVac+1));
         txtIdentificador.setEditable(false);
         txtIdentificador.setBounds(10, 56, 440, 22);
         panelVacante.add(txtIdentificador);
