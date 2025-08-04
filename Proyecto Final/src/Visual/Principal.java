@@ -264,6 +264,16 @@ public class Principal extends JFrame {
 		});
 		MenuListados.add(mntmListadoContrataciones);
 		
+		JMenuItem mntmListadoHistorialContrataciones = new JMenuItem("Historial de Contrataciones\r\n");
+		mntmListadoHistorialContrataciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				ListadoHistorialContrataciones hm = new ListadoHistorialContrataciones();
+				hm.setVisible(true);
+				hm.setModal(true);
+			}
+		});
+		MenuListados.add(mntmListadoHistorialContrataciones);
+		
 		lbAdministracion = new RoundedLabel("Administración", new Color(255, 230, 250), new Font("Arial", Font.PLAIN, 14), Color.BLACK);
 		lbAdministracion.addMouseListener(new MouseAdapter() {
 			@Override
