@@ -534,6 +534,17 @@ public class Bolsa implements Serializable {
 		misEmpresas.remove(selected);
 	}
 	
+	
+	public boolean buscarPostulacionHistorial(Postulacion aux) {
+		boolean find = false;
+		for (HistorialMatch auxHM : misContrataciones) {
+			if(auxHM.getPostulacionEmpleada().equals(aux)) {
+				find = true;
+			}
+		}
+		return find;
+	}
+	
 	public boolean buscarVacanteHistorial(Vacante aux) {
 		boolean find = false;
 		for (HistorialMatch auxHM : misContrataciones) {
@@ -543,7 +554,9 @@ public class Bolsa implements Serializable {
 		}
 		return find;
 	}
-
+	
+	
+	
 	public void eliminarVacante(Vacante vacante) {
 		
 	}
